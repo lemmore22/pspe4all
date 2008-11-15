@@ -1,14 +1,4 @@
-/*
- * decoder.cpp
- *
- *  Created on: 13 nov. 2008
- *      Author: hli
- */
-
-#include "allegrex.h"
-#include "allegrex/instructions.h"
-
-static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
+allegrex_instruction_s *allegrex::decode_instruction(int opcode)
 {
   static allegrex_instruction_s
       *root =
@@ -30,9 +20,9 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                 static allegrex_instruction_s *table[64] =
                                 {
                                   /* 0 */
-                                  (&allegrex_n::SLL),
+                                  (&allegrex::SLL),
                                   /* 1 */
-                                  (&allegrex_n::reserved_instruction),
+                                  (&allegrex::reserved_instruction),
                                   /* 2 */
                                   (
                                       {
@@ -43,12 +33,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x00200000) == 0x00000000)
                                             {
                                               return
-                                              (&allegrex_n::SRL)->instruction(opcode);
+                                              (&allegrex::SRL)->instruction(opcode);
                                             }
                                             else
                                             {
                                               return
-                                              (&allegrex_n::ROTR)->instruction(opcode);
+                                              (&allegrex::ROTR)->instruction(opcode);
                                             }
                                           }
                                         }stub;
@@ -56,11 +46,11 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                       }
                                   ),
                                   /* 3 */
-                                  (&allegrex_n::SRA),
+                                  (&allegrex::SRA),
                                   /* 4 */
-                                  (&allegrex_n::SLLV),
+                                  (&allegrex::SLLV),
                                   /* 5 */
-                                  (&allegrex_n::reserved_instruction),
+                                  (&allegrex::reserved_instruction),
                                   /* 6 */
                                   (
                                       {
@@ -71,12 +61,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x00000040) == 0x00000000)
                                             {
                                               return
-                                              (&allegrex_n::SRLV)->instruction(opcode);
+                                              (&allegrex::SRLV)->instruction(opcode);
                                             }
                                             else
                                             {
                                               return
-                                              (&allegrex_n::ROTRV)->instruction(opcode);
+                                              (&allegrex::ROTRV)->instruction(opcode);
                                             }
                                           }
                                         }stub;
@@ -84,119 +74,119 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                       }
                                   ),
                                   /* 7 */
-                                  (&allegrex_n::SRAV),
+                                  (&allegrex::SRAV),
                                   /* 8 */
-                                  (&allegrex_n::JR),
+                                  (&allegrex::JR),
                                   /* 9 */
-                                  (&allegrex_n::JALR),
+                                  (&allegrex::JALR),
                                   /* 10 */
-                                  (&allegrex_n::MOVZ),
+                                  (&allegrex::MOVZ),
                                   /* 11 */
-                                  (&allegrex_n::MOVN),
+                                  (&allegrex::MOVN),
                                   /* 12 */
-                                  (&allegrex_n::SYSCALL),
+                                  (&allegrex::SYSCALL),
                                   /* 13 */
-                                  (&allegrex_n::BREAK),
+                                  (&allegrex::BREAK),
                                   /* 14 */
-                                  (&allegrex_n::reserved_instruction),
+                                  (&allegrex::reserved_instruction),
                                   /* 15 */
-                                  (&allegrex_n::SYNC),
+                                  (&allegrex::SYNC),
                                   /* 16 */
-                                  (&allegrex_n::MFHI),
+                                  (&allegrex::MFHI),
                                   /* 17 */
-                                  (&allegrex_n::MTHI),
+                                  (&allegrex::MTHI),
                                   /* 18 */
-                                  (&allegrex_n::MFLO),
+                                  (&allegrex::MFLO),
                                   /* 19 */
-                                  (&allegrex_n::MTLO),
+                                  (&allegrex::MTLO),
                                   /* 20 */
-                                  (&allegrex_n::reserved_instruction),
+                                  (&allegrex::reserved_instruction),
                                   /* 21 */
-                                  (&allegrex_n::reserved_instruction),
+                                  (&allegrex::reserved_instruction),
                                   /* 22 */
-                                  (&allegrex_n::CLZ),
+                                  (&allegrex::CLZ),
                                   /* 23 */
-                                  (&allegrex_n::CLO),
+                                  (&allegrex::CLO),
                                   /* 24 */
-                                  (&allegrex_n::MULT),
+                                  (&allegrex::MULT),
                                   /* 25 */
-                                  (&allegrex_n::MULTU),
+                                  (&allegrex::MULTU),
                                   /* 26 */
-                                  (&allegrex_n::DIV),
+                                  (&allegrex::DIV),
                                   /* 27 */
-                                  (&allegrex_n::DIVU),
+                                  (&allegrex::DIVU),
                                   /* 28 */
-                                  (&allegrex_n::MADD),
+                                  (&allegrex::MADD),
                                   /* 29 */
-                                  (&allegrex_n::MADDU),
+                                  (&allegrex::MADDU),
                                   /* 30 */
-                                  (&allegrex_n::reserved_instruction),
+                                  (&allegrex::reserved_instruction),
                                   /* 31 */
-                                  (&allegrex_n::reserved_instruction),
+                                  (&allegrex::reserved_instruction),
                                   /* 32 */
-                                  (&allegrex_n::ADD),
+                                  (&allegrex::ADD),
                                   /* 33 */
-                                  (&allegrex_n::ADDU),
+                                  (&allegrex::ADDU),
                                   /* 34 */
-                                  (&allegrex_n::SUB),
+                                  (&allegrex::SUB),
                                   /* 35 */
-                                  (&allegrex_n::SUBU),
+                                  (&allegrex::SUBU),
                                   /* 36 */
-                                  (&allegrex_n::AND),
+                                  (&allegrex::AND),
                                   /* 37 */
-                                  (&allegrex_n::OR),
+                                  (&allegrex::OR),
                                   /* 38 */
-                                  (&allegrex_n::XOR),
+                                  (&allegrex::XOR),
                                   /* 39 */
-                                  (&allegrex_n::NOR),
+                                  (&allegrex::NOR),
                                   /* 40 */
-                                  (&allegrex_n::reserved_instruction),
+                                  (&allegrex::reserved_instruction),
                                   /* 41 */
-                                  (&allegrex_n::reserved_instruction),
+                                  (&allegrex::reserved_instruction),
                                   /* 42 */
-                                  (&allegrex_n::SLT),
+                                  (&allegrex::SLT),
                                   /* 43 */
-                                  (&allegrex_n::SLTU),
+                                  (&allegrex::SLTU),
                                   /* 44 */
-                                  (&allegrex_n::MAX),
+                                  (&allegrex::MAX),
                                   /* 45 */
-                                  (&allegrex_n::MIN),
+                                  (&allegrex::MIN),
                                   /* 46 */
-                                  (&allegrex_n::MSUB),
+                                  (&allegrex::MSUB),
                                   /* 47 */
-                                  (&allegrex_n::MSUBU),
+                                  (&allegrex::MSUBU),
                                   /* 48 */
-                                  (&allegrex_n::reserved_instruction),
+                                  (&allegrex::reserved_instruction),
                                   /* 49 */
-                                  (&allegrex_n::reserved_instruction),
+                                  (&allegrex::reserved_instruction),
                                   /* 50 */
-                                  (&allegrex_n::reserved_instruction),
+                                  (&allegrex::reserved_instruction),
                                   /* 51 */
-                                  (&allegrex_n::reserved_instruction),
+                                  (&allegrex::reserved_instruction),
                                   /* 52 */
-                                  (&allegrex_n::reserved_instruction),
+                                  (&allegrex::reserved_instruction),
                                   /* 53 */
-                                  (&allegrex_n::reserved_instruction),
+                                  (&allegrex::reserved_instruction),
                                   /* 54 */
-                                  (&allegrex_n::reserved_instruction),
+                                  (&allegrex::reserved_instruction),
                                   /* 55 */
-                                  (&allegrex_n::reserved_instruction),
+                                  (&allegrex::reserved_instruction),
                                   /* 56 */
-                                  (&allegrex_n::reserved_instruction),
+                                  (&allegrex::reserved_instruction),
                                   /* 57 */
-                                  (&allegrex_n::reserved_instruction),
+                                  (&allegrex::reserved_instruction),
                                   /* 58 */
-                                  (&allegrex_n::reserved_instruction),
+                                  (&allegrex::reserved_instruction),
                                   /* 59 */
-                                  (&allegrex_n::reserved_instruction),
+                                  (&allegrex::reserved_instruction),
                                   /* 60 */
-                                  (&allegrex_n::reserved_instruction),
+                                  (&allegrex::reserved_instruction),
                                   /* 61 */
-                                  (&allegrex_n::reserved_instruction),
+                                  (&allegrex::reserved_instruction),
                                   /* 62 */
-                                  (&allegrex_n::reserved_instruction),
+                                  (&allegrex::reserved_instruction),
                                   /* 63 */
-                                  (&allegrex_n::reserved_instruction)
+                                  (&allegrex::reserved_instruction)
                                 };
                                 return table[(opcode >> 0) & 0x0000003f]->instruction(opcode);
                               };
@@ -223,12 +213,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x00100000) == 0x00000000)
                                             {
                                               return
-                                              (&allegrex_n::BLTZ)->instruction(opcode);
+                                              (&allegrex::BLTZ)->instruction(opcode);
                                             }
                                             else
                                             {
                                               return
-                                              (&allegrex_n::BLTZAL)->instruction(opcode);
+                                              (&allegrex::BLTZAL)->instruction(opcode);
                                             }
                                           }
                                         }stub;
@@ -245,12 +235,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x00100000) == 0x00000000)
                                             {
                                               return
-                                              (&allegrex_n::BGEZ)->instruction(opcode);
+                                              (&allegrex::BGEZ)->instruction(opcode);
                                             }
                                             else
                                             {
                                               return
-                                              (&allegrex_n::BGEZAL)->instruction(opcode);
+                                              (&allegrex::BGEZAL)->instruction(opcode);
                                             }
                                           }
                                         }stub;
@@ -267,12 +257,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x00100000) == 0x00000000)
                                             {
                                               return
-                                              (&allegrex_n::BLTZL)->instruction(opcode);
+                                              (&allegrex::BLTZL)->instruction(opcode);
                                             }
                                             else
                                             {
                                               return
-                                              (&allegrex_n::BLTZALL)->instruction(opcode);
+                                              (&allegrex::BLTZALL)->instruction(opcode);
                                             }
                                           }
                                         }stub;
@@ -289,12 +279,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x00100000) == 0x00000000)
                                             {
                                               return
-                                              (&allegrex_n::BGEZL)->instruction(opcode);
+                                              (&allegrex::BGEZL)->instruction(opcode);
                                             }
                                             else
                                             {
                                               return
-                                              (&allegrex_n::BGEZALL)->instruction(opcode);
+                                              (&allegrex::BGEZALL)->instruction(opcode);
                                             }
                                           }
                                         }stub;
@@ -309,33 +299,33 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                           }
                       ),
                       /* 2 */
-                      (&allegrex_n::J),
+                      (&allegrex::J),
                       /* 3 */
-                      (&allegrex_n::JAL),
+                      (&allegrex::JAL),
                       /* 4 */
-                      (&allegrex_n::BEQ),
+                      (&allegrex::BEQ),
                       /* 5 */
-                      (&allegrex_n::BNE),
+                      (&allegrex::BNE),
                       /* 6 */
-                      (&allegrex_n::BLEZ),
+                      (&allegrex::BLEZ),
                       /* 7 */
-                      (&allegrex_n::BGTZ),
+                      (&allegrex::BGTZ),
                       /* 8 */
-                      (&allegrex_n::ADDI),
+                      (&allegrex::ADDI),
                       /* 9 */
-                      (&allegrex_n::ADDIU),
+                      (&allegrex::ADDIU),
                       /* 10 */
-                      (&allegrex_n::SLTI),
+                      (&allegrex::SLTI),
                       /* 11 */
-                      (&allegrex_n::SLTIU),
+                      (&allegrex::SLTIU),
                       /* 12 */
-                      (&allegrex_n::ANDI),
+                      (&allegrex::ANDI),
                       /* 13 */
-                      (&allegrex_n::ORI),
+                      (&allegrex::ORI),
                       /* 14 */
-                      (&allegrex_n::XORI),
+                      (&allegrex::XORI),
                       /* 15 */
-                      (&allegrex_n::LUI),
+                      (&allegrex::LUI),
                       /* 16 */
                       (
                           {
@@ -355,12 +345,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x00000008) == 0x00000000)
                                             {
                                               return
-                                              (&allegrex_n::MFC0)->instruction(opcode);
+                                              (&allegrex::MFC0)->instruction(opcode);
                                             }
                                             else
                                             {
                                               return
-                                              (&allegrex_n::ERET)->instruction(opcode);
+                                              (&allegrex::ERET)->instruction(opcode);
                                             }
                                           }
                                         }stub;
@@ -368,11 +358,11 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                       }
                                   ),
                                   /* 1 */
-                                  (&allegrex_n::CFC0),
+                                  (&allegrex::CFC0),
                                   /* 2 */
-                                  (&allegrex_n::MTC0),
+                                  (&allegrex::MTC0),
                                   /* 3 */
-                                  (&allegrex_n::CTC0)
+                                  (&allegrex::CTC0)
                                 };
                                 return table[(opcode >> 22) & 0x00000003]->instruction(opcode);
                               };
@@ -399,12 +389,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x00400000) == 0x00000000)
                                             {
                                               return
-                                              (&allegrex_n::MFC1)->instruction(opcode);
+                                              (&allegrex::MFC1)->instruction(opcode);
                                             }
                                             else
                                             {
                                               return
-                                              (&allegrex_n::CFC1)->instruction(opcode);
+                                              (&allegrex::CFC1)->instruction(opcode);
                                             }
                                           }
                                         }stub;
@@ -421,12 +411,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x00400000) == 0x00000000)
                                             {
                                               return
-                                              (&allegrex_n::MTC1)->instruction(opcode);
+                                              (&allegrex::MTC1)->instruction(opcode);
                                             }
                                             else
                                             {
                                               return
-                                              (&allegrex_n::CTC1)->instruction(opcode);
+                                              (&allegrex::CTC1)->instruction(opcode);
                                             }
                                           }
                                         }stub;
@@ -443,13 +433,13 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             static allegrex_instruction_s *table[4] =
                                             {
                                               /* 0 */
-                                              (&allegrex_n::BC1F),
+                                              (&allegrex::BC1F),
                                               /* 1 */
-                                              (&allegrex_n::BC1T),
+                                              (&allegrex::BC1T),
                                               /* 2 */
-                                              (&allegrex_n::BC1FL),
+                                              (&allegrex::BC1FL),
                                               /* 3 */
-                                              (&allegrex_n::BC1TL)
+                                              (&allegrex::BC1TL)
                                             };
                                             return table[(opcode >> 16) & 0x00000003]->instruction(opcode);
                                           };
@@ -457,7 +447,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                         &stub;
                                       }),
                                   /* 3 */
-                                  (&allegrex_n::reserved_instruction),
+                                  (&allegrex::reserved_instruction),
                                   /* 4 */
                                   (
                                       {
@@ -468,13 +458,13 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             static allegrex_instruction_s *table[32] =
                                             {
                                               /* 0 */
-                                              (&allegrex_n::ADD_S),
+                                              (&allegrex::ADD_S),
                                               /* 1 */
-                                              (&allegrex_n::SUB_S),
+                                              (&allegrex::SUB_S),
                                               /* 2 */
-                                              (&allegrex_n::MUL_S),
+                                              (&allegrex::MUL_S),
                                               /* 3 */
-                                              (&allegrex_n::DIV_S),
+                                              (&allegrex::DIV_S),
                                               /* 4 */
                                               (
                                                   {
@@ -485,12 +475,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x00000020) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::SQRT_S)->instruction(opcode);
+                                                          (&allegrex::SQRT_S)->instruction(opcode);
                                                         }
                                                         else
                                                         {
                                                           return
-                                                          (&allegrex_n::CVT_W_S)->instruction(opcode);
+                                                          (&allegrex::CVT_W_S)->instruction(opcode);
                                                         }
                                                       }
                                                     }stub;
@@ -498,59 +488,59 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                   }
                                               ),
                                               /* 5 */
-                                              (&allegrex_n::ABS_S),
+                                              (&allegrex::ABS_S),
                                               /* 6 */
-                                              (&allegrex_n::MOV_S),
+                                              (&allegrex::MOV_S),
                                               /* 7 */
-                                              (&allegrex_n::NEG_S),
+                                              (&allegrex::NEG_S),
                                               /* 8 */
-                                              (&allegrex_n::reserved_instruction),
+                                              (&allegrex::reserved_instruction),
                                               /* 9 */
-                                              (&allegrex_n::reserved_instruction),
+                                              (&allegrex::reserved_instruction),
                                               /* 10 */
-                                              (&allegrex_n::reserved_instruction),
+                                              (&allegrex::reserved_instruction),
                                               /* 11 */
-                                              (&allegrex_n::reserved_instruction),
+                                              (&allegrex::reserved_instruction),
                                               /* 12 */
-                                              (&allegrex_n::ROUND_W_S),
+                                              (&allegrex::ROUND_W_S),
                                               /* 13 */
-                                              (&allegrex_n::TRUNC_W_S),
+                                              (&allegrex::TRUNC_W_S),
                                               /* 14 */
-                                              (&allegrex_n::CEIL_W_S),
+                                              (&allegrex::CEIL_W_S),
                                               /* 15 */
-                                              (&allegrex_n::FLOOR_W_S),
+                                              (&allegrex::FLOOR_W_S),
                                               /* 16 */
-                                              (&allegrex_n::C_COND_S),
+                                              (&allegrex::C_COND_S),
                                               /* 17 */
-                                              (&allegrex_n::C_COND_S),
+                                              (&allegrex::C_COND_S),
                                               /* 18 */
-                                              (&allegrex_n::C_COND_S),
+                                              (&allegrex::C_COND_S),
                                               /* 19 */
-                                              (&allegrex_n::C_COND_S),
+                                              (&allegrex::C_COND_S),
                                               /* 20 */
-                                              (&allegrex_n::C_COND_S),
+                                              (&allegrex::C_COND_S),
                                               /* 21 */
-                                              (&allegrex_n::C_COND_S),
+                                              (&allegrex::C_COND_S),
                                               /* 22 */
-                                              (&allegrex_n::C_COND_S),
+                                              (&allegrex::C_COND_S),
                                               /* 23 */
-                                              (&allegrex_n::C_COND_S),
+                                              (&allegrex::C_COND_S),
                                               /* 24 */
-                                              (&allegrex_n::C_COND_S),
+                                              (&allegrex::C_COND_S),
                                               /* 25 */
-                                              (&allegrex_n::C_COND_S),
+                                              (&allegrex::C_COND_S),
                                               /* 26 */
-                                              (&allegrex_n::C_COND_S),
+                                              (&allegrex::C_COND_S),
                                               /* 27 */
-                                              (&allegrex_n::C_COND_S),
+                                              (&allegrex::C_COND_S),
                                               /* 28 */
-                                              (&allegrex_n::C_COND_S),
+                                              (&allegrex::C_COND_S),
                                               /* 29 */
-                                              (&allegrex_n::C_COND_S),
+                                              (&allegrex::C_COND_S),
                                               /* 30 */
-                                              (&allegrex_n::C_COND_S),
+                                              (&allegrex::C_COND_S),
                                               /* 31 */
-                                              (&allegrex_n::C_COND_S)
+                                              (&allegrex::C_COND_S)
                                             };
                                             return table[(opcode >> 0) & 0x0000001f]->instruction(opcode);
                                           };
@@ -559,11 +549,11 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                       }
                                   ),
                                   /* 5 */
-                                  (&allegrex_n::CVT_S_W),
+                                  (&allegrex::CVT_S_W),
                                   /* 6 */
-                                  (&allegrex_n::reserved_instruction),
+                                  (&allegrex::reserved_instruction),
                                   /* 7 */
-                                  (&allegrex_n::reserved_instruction)
+                                  (&allegrex::reserved_instruction)
                                 };
                                 return table[(opcode >> 23) & 0x00000007]->instruction(opcode);
                               };
@@ -590,13 +580,13 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             static allegrex_instruction_s *table[4] =
                                             {
                                               /* 0 */
-                                              (&allegrex_n::BVF),
+                                              (&allegrex::BVF),
                                               /* 1 */
-                                              (&allegrex_n::BVT),
+                                              (&allegrex::BVT),
                                               /* 2 */
-                                              (&allegrex_n::BVFL),
+                                              (&allegrex::BVFL),
                                               /* 3 */
-                                              (&allegrex_n::BVTL)
+                                              (&allegrex::BVTL)
                                             };
                                             return table[(opcode >> 16) & 0x00000003]->instruction(opcode);
                                           };
@@ -625,12 +615,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x00800000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::MFV)->instruction(opcode);
+                                                          (&allegrex::MFV)->instruction(opcode);
                                                         }
                                                         else
                                                         {
                                                           return
-                                                          (&allegrex_n::MTV)->instruction(opcode);
+                                                          (&allegrex::MTV)->instruction(opcode);
                                                         }
                                                       }
                                                     }stub;
@@ -649,12 +639,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x00800000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::MFVC)->instruction(opcode);
+                                                          (&allegrex::MFVC)->instruction(opcode);
                                                         }
                                                         else
                                                         {
                                                           return
-                                                          (&allegrex_n::MTVC)->instruction(opcode);
+                                                          (&allegrex::MTVC)->instruction(opcode);
                                                         }
                                                       }
                                                     }stub;
@@ -672,15 +662,15 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                           }
                       ),
                       /* 19 */
-                      (&allegrex_n::reserved_instruction),
+                      (&allegrex::reserved_instruction),
                       /* 20 */
-                      (&allegrex_n::BEQL),
+                      (&allegrex::BEQL),
                       /* 21 */
-                      (&allegrex_n::BNEL),
+                      (&allegrex::BNEL),
                       /* 22 */
-                      (&allegrex_n::BLEZL),
+                      (&allegrex::BLEZL),
                       /* 23 */
-                      (&allegrex_n::BGTZL),
+                      (&allegrex::BGTZL),
                       /* 24 */
                       (
                           {
@@ -691,13 +681,13 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                 static allegrex_instruction_s *table[4] =
                                 {
                                   /* 0 */
-                                  (&allegrex_n::VADD),
+                                  (&allegrex::VADD),
                                   /* 1 */
-                                  (&allegrex_n::VSUB),
+                                  (&allegrex::VSUB),
                                   /* 2 */
-                                  (&allegrex_n::VSBN),
+                                  (&allegrex::VSBN),
                                   /* 3 */
-                                  (&allegrex_n::VDIV)
+                                  (&allegrex::VDIV)
                                 };
                                 return table[(opcode >> 23) & 0x00000003]->instruction(opcode);
                               };
@@ -715,21 +705,21 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                 static allegrex_instruction_s *table[8] =
                                 {
                                   /* 0 */
-                                  (&allegrex_n::VMUL),
+                                  (&allegrex::VMUL),
                                   /* 1 */
-                                  (&allegrex_n::VDOT),
+                                  (&allegrex::VDOT),
                                   /* 2 */
-                                  (&allegrex_n::VSCL),
+                                  (&allegrex::VSCL),
                                   /* 3 */
-                                  (&allegrex_n::reserved_instruction),
+                                  (&allegrex::reserved_instruction),
                                   /* 4 */
-                                  (&allegrex_n::VHDP),
+                                  (&allegrex::VHDP),
                                   /* 5 */
-                                  (&allegrex_n::VDET),
+                                  (&allegrex::VDET),
                                   /* 6 */
-                                  (&allegrex_n::VCRS),
+                                  (&allegrex::VCRS),
                                   /* 7 */
-                                  (&allegrex_n::reserved_instruction)
+                                  (&allegrex::reserved_instruction)
                                 };
                                 return table[(opcode >> 23) & 0x00000007]->instruction(opcode);
                               };
@@ -738,7 +728,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                           }
                       ),
                       /* 26 */
-                      (&allegrex_n::reserved_instruction),
+                      (&allegrex::reserved_instruction),
                       /* 27 */
                       (
                           {
@@ -749,21 +739,21 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                 static allegrex_instruction_s *table[8] =
                                 {
                                   /* 0 */
-                                  (&allegrex_n::VCMP),
+                                  (&allegrex::VCMP),
                                   /* 1 */
-                                  (&allegrex_n::reserved_instruction),
+                                  (&allegrex::reserved_instruction),
                                   /* 2 */
-                                  (&allegrex_n::VMIN),
+                                  (&allegrex::VMIN),
                                   /* 3 */
-                                  (&allegrex_n::VMAX),
+                                  (&allegrex::VMAX),
                                   /* 4 */
-                                  (&allegrex_n::VSLT),
+                                  (&allegrex::VSLT),
                                   /* 5 */
-                                  (&allegrex_n::VSCMP),
+                                  (&allegrex::VSCMP),
                                   /* 6 */
-                                  (&allegrex_n::VSGE),
+                                  (&allegrex::VSGE),
                                   /* 7 */
-                                  (&allegrex_n::reserved_instruction)
+                                  (&allegrex::reserved_instruction)
                                 };
                                 return table[(opcode >> 23) & 0x00000007]->instruction(opcode);
                               };
@@ -790,12 +780,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x00000004) == 0x00000000)
                                             {
                                               return
-                                              (&allegrex_n::HALT)->instruction(opcode);
+                                              (&allegrex::HALT)->instruction(opcode);
                                             }
                                             else
                                             {
                                               return
-                                              (&allegrex_n::MFIC)->instruction(opcode);
+                                              (&allegrex::MFIC)->instruction(opcode);
                                             }
                                           }
                                         }stub;
@@ -805,7 +795,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                 else
                                 {
                                   return
-                                  (&allegrex_n::MTIC)->instruction(opcode);
+                                  (&allegrex::MTIC)->instruction(opcode);
                                 }
                               }
                             }stub;
@@ -813,9 +803,9 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                           }
                       ),
                       /* 29 */
-                      (&allegrex_n::reserved_instruction),
+                      (&allegrex::reserved_instruction),
                       /* 30 */
-                      (&allegrex_n::reserved_instruction),
+                      (&allegrex::reserved_instruction),
                       /* 31 */
                       (
                           {
@@ -844,12 +834,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x00000100) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::SEH)->instruction(opcode);
+                                                          (&allegrex::SEH)->instruction(opcode);
                                                         }
                                                         else
                                                         {
                                                           return
-                                                          (&allegrex_n::BITREV)->instruction(opcode);
+                                                          (&allegrex::BITREV)->instruction(opcode);
                                                         }
                                                       }
                                                     }stub;
@@ -868,12 +858,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x00000040) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::WSBH)->instruction(opcode);
+                                                          (&allegrex::WSBH)->instruction(opcode);
                                                         }
                                                         else
                                                         {
                                                           return
-                                                          (&allegrex_n::WSBW)->instruction(opcode);
+                                                          (&allegrex::WSBW)->instruction(opcode);
                                                         }
                                                       }
                                                     }stub;
@@ -906,12 +896,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x00000004) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::EXT)->instruction(opcode);
+                                                          (&allegrex::EXT)->instruction(opcode);
                                                         }
                                                         else
                                                         {
                                                           return
-                                                          (&allegrex_n::INS)->instruction(opcode);
+                                                          (&allegrex::INS)->instruction(opcode);
                                                         }
                                                       }
                                                     }stub;
@@ -921,7 +911,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             else
                                             {
                                               return
-                                              (&allegrex_n::SEB)->instruction(opcode);
+                                              (&allegrex::SEB)->instruction(opcode);
                                             }
                                           }
                                         }stub;
@@ -934,35 +924,35 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                           }
                       ),
                       /* 32 */
-                      (&allegrex_n::LB),
+                      (&allegrex::LB),
                       /* 33 */
-                      (&allegrex_n::LH),
+                      (&allegrex::LH),
                       /* 34 */
-                      (&allegrex_n::LWL),
+                      (&allegrex::LWL),
                       /* 35 */
-                      (&allegrex_n::LW),
+                      (&allegrex::LW),
                       /* 36 */
-                      (&allegrex_n::LBU),
+                      (&allegrex::LBU),
                       /* 37 */
-                      (&allegrex_n::LHU),
+                      (&allegrex::LHU),
                       /* 38 */
-                      (&allegrex_n::LWR),
+                      (&allegrex::LWR),
                       /* 39 */
-                      (&allegrex_n::reserved_instruction),
+                      (&allegrex::reserved_instruction),
                       /* 40 */
-                      (&allegrex_n::SB),
+                      (&allegrex::SB),
                       /* 41 */
-                      (&allegrex_n::SH),
+                      (&allegrex::SH),
                       /* 42 */
-                      (&allegrex_n::SWL),
+                      (&allegrex::SWL),
                       /* 43 */
-                      (&allegrex_n::SW),
+                      (&allegrex::SW),
                       /* 44 */
-                      (&allegrex_n::reserved_instruction),
+                      (&allegrex::reserved_instruction),
                       /* 45 */
-                      (&allegrex_n::reserved_instruction),
+                      (&allegrex::reserved_instruction),
                       /* 46 */
-                      (&allegrex_n::SWR),
+                      (&allegrex::SWR),
                       /* 47 */
                       (
                           {
@@ -973,15 +963,15 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                 static allegrex_instruction_s *table[16] =
                                 {
                                   /* 0 */
-                                  (&allegrex_n::reserved_instruction),
+                                  (&allegrex::reserved_instruction),
                                   /* 1 */
-                                  (&allegrex_n::reserved_instruction),
+                                  (&allegrex::reserved_instruction),
                                   /* 2 */
-                                  (&allegrex_n::ICACHE_INDEX_INVALIDATE),
+                                  (&allegrex::ICACHE_INDEX_INVALIDATE),
                                   /* 3 */
-                                  (&allegrex_n::ICACHE_INDEX_UNLOCK),
+                                  (&allegrex::ICACHE_INDEX_UNLOCK),
                                   /* 4 */
-                                  (&allegrex_n::ICACHE_HIT_INVALIDATE),
+                                  (&allegrex::ICACHE_HIT_INVALIDATE),
                                   /* 5 */
                                   (
                                       {
@@ -992,12 +982,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x00010000) == 0x00000000)
                                             {
                                               return
-                                              (&allegrex_n::ICACHE_FILL)->instruction(opcode);
+                                              (&allegrex::ICACHE_FILL)->instruction(opcode);
                                             }
                                             else
                                             {
                                               return
-                                              (&allegrex_n::ICACHE_FILL_WITH_LOCK)->instruction(opcode);
+                                              (&allegrex::ICACHE_FILL_WITH_LOCK)->instruction(opcode);
                                             }
                                           }
                                         }stub;
@@ -1005,17 +995,17 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                       }
                                   ),
                                   /* 6 */
-                                  (&allegrex_n::reserved_instruction),
+                                  (&allegrex::reserved_instruction),
                                   /* 7 */
-                                  (&allegrex_n::reserved_instruction),
+                                  (&allegrex::reserved_instruction),
                                   /* 8 */
-                                  (&allegrex_n::reserved_instruction),
+                                  (&allegrex::reserved_instruction),
                                   /* 9 */
-                                  (&allegrex_n::reserved_instruction),
+                                  (&allegrex::reserved_instruction),
                                   /* 10 */
-                                  (&allegrex_n::DCACHE_INDEX_WRITEBACK_INVALIDATE),
+                                  (&allegrex::DCACHE_INDEX_WRITEBACK_INVALIDATE),
                                   /* 11 */
-                                  (&allegrex_n::DCACHE_INDEX_UNLOCK),
+                                  (&allegrex::DCACHE_INDEX_UNLOCK),
                                   /* 12 */
                                   (
                                       {
@@ -1026,12 +1016,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x00010000) == 0x00000000)
                                             {
                                               return
-                                              (&allegrex_n::DCACHE_CREATE_DIRTY_EXCLUSIVE)->instruction(opcode);
+                                              (&allegrex::DCACHE_CREATE_DIRTY_EXCLUSIVE)->instruction(opcode);
                                             }
                                             else
                                             {
                                               return
-                                              (&allegrex_n::DCACHE_HIT_INVALIDATE)->instruction(opcode);
+                                              (&allegrex::DCACHE_HIT_INVALIDATE)->instruction(opcode);
                                             }
                                           }
                                         }stub;
@@ -1048,12 +1038,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x00010000) == 0x00000000)
                                             {
                                               return
-                                              (&allegrex_n::DCACHE_HIT_WRITEBACK)->instruction(opcode);
+                                              (&allegrex::DCACHE_HIT_WRITEBACK)->instruction(opcode);
                                             }
                                             else
                                             {
                                               return
-                                              (&allegrex_n::DCACHE_HIT_WRITEBACK_INVALIDATE)->instruction(opcode);
+                                              (&allegrex::DCACHE_HIT_WRITEBACK_INVALIDATE)->instruction(opcode);
                                             }
                                           }
                                         }stub;
@@ -1061,7 +1051,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                       }
                                   ),
                                   /* 14 */
-                                  (&allegrex_n::DCACHE_CREATE_DIRTY_EXCLUSIVE_WITH_LOCK),
+                                  (&allegrex::DCACHE_CREATE_DIRTY_EXCLUSIVE_WITH_LOCK),
                                   /* 15 */
                                   (
                                       {
@@ -1072,12 +1062,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x00010000) == 0x00000000)
                                             {
                                               return
-                                              (&allegrex_n::DCACHE_FILL)->instruction(opcode);
+                                              (&allegrex::DCACHE_FILL)->instruction(opcode);
                                             }
                                             else
                                             {
                                               return
-                                              (&allegrex_n::DCACHE_FILL_WITH_LOCK)->instruction(opcode);
+                                              (&allegrex::DCACHE_FILL_WITH_LOCK)->instruction(opcode);
                                             }
                                           }
                                         }stub;
@@ -1091,13 +1081,13 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                             &stub;
                           }),
                       /* 48 */
-                      (&allegrex_n::LL),
+                      (&allegrex::LL),
                       /* 49 */
-                      (&allegrex_n::LWC1),
+                      (&allegrex::LWC1),
                       /* 50 */
-                      (&allegrex_n::LVS),
+                      (&allegrex::LVS),
                       /* 51 */
-                      (&allegrex_n::reserved_instruction),
+                      (&allegrex::reserved_instruction),
                       /* 52 */
                       (
                           {
@@ -1126,12 +1116,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x00020000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VMOV)->instruction(opcode);
+                                                          (&allegrex::VMOV)->instruction(opcode);
                                                         }
                                                         else
                                                         {
                                                           return
-                                                          (&allegrex_n::VNEG)->instruction(opcode);
+                                                          (&allegrex::VNEG)->instruction(opcode);
                                                         }
                                                       }
                                                     }stub;
@@ -1150,7 +1140,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x02020000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VABS)->instruction(opcode);
+                                                          (&allegrex::VABS)->instruction(opcode);
                                                         }
                                                         else
                                                         {
@@ -1164,7 +1154,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                                     if ((opcode & 0x02000000) == 0x00000000)
                                                                     {
                                                                       return
-                                                                      (&allegrex_n::VIDT)->instruction(opcode);
+                                                                      (&allegrex::VIDT)->instruction(opcode);
                                                                     }
                                                                     else
                                                                     {
@@ -1178,7 +1168,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                                                 if ((opcode & 0x01800000) == 0x00000000)
                                                                                 {
                                                                                   return
-                                                                                  (&allegrex_n::VF2IN)->instruction(opcode);
+                                                                                  (&allegrex::VF2IN)->instruction(opcode);
                                                                                 }
                                                                                 else
                                                                                 {
@@ -1192,12 +1182,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                                                             if ((opcode & 0x01000000) == 0x00000000)
                                                                                             {
                                                                                               return
-                                                                                              (&allegrex_n::VI2F)->instruction(opcode);
+                                                                                              (&allegrex::VI2F)->instruction(opcode);
                                                                                             }
                                                                                             else
                                                                                             {
                                                                                               return
-                                                                                              (&allegrex_n::VWBN)->instruction(opcode);
+                                                                                              (&allegrex::VWBN)->instruction(opcode);
                                                                                             }
                                                                                           }
                                                                                         }stub;
@@ -1243,12 +1233,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x00020000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VSAT0)->instruction(opcode);
+                                                          (&allegrex::VSAT0)->instruction(opcode);
                                                         }
                                                         else
                                                         {
                                                           return
-                                                          (&allegrex_n::VZERO)->instruction(opcode);
+                                                          (&allegrex::VZERO)->instruction(opcode);
                                                         }
                                                       }
                                                     }stub;
@@ -1267,7 +1257,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x02020000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VSAT1)->instruction(opcode);
+                                                          (&allegrex::VSAT1)->instruction(opcode);
                                                         }
                                                         else
                                                         {
@@ -1281,7 +1271,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                                     if ((opcode & 0x02000000) == 0x00000000)
                                                                     {
                                                                       return
-                                                                      (&allegrex_n::VONE)->instruction(opcode);
+                                                                      (&allegrex::VONE)->instruction(opcode);
                                                                     }
                                                                     else
                                                                     {
@@ -1295,7 +1285,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                                                 if ((opcode & 0x01800000) == 0x00000000)
                                                                                 {
                                                                                   return
-                                                                                  (&allegrex_n::VF2IN)->instruction(opcode);
+                                                                                  (&allegrex::VF2IN)->instruction(opcode);
                                                                                 }
                                                                                 else
                                                                                 {
@@ -1309,12 +1299,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                                                             if ((opcode & 0x01000000) == 0x00000000)
                                                                                             {
                                                                                               return
-                                                                                              (&allegrex_n::VI2F)->instruction(opcode);
+                                                                                              (&allegrex::VI2F)->instruction(opcode);
                                                                                             }
                                                                                             else
                                                                                             {
                                                                                               return
-                                                                                              (&allegrex_n::VWBN)->instruction(opcode);
+                                                                                              (&allegrex::VWBN)->instruction(opcode);
                                                                                             }
                                                                                           }
                                                                                         }stub;
@@ -1351,7 +1341,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x01800000) == 0x00000000)
                                             {
                                               return
-                                              (&allegrex_n::VF2IN)->instruction(opcode);
+                                              (&allegrex::VF2IN)->instruction(opcode);
                                             }
                                             else
                                             {
@@ -1365,12 +1355,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x01000000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VI2F)->instruction(opcode);
+                                                          (&allegrex::VI2F)->instruction(opcode);
                                                         }
                                                         else
                                                         {
                                                           return
-                                                          (&allegrex_n::VWBN)->instruction(opcode);
+                                                          (&allegrex::VWBN)->instruction(opcode);
                                                         }
                                                       }
                                                     }stub;
@@ -1392,7 +1382,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x01800000) == 0x00000000)
                                             {
                                               return
-                                              (&allegrex_n::VF2IN)->instruction(opcode);
+                                              (&allegrex::VF2IN)->instruction(opcode);
                                             }
                                             else
                                             {
@@ -1406,12 +1396,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x01000000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VI2F)->instruction(opcode);
+                                                          (&allegrex::VI2F)->instruction(opcode);
                                                         }
                                                         else
                                                         {
                                                           return
-                                                          (&allegrex_n::VWBN)->instruction(opcode);
+                                                          (&allegrex::VWBN)->instruction(opcode);
                                                         }
                                                       }
                                                     }stub;
@@ -1442,12 +1432,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x00020000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VRCP)->instruction(opcode);
+                                                          (&allegrex::VRCP)->instruction(opcode);
                                                         }
                                                         else
                                                         {
                                                           return
-                                                          (&allegrex_n::VSIN)->instruction(opcode);
+                                                          (&allegrex::VSIN)->instruction(opcode);
                                                         }
                                                       }
                                                     }stub;
@@ -1466,7 +1456,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x02020000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VRSQ)->instruction(opcode);
+                                                          (&allegrex::VRSQ)->instruction(opcode);
                                                         }
                                                         else
                                                         {
@@ -1480,7 +1470,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                                     if ((opcode & 0x02000000) == 0x00000000)
                                                                     {
                                                                       return
-                                                                      (&allegrex_n::VCOS)->instruction(opcode);
+                                                                      (&allegrex::VCOS)->instruction(opcode);
                                                                     }
                                                                     else
                                                                     {
@@ -1494,7 +1484,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                                                 if ((opcode & 0x01800000) == 0x00000000)
                                                                                 {
                                                                                   return
-                                                                                  (&allegrex_n::VF2IN)->instruction(opcode);
+                                                                                  (&allegrex::VF2IN)->instruction(opcode);
                                                                                 }
                                                                                 else
                                                                                 {
@@ -1508,12 +1498,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                                                             if ((opcode & 0x01000000) == 0x00000000)
                                                                                             {
                                                                                               return
-                                                                                              (&allegrex_n::VI2F)->instruction(opcode);
+                                                                                              (&allegrex::VI2F)->instruction(opcode);
                                                                                             }
                                                                                             else
                                                                                             {
                                                                                               return
-                                                                                              (&allegrex_n::VWBN)->instruction(opcode);
+                                                                                              (&allegrex::VWBN)->instruction(opcode);
                                                                                             }
                                                                                           }
                                                                                         }stub;
@@ -1559,12 +1549,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x00020000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VEXP2)->instruction(opcode);
+                                                          (&allegrex::VEXP2)->instruction(opcode);
                                                         }
                                                         else
                                                         {
                                                           return
-                                                          (&allegrex_n::VSQRT)->instruction(opcode);
+                                                          (&allegrex::VSQRT)->instruction(opcode);
                                                         }
                                                       }
                                                     }stub;
@@ -1583,7 +1573,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x02020000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VLOG2)->instruction(opcode);
+                                                          (&allegrex::VLOG2)->instruction(opcode);
                                                         }
                                                         else
                                                         {
@@ -1597,7 +1587,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                                     if ((opcode & 0x02000000) == 0x00000000)
                                                                     {
                                                                       return
-                                                                      (&allegrex_n::VASIN)->instruction(opcode);
+                                                                      (&allegrex::VASIN)->instruction(opcode);
                                                                     }
                                                                     else
                                                                     {
@@ -1611,7 +1601,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                                                 if ((opcode & 0x01800000) == 0x00000000)
                                                                                 {
                                                                                   return
-                                                                                  (&allegrex_n::VF2IN)->instruction(opcode);
+                                                                                  (&allegrex::VF2IN)->instruction(opcode);
                                                                                 }
                                                                                 else
                                                                                 {
@@ -1625,12 +1615,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                                                             if ((opcode & 0x01000000) == 0x00000000)
                                                                                             {
                                                                                               return
-                                                                                              (&allegrex_n::VI2F)->instruction(opcode);
+                                                                                              (&allegrex::VI2F)->instruction(opcode);
                                                                                             }
                                                                                             else
                                                                                             {
                                                                                               return
-                                                                                              (&allegrex_n::VWBN)->instruction(opcode);
+                                                                                              (&allegrex::VWBN)->instruction(opcode);
                                                                                             }
                                                                                           }
                                                                                         }stub;
@@ -1667,7 +1657,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x02020000) == 0x00000000)
                                             {
                                               return
-                                              (&allegrex_n::VNRCP)->instruction(opcode);
+                                              (&allegrex::VNRCP)->instruction(opcode);
                                             }
                                             else
                                             {
@@ -1681,7 +1671,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x02000000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VNSIN)->instruction(opcode);
+                                                          (&allegrex::VNSIN)->instruction(opcode);
                                                         }
                                                         else
                                                         {
@@ -1695,7 +1685,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                                     if ((opcode & 0x01800000) == 0x00000000)
                                                                     {
                                                                       return
-                                                                      (&allegrex_n::VF2IN)->instruction(opcode);
+                                                                      (&allegrex::VF2IN)->instruction(opcode);
                                                                     }
                                                                     else
                                                                     {
@@ -1709,12 +1699,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                                                 if ((opcode & 0x01000000) == 0x00000000)
                                                                                 {
                                                                                   return
-                                                                                  (&allegrex_n::VI2F)->instruction(opcode);
+                                                                                  (&allegrex::VI2F)->instruction(opcode);
                                                                                 }
                                                                                 else
                                                                                 {
                                                                                   return
-                                                                                  (&allegrex_n::VWBN)->instruction(opcode);
+                                                                                  (&allegrex::VWBN)->instruction(opcode);
                                                                                 }
                                                                               }
                                                                             }stub;
@@ -1746,7 +1736,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x02000000) == 0x00000000)
                                             {
                                               return
-                                              (&allegrex_n::VREXP2)->instruction(opcode);
+                                              (&allegrex::VREXP2)->instruction(opcode);
                                             }
                                             else
                                             {
@@ -1760,7 +1750,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x01800000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VF2IN)->instruction(opcode);
+                                                          (&allegrex::VF2IN)->instruction(opcode);
                                                         }
                                                         else
                                                         {
@@ -1774,12 +1764,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                                     if ((opcode & 0x01000000) == 0x00000000)
                                                                     {
                                                                       return
-                                                                      (&allegrex_n::VI2F)->instruction(opcode);
+                                                                      (&allegrex::VI2F)->instruction(opcode);
                                                                     }
                                                                     else
                                                                     {
                                                                       return
-                                                                      (&allegrex_n::VWBN)->instruction(opcode);
+                                                                      (&allegrex::VWBN)->instruction(opcode);
                                                                     }
                                                                   }
                                                                 }stub;
@@ -1815,12 +1805,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x00020000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VRNDS)->instruction(opcode);
+                                                          (&allegrex::VRNDS)->instruction(opcode);
                                                         }
                                                         else
                                                         {
                                                           return
-                                                          (&allegrex_n::VRNDF1)->instruction(opcode);
+                                                          (&allegrex::VRNDF1)->instruction(opcode);
                                                         }
                                                       }
                                                     }stub;
@@ -1839,7 +1829,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x02020000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VRNDI)->instruction(opcode);
+                                                          (&allegrex::VRNDI)->instruction(opcode);
                                                         }
                                                         else
                                                         {
@@ -1853,7 +1843,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                                     if ((opcode & 0x02000000) == 0x00000000)
                                                                     {
                                                                       return
-                                                                      (&allegrex_n::VRNDF2)->instruction(opcode);
+                                                                      (&allegrex::VRNDF2)->instruction(opcode);
                                                                     }
                                                                     else
                                                                     {
@@ -1867,7 +1857,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                                                 if ((opcode & 0x01800000) == 0x00800000)
                                                                                 {
                                                                                   return
-                                                                                  (&allegrex_n::VCMOVT)->instruction(opcode);
+                                                                                  (&allegrex::VCMOVT)->instruction(opcode);
                                                                                 }
                                                                                 else
                                                                                 {
@@ -1881,12 +1871,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                                                             if ((opcode & 0x01000000) == 0x00000000)
                                                                                             {
                                                                                               return
-                                                                                              (&allegrex_n::VF2IZ)->instruction(opcode);
+                                                                                              (&allegrex::VF2IZ)->instruction(opcode);
                                                                                             }
                                                                                             else
                                                                                             {
                                                                                               return
-                                                                                              (&allegrex_n::VWBN)->instruction(opcode);
+                                                                                              (&allegrex::VWBN)->instruction(opcode);
                                                                                             }
                                                                                           }
                                                                                         }stub;
@@ -1923,7 +1913,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x01800000) == 0x00800000)
                                             {
                                               return
-                                              (&allegrex_n::VCMOVT)->instruction(opcode);
+                                              (&allegrex::VCMOVT)->instruction(opcode);
                                             }
                                             else
                                             {
@@ -1937,12 +1927,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x01000000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VF2IZ)->instruction(opcode);
+                                                          (&allegrex::VF2IZ)->instruction(opcode);
                                                         }
                                                         else
                                                         {
                                                           return
-                                                          (&allegrex_n::VWBN)->instruction(opcode);
+                                                          (&allegrex::VWBN)->instruction(opcode);
                                                         }
                                                       }
                                                     }stub;
@@ -1964,7 +1954,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x01800000) == 0x00800000)
                                             {
                                               return
-                                              (&allegrex_n::VCMOVF)->instruction(opcode);
+                                              (&allegrex::VCMOVF)->instruction(opcode);
                                             }
                                             else
                                             {
@@ -1978,12 +1968,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x01000000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VF2IZ)->instruction(opcode);
+                                                          (&allegrex::VF2IZ)->instruction(opcode);
                                                         }
                                                         else
                                                         {
                                                           return
-                                                          (&allegrex_n::VWBN)->instruction(opcode);
+                                                          (&allegrex::VWBN)->instruction(opcode);
                                                         }
                                                       }
                                                     }stub;
@@ -2005,7 +1995,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x01800000) == 0x00800000)
                                             {
                                               return
-                                              (&allegrex_n::VCMOVF)->instruction(opcode);
+                                              (&allegrex::VCMOVF)->instruction(opcode);
                                             }
                                             else
                                             {
@@ -2019,12 +2009,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x01000000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VF2IZ)->instruction(opcode);
+                                                          (&allegrex::VF2IZ)->instruction(opcode);
                                                         }
                                                         else
                                                         {
                                                           return
-                                                          (&allegrex_n::VWBN)->instruction(opcode);
+                                                          (&allegrex::VWBN)->instruction(opcode);
                                                         }
                                                       }
                                                     }stub;
@@ -2046,7 +2036,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x02010000) == 0x00000000)
                                             {
                                               return
-                                              (&allegrex_n::VF2H)->instruction(opcode);
+                                              (&allegrex::VF2H)->instruction(opcode);
                                             }
                                             else
                                             {
@@ -2060,7 +2050,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x02000000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VH2F)->instruction(opcode);
+                                                          (&allegrex::VH2F)->instruction(opcode);
                                                         }
                                                         else
                                                         {
@@ -2074,12 +2064,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                                     if ((opcode & 0x01000000) == 0x00000000)
                                                                     {
                                                                       return
-                                                                      (&allegrex_n::VF2IZ)->instruction(opcode);
+                                                                      (&allegrex::VF2IZ)->instruction(opcode);
                                                                     }
                                                                     else
                                                                     {
                                                                       return
-                                                                      (&allegrex_n::VWBN)->instruction(opcode);
+                                                                      (&allegrex::VWBN)->instruction(opcode);
                                                                     }
                                                                   }
                                                                 }stub;
@@ -2106,7 +2096,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x02010000) == 0x00000000)
                                             {
                                               return
-                                              (&allegrex_n::VSBZ)->instruction(opcode);
+                                              (&allegrex::VSBZ)->instruction(opcode);
                                             }
                                             else
                                             {
@@ -2120,7 +2110,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x02000000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VLGB)->instruction(opcode);
+                                                          (&allegrex::VLGB)->instruction(opcode);
                                                         }
                                                         else
                                                         {
@@ -2134,12 +2124,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                                     if ((opcode & 0x01000000) == 0x00000000)
                                                                     {
                                                                       return
-                                                                      (&allegrex_n::VF2IZ)->instruction(opcode);
+                                                                      (&allegrex::VF2IZ)->instruction(opcode);
                                                                     }
                                                                     else
                                                                     {
                                                                       return
-                                                                      (&allegrex_n::VWBN)->instruction(opcode);
+                                                                      (&allegrex::VWBN)->instruction(opcode);
                                                                     }
                                                                   }
                                                                 }stub;
@@ -2175,12 +2165,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x00020000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VUC2I)->instruction(opcode);
+                                                          (&allegrex::VUC2I)->instruction(opcode);
                                                         }
                                                         else
                                                         {
                                                           return
-                                                          (&allegrex_n::VUS2I)->instruction(opcode);
+                                                          (&allegrex::VUS2I)->instruction(opcode);
                                                         }
                                                       }
                                                     }stub;
@@ -2199,7 +2189,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x02020000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VC2I)->instruction(opcode);
+                                                          (&allegrex::VC2I)->instruction(opcode);
                                                         }
                                                         else
                                                         {
@@ -2213,7 +2203,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                                     if ((opcode & 0x02000000) == 0x00000000)
                                                                     {
                                                                       return
-                                                                      (&allegrex_n::VS2I)->instruction(opcode);
+                                                                      (&allegrex::VS2I)->instruction(opcode);
                                                                     }
                                                                     else
                                                                     {
@@ -2227,12 +2217,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                                                 if ((opcode & 0x01000000) == 0x00000000)
                                                                                 {
                                                                                   return
-                                                                                  (&allegrex_n::VF2IZ)->instruction(opcode);
+                                                                                  (&allegrex::VF2IZ)->instruction(opcode);
                                                                                 }
                                                                                 else
                                                                                 {
                                                                                   return
-                                                                                  (&allegrex_n::VWBN)->instruction(opcode);
+                                                                                  (&allegrex::VWBN)->instruction(opcode);
                                                                                 }
                                                                               }
                                                                             }stub;
@@ -2273,12 +2263,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x00020000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VI2UC)->instruction(opcode);
+                                                          (&allegrex::VI2UC)->instruction(opcode);
                                                         }
                                                         else
                                                         {
                                                           return
-                                                          (&allegrex_n::VI2US)->instruction(opcode);
+                                                          (&allegrex::VI2US)->instruction(opcode);
                                                         }
                                                       }
                                                     }stub;
@@ -2297,7 +2287,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x02020000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VI2C)->instruction(opcode);
+                                                          (&allegrex::VI2C)->instruction(opcode);
                                                         }
                                                         else
                                                         {
@@ -2311,7 +2301,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                                     if ((opcode & 0x02000000) == 0x00000000)
                                                                     {
                                                                       return
-                                                                      (&allegrex_n::VI2S)->instruction(opcode);
+                                                                      (&allegrex::VI2S)->instruction(opcode);
                                                                     }
                                                                     else
                                                                     {
@@ -2325,12 +2315,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                                                 if ((opcode & 0x01000000) == 0x00000000)
                                                                                 {
                                                                                   return
-                                                                                  (&allegrex_n::VF2IZ)->instruction(opcode);
+                                                                                  (&allegrex::VF2IZ)->instruction(opcode);
                                                                                 }
                                                                                 else
                                                                                 {
                                                                                   return
-                                                                                  (&allegrex_n::VWBN)->instruction(opcode);
+                                                                                  (&allegrex::VWBN)->instruction(opcode);
                                                                                 }
                                                                               }
                                                                             }stub;
@@ -2371,12 +2361,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x00020000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VSRT1)->instruction(opcode);
+                                                          (&allegrex::VSRT1)->instruction(opcode);
                                                         }
                                                         else
                                                         {
                                                           return
-                                                          (&allegrex_n::VBFY1)->instruction(opcode);
+                                                          (&allegrex::VBFY1)->instruction(opcode);
                                                         }
                                                       }
                                                     }stub;
@@ -2395,7 +2385,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x02020000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VSRT2)->instruction(opcode);
+                                                          (&allegrex::VSRT2)->instruction(opcode);
                                                         }
                                                         else
                                                         {
@@ -2409,7 +2399,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                                     if ((opcode & 0x02000000) == 0x00000000)
                                                                     {
                                                                       return
-                                                                      (&allegrex_n::VBFY2)->instruction(opcode);
+                                                                      (&allegrex::VBFY2)->instruction(opcode);
                                                                     }
                                                                     else
                                                                     {
@@ -2423,12 +2413,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                                                 if ((opcode & 0x01000000) == 0x00000000)
                                                                                 {
                                                                                   return
-                                                                                  (&allegrex_n::VF2IU)->instruction(opcode);
+                                                                                  (&allegrex::VF2IU)->instruction(opcode);
                                                                                 }
                                                                                 else
                                                                                 {
                                                                                   return
-                                                                                  (&allegrex_n::VWBN)->instruction(opcode);
+                                                                                  (&allegrex::VWBN)->instruction(opcode);
                                                                                 }
                                                                               }
                                                                             }stub;
@@ -2469,12 +2459,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x00020000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VOCP)->instruction(opcode);
+                                                          (&allegrex::VOCP)->instruction(opcode);
                                                         }
                                                         else
                                                         {
                                                           return
-                                                          (&allegrex_n::VFAD)->instruction(opcode);
+                                                          (&allegrex::VFAD)->instruction(opcode);
                                                         }
                                                       }
                                                     }stub;
@@ -2493,7 +2483,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x02020000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VSOCP)->instruction(opcode);
+                                                          (&allegrex::VSOCP)->instruction(opcode);
                                                         }
                                                         else
                                                         {
@@ -2507,7 +2497,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                                     if ((opcode & 0x02000000) == 0x00000000)
                                                                     {
                                                                       return
-                                                                      (&allegrex_n::VAVG)->instruction(opcode);
+                                                                      (&allegrex::VAVG)->instruction(opcode);
                                                                     }
                                                                     else
                                                                     {
@@ -2521,12 +2511,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                                                 if ((opcode & 0x01000000) == 0x00000000)
                                                                                 {
                                                                                   return
-                                                                                  (&allegrex_n::VF2IU)->instruction(opcode);
+                                                                                  (&allegrex::VF2IU)->instruction(opcode);
                                                                                 }
                                                                                 else
                                                                                 {
                                                                                   return
-                                                                                  (&allegrex_n::VWBN)->instruction(opcode);
+                                                                                  (&allegrex::VWBN)->instruction(opcode);
                                                                                 }
                                                                               }
                                                                             }stub;
@@ -2558,7 +2548,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x02010000) == 0x00000000)
                                             {
                                               return
-                                              (&allegrex_n::VSRT3)->instruction(opcode);
+                                              (&allegrex::VSRT3)->instruction(opcode);
                                             }
                                             else
                                             {
@@ -2572,7 +2562,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x02000000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VSRT4)->instruction(opcode);
+                                                          (&allegrex::VSRT4)->instruction(opcode);
                                                         }
                                                         else
                                                         {
@@ -2586,12 +2576,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                                     if ((opcode & 0x01000000) == 0x00000000)
                                                                     {
                                                                       return
-                                                                      (&allegrex_n::VF2IU)->instruction(opcode);
+                                                                      (&allegrex::VF2IU)->instruction(opcode);
                                                                     }
                                                                     else
                                                                     {
                                                                       return
-                                                                      (&allegrex_n::VWBN)->instruction(opcode);
+                                                                      (&allegrex::VWBN)->instruction(opcode);
                                                                     }
                                                                   }
                                                                 }stub;
@@ -2618,12 +2608,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x01000000) == 0x00000000)
                                             {
                                               return
-                                              (&allegrex_n::VF2IU)->instruction(opcode);
+                                              (&allegrex::VF2IU)->instruction(opcode);
                                             }
                                             else
                                             {
                                               return
-                                              (&allegrex_n::VWBN)->instruction(opcode);
+                                              (&allegrex::VWBN)->instruction(opcode);
                                             }
                                           }
                                         }stub;
@@ -2640,7 +2630,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x02000080) == 0x00000000)
                                             {
                                               return
-                                              (&allegrex_n::VMFVC)->instruction(opcode);
+                                              (&allegrex::VMFVC)->instruction(opcode);
                                             }
                                             else
                                             {
@@ -2654,7 +2644,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x02000000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VMTVC)->instruction(opcode);
+                                                          (&allegrex::VMTVC)->instruction(opcode);
                                                         }
                                                         else
                                                         {
@@ -2668,12 +2658,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                                     if ((opcode & 0x01000000) == 0x00000000)
                                                                     {
                                                                       return
-                                                                      (&allegrex_n::VF2IU)->instruction(opcode);
+                                                                      (&allegrex::VF2IU)->instruction(opcode);
                                                                     }
                                                                     else
                                                                     {
                                                                       return
-                                                                      (&allegrex_n::VWBN)->instruction(opcode);
+                                                                      (&allegrex::VWBN)->instruction(opcode);
                                                                     }
                                                                   }
                                                                 }stub;
@@ -2700,12 +2690,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x01000000) == 0x00000000)
                                             {
                                               return
-                                              (&allegrex_n::VF2IU)->instruction(opcode);
+                                              (&allegrex::VF2IU)->instruction(opcode);
                                             }
                                             else
                                             {
                                               return
-                                              (&allegrex_n::VWBN)->instruction(opcode);
+                                              (&allegrex::VWBN)->instruction(opcode);
                                             }
                                           }
                                         }stub;
@@ -2731,12 +2721,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x00020000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VT4444)->instruction(opcode);
+                                                          (&allegrex::VT4444)->instruction(opcode);
                                                         }
                                                         else
                                                         {
                                                           return
-                                                          (&allegrex_n::VT5650)->instruction(opcode);
+                                                          (&allegrex::VT5650)->instruction(opcode);
                                                         }
                                                       }
                                                     }stub;
@@ -2755,7 +2745,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x02000000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VT5551)->instruction(opcode);
+                                                          (&allegrex::VT5551)->instruction(opcode);
                                                         }
                                                         else
                                                         {
@@ -2769,12 +2759,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                                     if ((opcode & 0x01000000) == 0x00000000)
                                                                     {
                                                                       return
-                                                                      (&allegrex_n::VF2IU)->instruction(opcode);
+                                                                      (&allegrex::VF2IU)->instruction(opcode);
                                                                     }
                                                                     else
                                                                     {
                                                                       return
-                                                                      (&allegrex_n::VWBN)->instruction(opcode);
+                                                                      (&allegrex::VWBN)->instruction(opcode);
                                                                     }
                                                                   }
                                                                 }stub;
@@ -2801,12 +2791,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x01000000) == 0x00000000)
                                             {
                                               return
-                                              (&allegrex_n::VF2IU)->instruction(opcode);
+                                              (&allegrex::VF2IU)->instruction(opcode);
                                             }
                                             else
                                             {
                                               return
-                                              (&allegrex_n::VWBN)->instruction(opcode);
+                                              (&allegrex::VWBN)->instruction(opcode);
                                             }
                                           }
                                         }stub;
@@ -2823,7 +2813,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x02000000) == 0x00000000)
                                             {
                                               return
-                                              (&allegrex_n::VCST)->instruction(opcode);
+                                              (&allegrex::VCST)->instruction(opcode);
                                             }
                                             else
                                             {
@@ -2837,12 +2827,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x01000000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VF2ID)->instruction(opcode);
+                                                          (&allegrex::VF2ID)->instruction(opcode);
                                                         }
                                                         else
                                                         {
                                                           return
-                                                          (&allegrex_n::VWBN)->instruction(opcode);
+                                                          (&allegrex::VWBN)->instruction(opcode);
                                                         }
                                                       }
                                                     }stub;
@@ -2864,7 +2854,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x02000000) == 0x00000000)
                                             {
                                               return
-                                              (&allegrex_n::VCST)->instruction(opcode);
+                                              (&allegrex::VCST)->instruction(opcode);
                                             }
                                             else
                                             {
@@ -2878,12 +2868,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x01000000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VF2ID)->instruction(opcode);
+                                                          (&allegrex::VF2ID)->instruction(opcode);
                                                         }
                                                         else
                                                         {
                                                           return
-                                                          (&allegrex_n::VWBN)->instruction(opcode);
+                                                          (&allegrex::VWBN)->instruction(opcode);
                                                         }
                                                       }
                                                     }stub;
@@ -2905,7 +2895,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x02000000) == 0x00000000)
                                             {
                                               return
-                                              (&allegrex_n::VCST)->instruction(opcode);
+                                              (&allegrex::VCST)->instruction(opcode);
                                             }
                                             else
                                             {
@@ -2919,12 +2909,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x01000000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VF2ID)->instruction(opcode);
+                                                          (&allegrex::VF2ID)->instruction(opcode);
                                                         }
                                                         else
                                                         {
                                                           return
-                                                          (&allegrex_n::VWBN)->instruction(opcode);
+                                                          (&allegrex::VWBN)->instruction(opcode);
                                                         }
                                                       }
                                                     }stub;
@@ -2946,7 +2936,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x02000000) == 0x00000000)
                                             {
                                               return
-                                              (&allegrex_n::VCST)->instruction(opcode);
+                                              (&allegrex::VCST)->instruction(opcode);
                                             }
                                             else
                                             {
@@ -2960,12 +2950,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x01000000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VF2ID)->instruction(opcode);
+                                                          (&allegrex::VF2ID)->instruction(opcode);
                                                         }
                                                         else
                                                         {
                                                           return
-                                                          (&allegrex_n::VWBN)->instruction(opcode);
+                                                          (&allegrex::VWBN)->instruction(opcode);
                                                         }
                                                       }
                                                     }stub;
@@ -2987,7 +2977,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x02000000) == 0x00000000)
                                             {
                                               return
-                                              (&allegrex_n::VCST)->instruction(opcode);
+                                              (&allegrex::VCST)->instruction(opcode);
                                             }
                                             else
                                             {
@@ -3001,12 +2991,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x01000000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VF2ID)->instruction(opcode);
+                                                          (&allegrex::VF2ID)->instruction(opcode);
                                                         }
                                                         else
                                                         {
                                                           return
-                                                          (&allegrex_n::VWBN)->instruction(opcode);
+                                                          (&allegrex::VWBN)->instruction(opcode);
                                                         }
                                                       }
                                                     }stub;
@@ -3028,7 +3018,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x02000000) == 0x00000000)
                                             {
                                               return
-                                              (&allegrex_n::VCST)->instruction(opcode);
+                                              (&allegrex::VCST)->instruction(opcode);
                                             }
                                             else
                                             {
@@ -3042,12 +3032,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x01000000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VF2ID)->instruction(opcode);
+                                                          (&allegrex::VF2ID)->instruction(opcode);
                                                         }
                                                         else
                                                         {
                                                           return
-                                                          (&allegrex_n::VWBN)->instruction(opcode);
+                                                          (&allegrex::VWBN)->instruction(opcode);
                                                         }
                                                       }
                                                     }stub;
@@ -3069,7 +3059,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x02000000) == 0x00000000)
                                             {
                                               return
-                                              (&allegrex_n::VCST)->instruction(opcode);
+                                              (&allegrex::VCST)->instruction(opcode);
                                             }
                                             else
                                             {
@@ -3083,12 +3073,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x01000000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VF2ID)->instruction(opcode);
+                                                          (&allegrex::VF2ID)->instruction(opcode);
                                                         }
                                                         else
                                                         {
                                                           return
-                                                          (&allegrex_n::VWBN)->instruction(opcode);
+                                                          (&allegrex::VWBN)->instruction(opcode);
                                                         }
                                                       }
                                                     }stub;
@@ -3110,7 +3100,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x02000000) == 0x00000000)
                                             {
                                               return
-                                              (&allegrex_n::VCST)->instruction(opcode);
+                                              (&allegrex::VCST)->instruction(opcode);
                                             }
                                             else
                                             {
@@ -3124,12 +3114,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x01000000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VF2ID)->instruction(opcode);
+                                                          (&allegrex::VF2ID)->instruction(opcode);
                                                         }
                                                         else
                                                         {
                                                           return
-                                                          (&allegrex_n::VWBN)->instruction(opcode);
+                                                          (&allegrex::VWBN)->instruction(opcode);
                                                         }
                                                       }
                                                     }stub;
@@ -3158,12 +3148,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                 if ((opcode & 0x00000002) == 0x00000000)
                                 {
                                   return
-                                  (&allegrex_n::LVLQ)->instruction(opcode);
+                                  (&allegrex::LVLQ)->instruction(opcode);
                                 }
                                 else
                                 {
                                   return
-                                  (&allegrex_n::LVRQ)->instruction(opcode);
+                                  (&allegrex::LVRQ)->instruction(opcode);
                                 }
                               }
                             }stub;
@@ -3171,7 +3161,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                           }
                       ),
                       /* 54 */
-                      (&allegrex_n::LVQ),
+                      (&allegrex::LVQ),
                       /* 55 */
                       (
                           {
@@ -3182,11 +3172,11 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                 static allegrex_instruction_s *table[4] =
                                 {
                                   /* 0 */
-                                  (&allegrex_n::VPFXS),
+                                  (&allegrex::VPFXS),
                                   /* 1 */
-                                  (&allegrex_n::VPFXT),
+                                  (&allegrex::VPFXT),
                                   /* 2 */
-                                  (&allegrex_n::VPFXD),
+                                  (&allegrex::VPFXD),
                                   /* 3 */
                                   (
                                       {
@@ -3197,12 +3187,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x00800000) == 0x00000000)
                                             {
                                               return
-                                              (&allegrex_n::VIIM)->instruction(opcode);
+                                              (&allegrex::VIIM)->instruction(opcode);
                                             }
                                             else
                                             {
                                               return
-                                              (&allegrex_n::VFIM)->instruction(opcode);
+                                              (&allegrex::VFIM)->instruction(opcode);
                                             }
                                           }
                                         }stub;
@@ -3217,13 +3207,13 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                           }
                       ),
                       /* 56 */
-                      (&allegrex_n::SC),
+                      (&allegrex::SC),
                       /* 57 */
-                      (&allegrex_n::SWC1),
+                      (&allegrex::SWC1),
                       /* 58 */
-                      (&allegrex_n::SVS),
+                      (&allegrex::SVS),
                       /* 59 */
-                      (&allegrex_n::reserved_instruction),
+                      (&allegrex::reserved_instruction),
                       /* 60 */
                       (
                           {
@@ -3234,7 +3224,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                 static allegrex_instruction_s *table[8] =
                                 {
                                   /* 0 */
-                                  (&allegrex_n::VMMUL),
+                                  (&allegrex::VMMUL),
                                   /* 1 */
                                   (
                                       {
@@ -3245,12 +3235,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x00000080) == 0x00000000)
                                             {
                                               return
-                                              (&allegrex_n::VHTFM2)->instruction(opcode);
+                                              (&allegrex::VHTFM2)->instruction(opcode);
                                             }
                                             else
                                             {
                                               return
-                                              (&allegrex_n::VTFM2)->instruction(opcode);
+                                              (&allegrex::VTFM2)->instruction(opcode);
                                             }
                                           }
                                         }stub;
@@ -3267,12 +3257,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x00000080) == 0x00000000)
                                             {
                                               return
-                                              (&allegrex_n::VTFM3)->instruction(opcode);
+                                              (&allegrex::VTFM3)->instruction(opcode);
                                             }
                                             else
                                             {
                                               return
-                                              (&allegrex_n::VHTFM3)->instruction(opcode);
+                                              (&allegrex::VHTFM3)->instruction(opcode);
                                             }
                                           }
                                         }stub;
@@ -3289,12 +3279,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x00000080) == 0x00000000)
                                             {
                                               return
-                                              (&allegrex_n::VHTFM4)->instruction(opcode);
+                                              (&allegrex::VHTFM4)->instruction(opcode);
                                             }
                                             else
                                             {
                                               return
-                                              (&allegrex_n::VTFM4)->instruction(opcode);
+                                              (&allegrex::VTFM4)->instruction(opcode);
                                             }
                                           }
                                         }stub;
@@ -3302,11 +3292,11 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                       }
                                   ),
                                   /* 4 */
-                                  (&allegrex_n::VMSCL),
+                                  (&allegrex::VMSCL),
                                   /* 5 */
-                                  (&allegrex_n::VQMUL),
+                                  (&allegrex::VQMUL),
                                   /* 6 */
-                                  (&allegrex_n::reserved_instruction),
+                                  (&allegrex::reserved_instruction),
                                   /* 7 */
                                   (
                                       {
@@ -3326,12 +3316,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         if ((opcode & 0x00020000) == 0x00000000)
                                                         {
                                                           return
-                                                          (&allegrex_n::VMMOV)->instruction(opcode);
+                                                          (&allegrex::VMMOV)->instruction(opcode);
                                                         }
                                                         else
                                                         {
                                                           return
-                                                          (&allegrex_n::VMZERO)->instruction(opcode);
+                                                          (&allegrex::VMZERO)->instruction(opcode);
                                                         }
                                                       }
                                                     }stub;
@@ -3359,12 +3349,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                                     if ((opcode & 0x00040000) == 0x00000000)
                                                                     {
                                                                       return
-                                                                      (&allegrex_n::VMIDT)->instruction(opcode);
+                                                                      (&allegrex::VMIDT)->instruction(opcode);
                                                                     }
                                                                     else
                                                                     {
                                                                       return
-                                                                      (&allegrex_n::VMONE)->instruction(opcode);
+                                                                      (&allegrex::VMONE)->instruction(opcode);
                                                                     }
                                                                   }
                                                                 }stub;
@@ -3374,7 +3364,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                                         else
                                                         {
                                                           return
-                                                          (&allegrex_n::VROT)->instruction(opcode);
+                                                          (&allegrex::VROT)->instruction(opcode);
                                                         }
                                                       }
                                                     }stub;
@@ -3403,12 +3393,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                 if ((opcode & 0x00000002) == 0x00000000)
                                 {
                                   return
-                                  (&allegrex_n::SVLQ)->instruction(opcode);
+                                  (&allegrex::SVLQ)->instruction(opcode);
                                 }
                                 else
                                 {
                                   return
-                                  (&allegrex_n::SVRQ)->instruction(opcode);
+                                  (&allegrex::SVRQ)->instruction(opcode);
                                 }
                               }
                             }stub;
@@ -3425,12 +3415,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                 if ((opcode & 0x00000002) == 0x00000000)
                                 {
                                   return
-                                  (&allegrex_n::SVQ)->instruction(opcode);
+                                  (&allegrex::SVQ)->instruction(opcode);
                                 }
                                 else
                                 {
                                   return
-                                  (&allegrex_n::SWB)->instruction(opcode);
+                                  (&allegrex::SWB)->instruction(opcode);
                                 }
                               }
                             }stub;
@@ -3456,12 +3446,12 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                             if ((opcode & 0x00000020) == 0x00000000)
                                             {
                                               return
-                                              (&allegrex_n::VNOP)->instruction(opcode);
+                                              (&allegrex::VNOP)->instruction(opcode);
                                             }
                                             else
                                             {
                                               return
-                                              (&allegrex_n::VSYNC)->instruction(opcode);
+                                              (&allegrex::VSYNC)->instruction(opcode);
                                             }
                                           }
                                         }stub;
@@ -3471,7 +3461,7 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
                                 else
                                 {
                                   return
-                                  (&allegrex_n::VFLUSH)->instruction(opcode);
+                                  (&allegrex::VFLUSH)->instruction(opcode);
                                 }
                               }
                             }stub;
@@ -3487,4 +3477,3 @@ static allegrex_instruction_s *allegrex_n::decode_instruction(int opcode)
           );
   return root->instruction(opcode);
 }
-

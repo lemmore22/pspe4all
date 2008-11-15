@@ -5,12 +5,12 @@
  *      Author: hli
  */
 
-#include "emulator.h"
-#include "allegrex.h"
+#include "emulator/emulator.h"
+//#include "allegrex.h"
 
 emulator_s &emulator_s::self()
 {
-  emulator_s instance;
+  static emulator_s instance;
   return instance;
 }
 
@@ -18,10 +18,10 @@ emulator_s &emulator = emulator_s::self();
 
 emulator_s::emulator_s()
 {
-  psp_n::reserve_memory();
+  psp::reserve_memory();
 }
 
 emulator_s::~emulator_s()
 {
-  psp_n::release_memory();
+  psp::release_memory();
 }

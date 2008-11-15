@@ -73,7 +73,7 @@ union mram_u
     float f[MRAM_SIZE/4];
 };
 
-namespace psp_n
+namespace psp
 {
   extern void *memory;
 
@@ -83,7 +83,7 @@ namespace psp_n
 
   template< typename T > static inline T *addr(int address)
   {
-    return reinterpret_cast< T * > (reinterpret_cast< unsigned int > (psp_n::memory)
+    return reinterpret_cast< T * > (reinterpret_cast< unsigned int > (psp::memory)
         + (address & (VMEM_SIZE - 1)));
   }
   inline static char *addrb(int address)
@@ -159,6 +159,11 @@ namespace psp_n
 
   void *reserve_memory();
   void release_memory();
+
+  inline bool memory_reserved()
+  {
+    return psp::memory != 0;
+  }
 }
 
 #endif /* EMULATOR_MEMORY_H_ */
