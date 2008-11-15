@@ -7,10 +7,3 @@
 
 #include "memory.h"
 
-#ifdef __WIN32__
-#include "win32/memory.h"
-#else
-#ifdef __LINUX__
-#include "linux/memory.h"
-#endif
-#endif

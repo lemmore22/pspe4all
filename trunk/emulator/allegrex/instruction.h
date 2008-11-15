@@ -307,9 +307,11 @@ template< int signature, int mask > struct allegrex_instruction_template_s : all
 #endif
 };
 
-namespace allegrex_n
+namespace allegrex
 {
-	allegrex_instruction_unknown_s &reserved_instruction =
-		allegrex_instruction_unknown_s::self();
+  extern allegrex_instruction_unknown_s &reserved_instruction;
 }
+
+#include "instructions.h"
+
 #endif /* ALLEGREX_INSTRUCTION_H_ */

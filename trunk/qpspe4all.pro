@@ -2,8 +2,7 @@ TEMPLATE = app
 TARGET = qpspe4all
 QT += core \
     gui
-HEADERS += emulator/emulator.h \
-    emulator/allegrex/instruction.h \
+HEADERS += emulator/decoder.h \
     emulator/allegrex/instructions/ABS_S.h \
     emulator/allegrex/instructions/ADD.h \
     emulator/allegrex/instructions/ADDI.h \
@@ -253,15 +252,19 @@ HEADERS += emulator/emulator.h \
     emulator/allegrex/instructions/WSBW.h \
     emulator/allegrex/instructions/XOR.h \
     emulator/allegrex/instructions/XORI.h \
+    emulator/allegrex/instruction.h \
     emulator/allegrex/instructions.h \
     emulator/allegrex.h \
+    emulator/emulator.h \
     emulator/linux/linux_memory.h \
     emulator/memory.h \
-    emulator/win32/memory.h \
     qpspe4all.h
-SOURCES += emulator/decoder.cpp \
-    emulator/memory.cpp \
+SOURCES += emulator/win32/win32_memory.cpp \
+    emulator/allegrex.cpp \
+    emulator/allegrex/instruction.cpp \
+    emulator/allegrex/instructions.cpp \
     emulator/emulator.cpp \
+    emulator/memory.cpp \
     main.cpp \
     qpspe4all.cpp
 FORMS += qpspe4all.ui

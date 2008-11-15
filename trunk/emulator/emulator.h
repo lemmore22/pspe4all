@@ -8,16 +8,16 @@
 #ifndef EMULATOR_H_
 #define EMULATOR_H_
 
-#include "memory.h"
+struct emulator_s;
 
-struct allegrex_instruction_s;
+#include "emulator/memory.h"
+
+#include "allegrex.h"
 
 struct emulator_s
 {
-  public:
     static emulator_s &self();
 
-  private:
     emulator_s();
 
     ~emulator_s();

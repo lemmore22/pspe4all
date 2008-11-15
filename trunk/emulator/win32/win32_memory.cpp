@@ -1,17 +1,21 @@
 /*
+ * memory.cpp
+ *
+ *  Created on: 15 nov. 2008
+ *      Author: hli
+ */
+
+/*
  * specific.h
  *
  *  Created on: 2 nov. 2008
  *      Author: hli
  */
 
-#ifndef WIN32_MEMORY_H_
-#define WIN32_MEMORY_H_
+#include "emulator/memory.h"
 
-#include "memory.h"
-
-void *psp_n::memory = 0;
-int psp_n::memory_exception = 0;
+void *psp::memory = 0;
+int psp::memory_exception = 0;
 
 #include <windows.h>
 
@@ -27,7 +31,7 @@ static bool mapped_buffer(unsigned int address, unsigned int times, unsigned int
           0,
           offset,
           size,
-          (LPVOID)(reinterpret_cast< unsigned int >(psp_n::memory) + address)
+          (LPVOID)(reinterpret_cast< unsigned int >(psp::memory) + address)
       );
 
   if (!buffer)
@@ -46,7 +50,7 @@ static bool mapped_buffer(unsigned int address, unsigned int times, unsigned int
           0,
           offset,
           size,
-          (LPVOID)(reinterpret_cast< unsigned int >(psp_n::memory) + address)
+          (LPVOID)(reinterpret_cast< unsigned int >(psp::memory) + address)
       );
     if (!p)
     {
@@ -64,7 +68,7 @@ static bool unused_buffer(unsigned int start, unsigned int end)
   void *buffer =
     ::VirtualAlloc
     (
-        (LPVOID)(reinterpret_cast< unsigned int >(psp_n::memory) + start),
+        (LPVOID)(reinterpret_cast< unsigned int >(psp::memory) + start),
         end - start,
         MEM_RESERVE,
         PAGE_NOACCESS
@@ -76,7 +80,7 @@ static bool unused_buffer(unsigned int start, unsigned int end)
   return true;
 }
 
-void *psp_n::reserve_memory()
+void *psp::reserve_memory()
 {
   psp_memory_handle =
     ::CreateFileMapping
@@ -94,7 +98,7 @@ void *psp_n::reserve_memory()
     return 0;
   }
 
-  psp_n::memory =
+  psp::memory =
     ::VirtualAlloc
     (
         (void *)0,
@@ -103,12 +107,12 @@ void *psp_n::reserve_memory()
         PAGE_NOACCESS
     );
 
-  if (!psp_n::memory)
+  if (!psp::memory)
   {
     return 0;
   }
 
-  ::VirtualFree(psp_n::memory, 0, MEM_RELEASE);
+  ::VirtualFree(psp::memory, 0, MEM_RELEASE);
 
   //      0×00010000      0×00004000 (16 KiB)     Scratchpad
   //      0×04000000      0×00200000 (2 MiB)      Lower video ram
@@ -128,16 +132,16 @@ void *psp_n::reserve_memory()
       && unused_buffer(0x0C000000, 0x10000000)
   )
   {
-    return psp_n::memory;
+    return psp::memory;
   }
   return 0;
 }
 
-void psp_n::release_memory()
+void psp::release_memory()
 {
-  if (psp_n::memory)
+  if (psp::memory)
   {
-    ::UnmapViewOfFile(psp_n::memory);
+    ::UnmapViewOfFile(psp::memory);
   }
 
   if (psp_memory_handle != INVALID_HANDLE_VALUE)
@@ -146,56 +150,54 @@ void psp_n::release_memory()
   }
 }
 
-int psp_n::exception_handler(unsigned int dwCode, void *pExceptionPointers)
+int psp::exception_handler(unsigned int dwCode, void *pExceptionPointers)
 {
   EXCEPTION_POINTERS *ep = (EXCEPTION_POINTERS *)pExceptionPointers;
 
   EXCEPTION_RECORD *pExceptionRecord = ep->ExceptionRecord;
 
-  psp_n::memory_exception = 0;
+  psp::memory_exception = 0;
 
   if (dwCode != EXCEPTION_ACCESS_VIOLATION)
     return EXCEPTION_CONTINUE_SEARCH;
 
-  unsigned int address = (unsigned int)pExceptionRecord->ExceptionInformation[1] - (unsigned int)psp_n::memory;
+  unsigned int address = (unsigned int)pExceptionRecord->ExceptionInformation[1] - (unsigned int)psp::memory;
 
   if (address < 0x00010000)
   {
-    psp_n::memory_exception = -1;
+    psp::memory_exception = -1;
     return EXCEPTION_EXECUTE_HANDLER;
   }
   else if (address < 0x00014000)
   {
-    psp_n::memory_exception = 3;
+    psp::memory_exception = 3;
     return EXCEPTION_CONTINUE_EXECUTION;
   }
   else if (address < 0x04000000)
   {
-    psp_n::memory_exception = -1;
+    psp::memory_exception = -1;
     return EXCEPTION_EXECUTE_HANDLER;
   }
   else if (address < 0x04400000)
   {
-    psp_n::memory_exception = 2;
+    psp::memory_exception = 2;
     return EXCEPTION_CONTINUE_EXECUTION;
   }
   else if (address < 0x08010000)
   {
-    psp_n::memory_exception = -1;
+    psp::memory_exception = -1;
     return EXCEPTION_EXECUTE_HANDLER;
   }
   else if (address < 0x0C000000)
   {
-    psp_n::memory_exception = 1;
+    psp::memory_exception = 1;
     return EXCEPTION_CONTINUE_EXECUTION;
   }
   else
   {
-    psp_n::memory_exception = -1;
+    psp::memory_exception = -1;
     return EXCEPTION_EXECUTE_HANDLER;
   }
 
   return EXCEPTION_CONTINUE_SEARCH;
 }
-
-#endif /* WIN32_MEMORY_H_ */
