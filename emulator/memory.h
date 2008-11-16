@@ -8,6 +8,8 @@
 #ifndef EMULATOR_MEMORY_H_
 #define EMULATOR_MEMORY_H_
 
+#include "emulator.h"
+
 //	0×00010000	0×00004000 (16 KiB)	Scratchpad
 //	0×04000000	0×00200000 (2 MiB)	Lower video ram
 //	0×04200000	0×00200000 (2 MiB)	Upper video ram (SLIM only)
