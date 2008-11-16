@@ -2,7 +2,15 @@ TEMPLATE = app
 TARGET = qpspe4all
 QT += core \
     gui
-HEADERS += emulator/decoder.h \
+HEADERS += qmemoryspinbox.h \
+    qmemorytreemodel.h \
+    qmemorytreeview.h \
+    qmemoryviewer.h \
+    emulator/processor/lsu.h \
+    emulator/processor/mdu.h \
+    emulator/types.h \
+    emulator/processor.h \
+    emulator/decoder.h \
     emulator/allegrex/instructions/ABS_S.h \
     emulator/allegrex/instructions/ADD.h \
     emulator/allegrex/instructions/ADDI.h \
@@ -259,7 +267,12 @@ HEADERS += emulator/decoder.h \
     emulator/linux/linux_memory.h \
     emulator/memory.h \
     qpspe4all.h
-SOURCES += emulator/win32/win32_memory.cpp \
+SOURCES += qmemoryspinbox.cpp \
+    qmemorytreemodel.cpp \
+    qmemorytreeview.cpp \
+    qmemoryviewer.cpp \
+    emulator/processor.cpp \
+    emulator/win32/win32_memory.cpp \
     emulator/allegrex.cpp \
     emulator/allegrex/instruction.cpp \
     emulator/allegrex/instructions.cpp \
@@ -267,5 +280,6 @@ SOURCES += emulator/win32/win32_memory.cpp \
     emulator/memory.cpp \
     main.cpp \
     qpspe4all.cpp
-FORMS += qpspe4all.ui
+FORMS += qmemoryviewer.ui \
+    qpspe4all.ui
 RESOURCES += 
