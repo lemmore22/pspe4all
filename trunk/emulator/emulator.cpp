@@ -5,8 +5,9 @@
  *      Author: hli
  */
 
-#include "emulator/emulator.h"
-//#include "allegrex.h"
+#include "types.h"
+#include "memory.h"
+#include "emulator.h"
 
 emulator_s &emulator_s::self()
 {

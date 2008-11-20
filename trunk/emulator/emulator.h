@@ -8,14 +8,7 @@
 #ifndef EMULATOR_H_
 #define EMULATOR_H_
 
-#include "types.h"
-
 struct emulator_s;
-
-#include "memory.h"
-#include "processor.h"
-
-#include "allegrex.h"
 
 struct emulator_s
 {

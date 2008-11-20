@@ -10,10 +10,10 @@
 #ifndef MDU_H_
 #define MDU_H_
 
-    inline u32 &lo() { return (reinterpret_cast< u32[2] >(&hilo))[0]; }
-    inline u32 &hi() { return (reinterpret_cast< u32[2] >(&hilo))[1]; }
+    inline u32 &lo() { return (reinterpret_cast< u32 * >(&hilo))[0]; }
+    inline u32 &hi() { return (reinterpret_cast< u32 * >(&hilo))[1]; }
 
-    inline void doMFHI(int rd)
+    inline void doMFHI(u32 rd)
     {
         if (rd != 0)
         {
@@ -21,12 +21,12 @@
         }
     }
 
-    inline void doMTHI(int rs)
+    inline void doMTHI(u32 rs)
     {
         hi() = gpr[rs];
     }
 
-    inline void doMFLO(int rd)
+    inline void doMFLO(u32 rd)
     {
         if (rd != 0)
         {
@@ -34,46 +34,51 @@
         }
     }
 
-    inline void doMTLO(int rs)
+    inline void doMTLO(u32 rs)
     {
         lo() = gpr[rs];
     }
 
-    inline void doMULT(int rs, int rt)
+    inline void doMULT(u32 rs, u32 rt)
     {
-        hilo = ((s64) gpr[rs]) * ((s64) gpr[rt]);
+        hilo = (u64)(((s64) gpr[rs]) * ((s64) gpr[rt]));
     }
 
-    inline void doMULTU(int rs, int rt)
+    inline void doMULTU(u32 rs, u32 rt)
     {
         hilo = ((u64) gpr[rs]) * ((u64) gpr[rt]);
     }
 
-    inline void doDIV(int rs, int rt)
+    inline void doDIV(u32 rs, u32 rt)
     {
-      lo() = gpr[rs] / gpr[rt];
-      hi() = gpr[rs] % gpr[rt];
+      lo() = (u32)(((s32)gpr[rs]) / ((s32)gpr[rt]));
+      hi() = (u32)(((s32)gpr[rs]) % ((s32)gpr[rt]));
     }
 
-    inline void doMADD(int rs, int rt)
+    inline void doDIVU(u32 rs, u32 rt)
     {
-        hilo += ((s64) gpr[rs]) * ((s64) gpr[rt]);
+      lo() = ((u32)gpr[rs]) / ((u32)gpr[rt]);
+      hi() = ((u32)gpr[rs]) % ((s32)gpr[rt]);
     }
 
-    inline void doMADDU(int rs, int rt)
+    inline void doMADD(u32 rs, u32 rt)
     {
-        hilo += ((u64) gpr[rs]) * ((u64) gpr[rt]);
+        hilo += (u64)(((s64) gpr[rs]) * ((s64) gpr[rt]));
     }
 
-    inline void doMSUB(int rs, int rt)
+    inline void doMADDU(u32 rs, u32 rt)
     {
-        hilo -= ((s64) gpr[rs]) * ((s64) gpr[rt]);
+        hilo += (u64)(((u64) gpr[rs]) * ((u64) gpr[rt]));
     }
 
-    inline void doMSUBU(int rs, int rt)
+    inline void doMSUB(u32 rs, u32 rt)
+    {
+        hilo -= (u64)(((s64) gpr[rs]) * ((s64) gpr[rt]));
+    }
+
+    inline void doMSUBU(u32 rs, u32 rt)
     {
         hilo -= ((u64) gpr[rs]) * ((u64) gpr[rt]);
     }
-}
 
 #endif /* MDU_H_ */

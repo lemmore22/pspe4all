@@ -1,4 +1,4 @@
-allegrex_instruction_s *allegrex::decode_instruction(int opcode)
+allegrex_instruction_s *allegrex::decode_instruction(u32 opcode)
 {
   static allegrex_instruction_s
       *root =
@@ -6,7 +6,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
               {
                 static struct stub_s : allegrex_instruction_unknown_s
                 {
-                  virtual allegrex_instruction_s *instruction(int opcode)
+                  virtual allegrex_instruction_s *instruction(u32 opcode)
                   {
                     static allegrex_instruction_s *table[64] =
                     {
@@ -15,7 +15,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                           {
                             static struct stub_s : allegrex_instruction_unknown_s
                             {
-                              virtual allegrex_instruction_s *instruction(int opcode)
+                              virtual allegrex_instruction_s *instruction(u32 opcode)
                               {
                                 static allegrex_instruction_s *table[64] =
                                 {
@@ -28,7 +28,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x00200000) == 0x00000000)
                                             {
@@ -56,7 +56,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x00000040) == 0x00000000)
                                             {
@@ -199,7 +199,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                           {
                             static struct stub_s : allegrex_instruction_unknown_s
                             {
-                              virtual allegrex_instruction_s *instruction(int opcode)
+                              virtual allegrex_instruction_s *instruction(u32 opcode)
                               {
                                 static allegrex_instruction_s *table[4] =
                                 {
@@ -208,7 +208,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x00100000) == 0x00000000)
                                             {
@@ -230,7 +230,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x00100000) == 0x00000000)
                                             {
@@ -252,7 +252,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x00100000) == 0x00000000)
                                             {
@@ -274,7 +274,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x00100000) == 0x00000000)
                                             {
@@ -331,7 +331,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                           {
                             static struct stub_s : allegrex_instruction_unknown_s
                             {
-                              virtual allegrex_instruction_s *instruction(int opcode)
+                              virtual allegrex_instruction_s *instruction(u32 opcode)
                               {
                                 static allegrex_instruction_s *table[4] =
                                 {
@@ -340,7 +340,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x00000008) == 0x00000000)
                                             {
@@ -375,7 +375,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                           {
                             static struct stub_s : allegrex_instruction_unknown_s
                             {
-                              virtual allegrex_instruction_s *instruction(int opcode)
+                              virtual allegrex_instruction_s *instruction(u32 opcode)
                               {
                                 static allegrex_instruction_s *table[8] =
                                 {
@@ -384,7 +384,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x00400000) == 0x00000000)
                                             {
@@ -406,7 +406,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x00400000) == 0x00000000)
                                             {
@@ -428,7 +428,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             static allegrex_instruction_s *table[4] =
                                             {
@@ -453,7 +453,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             static allegrex_instruction_s *table[32] =
                                             {
@@ -470,7 +470,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x00000020) == 0x00000000)
                                                         {
@@ -566,7 +566,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                           {
                             static struct stub_s : allegrex_instruction_unknown_s
                             {
-                              virtual allegrex_instruction_s *instruction(int opcode)
+                              virtual allegrex_instruction_s *instruction(u32 opcode)
                               {
                                 if ((opcode & 0x00200000) == 0x00000000)
                                 {
@@ -575,7 +575,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             static allegrex_instruction_s *table[4] =
                                             {
@@ -601,7 +601,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x00000080) == 0x00000000)
                                             {
@@ -610,7 +610,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x00800000) == 0x00000000)
                                                         {
@@ -634,7 +634,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x00800000) == 0x00000000)
                                                         {
@@ -676,7 +676,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                           {
                             static struct stub_s : allegrex_instruction_unknown_s
                             {
-                              virtual allegrex_instruction_s *instruction(int opcode)
+                              virtual allegrex_instruction_s *instruction(u32 opcode)
                               {
                                 static allegrex_instruction_s *table[4] =
                                 {
@@ -700,7 +700,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                           {
                             static struct stub_s : allegrex_instruction_unknown_s
                             {
-                              virtual allegrex_instruction_s *instruction(int opcode)
+                              virtual allegrex_instruction_s *instruction(u32 opcode)
                               {
                                 static allegrex_instruction_s *table[8] =
                                 {
@@ -734,7 +734,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                           {
                             static struct stub_s : allegrex_instruction_unknown_s
                             {
-                              virtual allegrex_instruction_s *instruction(int opcode)
+                              virtual allegrex_instruction_s *instruction(u32 opcode)
                               {
                                 static allegrex_instruction_s *table[8] =
                                 {
@@ -766,7 +766,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                           {
                             static struct stub_s : allegrex_instruction_unknown_s
                             {
-                              virtual allegrex_instruction_s *instruction(int opcode)
+                              virtual allegrex_instruction_s *instruction(u32 opcode)
                               {
                                 if ((opcode & 0x00000002) == 0x00000000)
                                 {
@@ -775,7 +775,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x00000004) == 0x00000000)
                                             {
@@ -811,7 +811,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                           {
                             static struct stub_s : allegrex_instruction_unknown_s
                             {
-                              virtual allegrex_instruction_s *instruction(int opcode)
+                              virtual allegrex_instruction_s *instruction(u32 opcode)
                               {
                                 if ((opcode & 0x00000021) == 0x00000020)
                                 {
@@ -820,7 +820,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x00000080) == 0x00000000)
                                             {
@@ -829,7 +829,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x00000100) == 0x00000000)
                                                         {
@@ -853,7 +853,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x00000040) == 0x00000000)
                                                         {
@@ -882,7 +882,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x00000001) == 0x00000000)
                                             {
@@ -891,7 +891,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x00000004) == 0x00000000)
                                                         {
@@ -958,7 +958,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                           {
                             static struct stub_s : allegrex_instruction_unknown_s
                             {
-                              virtual allegrex_instruction_s *instruction(int opcode)
+                              virtual allegrex_instruction_s *instruction(u32 opcode)
                               {
                                 static allegrex_instruction_s *table[16] =
                                 {
@@ -977,7 +977,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x00010000) == 0x00000000)
                                             {
@@ -1011,7 +1011,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x00010000) == 0x00000000)
                                             {
@@ -1033,7 +1033,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x00010000) == 0x00000000)
                                             {
@@ -1057,7 +1057,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x00010000) == 0x00000000)
                                             {
@@ -1093,7 +1093,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                           {
                             static struct stub_s : allegrex_instruction_unknown_s
                             {
-                              virtual allegrex_instruction_s *instruction(int opcode)
+                              virtual allegrex_instruction_s *instruction(u32 opcode)
                               {
                                 static allegrex_instruction_s *table[32] =
                                 {
@@ -1102,7 +1102,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x02010000) == 0x00000000)
                                             {
@@ -1111,7 +1111,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x00020000) == 0x00000000)
                                                         {
@@ -1135,7 +1135,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x02020000) == 0x00000000)
                                                         {
@@ -1149,7 +1149,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                               {
                                                                 static struct stub_s : allegrex_instruction_unknown_s
                                                                 {
-                                                                  virtual allegrex_instruction_s *instruction(int opcode)
+                                                                  virtual allegrex_instruction_s *instruction(u32 opcode)
                                                                   {
                                                                     if ((opcode & 0x02000000) == 0x00000000)
                                                                     {
@@ -1163,7 +1163,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                                           {
                                                                             static struct stub_s : allegrex_instruction_unknown_s
                                                                             {
-                                                                              virtual allegrex_instruction_s *instruction(int opcode)
+                                                                              virtual allegrex_instruction_s *instruction(u32 opcode)
                                                                               {
                                                                                 if ((opcode & 0x01800000) == 0x00000000)
                                                                                 {
@@ -1177,7 +1177,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                                                       {
                                                                                         static struct stub_s : allegrex_instruction_unknown_s
                                                                                         {
-                                                                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                                                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                                                                           {
                                                                                             if ((opcode & 0x01000000) == 0x00000000)
                                                                                             {
@@ -1219,7 +1219,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x02010000) == 0x00000000)
                                             {
@@ -1228,7 +1228,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x00020000) == 0x00000000)
                                                         {
@@ -1252,7 +1252,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x02020000) == 0x00000000)
                                                         {
@@ -1266,7 +1266,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                               {
                                                                 static struct stub_s : allegrex_instruction_unknown_s
                                                                 {
-                                                                  virtual allegrex_instruction_s *instruction(int opcode)
+                                                                  virtual allegrex_instruction_s *instruction(u32 opcode)
                                                                   {
                                                                     if ((opcode & 0x02000000) == 0x00000000)
                                                                     {
@@ -1280,7 +1280,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                                           {
                                                                             static struct stub_s : allegrex_instruction_unknown_s
                                                                             {
-                                                                              virtual allegrex_instruction_s *instruction(int opcode)
+                                                                              virtual allegrex_instruction_s *instruction(u32 opcode)
                                                                               {
                                                                                 if ((opcode & 0x01800000) == 0x00000000)
                                                                                 {
@@ -1294,7 +1294,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                                                       {
                                                                                         static struct stub_s : allegrex_instruction_unknown_s
                                                                                         {
-                                                                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                                                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                                                                           {
                                                                                             if ((opcode & 0x01000000) == 0x00000000)
                                                                                             {
@@ -1336,7 +1336,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x01800000) == 0x00000000)
                                             {
@@ -1350,7 +1350,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x01000000) == 0x00000000)
                                                         {
@@ -1377,7 +1377,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x01800000) == 0x00000000)
                                             {
@@ -1391,7 +1391,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x01000000) == 0x00000000)
                                                         {
@@ -1418,7 +1418,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x02010000) == 0x00000000)
                                             {
@@ -1427,7 +1427,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x00020000) == 0x00000000)
                                                         {
@@ -1451,7 +1451,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x02020000) == 0x00000000)
                                                         {
@@ -1465,7 +1465,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                               {
                                                                 static struct stub_s : allegrex_instruction_unknown_s
                                                                 {
-                                                                  virtual allegrex_instruction_s *instruction(int opcode)
+                                                                  virtual allegrex_instruction_s *instruction(u32 opcode)
                                                                   {
                                                                     if ((opcode & 0x02000000) == 0x00000000)
                                                                     {
@@ -1479,7 +1479,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                                           {
                                                                             static struct stub_s : allegrex_instruction_unknown_s
                                                                             {
-                                                                              virtual allegrex_instruction_s *instruction(int opcode)
+                                                                              virtual allegrex_instruction_s *instruction(u32 opcode)
                                                                               {
                                                                                 if ((opcode & 0x01800000) == 0x00000000)
                                                                                 {
@@ -1493,7 +1493,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                                                       {
                                                                                         static struct stub_s : allegrex_instruction_unknown_s
                                                                                         {
-                                                                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                                                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                                                                           {
                                                                                             if ((opcode & 0x01000000) == 0x00000000)
                                                                                             {
@@ -1535,7 +1535,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x02010000) == 0x00000000)
                                             {
@@ -1544,7 +1544,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x00020000) == 0x00000000)
                                                         {
@@ -1568,7 +1568,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x02020000) == 0x00000000)
                                                         {
@@ -1582,7 +1582,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                               {
                                                                 static struct stub_s : allegrex_instruction_unknown_s
                                                                 {
-                                                                  virtual allegrex_instruction_s *instruction(int opcode)
+                                                                  virtual allegrex_instruction_s *instruction(u32 opcode)
                                                                   {
                                                                     if ((opcode & 0x02000000) == 0x00000000)
                                                                     {
@@ -1596,7 +1596,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                                           {
                                                                             static struct stub_s : allegrex_instruction_unknown_s
                                                                             {
-                                                                              virtual allegrex_instruction_s *instruction(int opcode)
+                                                                              virtual allegrex_instruction_s *instruction(u32 opcode)
                                                                               {
                                                                                 if ((opcode & 0x01800000) == 0x00000000)
                                                                                 {
@@ -1610,7 +1610,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                                                       {
                                                                                         static struct stub_s : allegrex_instruction_unknown_s
                                                                                         {
-                                                                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                                                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                                                                           {
                                                                                             if ((opcode & 0x01000000) == 0x00000000)
                                                                                             {
@@ -1652,7 +1652,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x02020000) == 0x00000000)
                                             {
@@ -1666,7 +1666,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x02000000) == 0x00000000)
                                                         {
@@ -1680,7 +1680,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                               {
                                                                 static struct stub_s : allegrex_instruction_unknown_s
                                                                 {
-                                                                  virtual allegrex_instruction_s *instruction(int opcode)
+                                                                  virtual allegrex_instruction_s *instruction(u32 opcode)
                                                                   {
                                                                     if ((opcode & 0x01800000) == 0x00000000)
                                                                     {
@@ -1694,7 +1694,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                                           {
                                                                             static struct stub_s : allegrex_instruction_unknown_s
                                                                             {
-                                                                              virtual allegrex_instruction_s *instruction(int opcode)
+                                                                              virtual allegrex_instruction_s *instruction(u32 opcode)
                                                                               {
                                                                                 if ((opcode & 0x01000000) == 0x00000000)
                                                                                 {
@@ -1731,7 +1731,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x02000000) == 0x00000000)
                                             {
@@ -1745,7 +1745,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x01800000) == 0x00000000)
                                                         {
@@ -1759,7 +1759,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                               {
                                                                 static struct stub_s : allegrex_instruction_unknown_s
                                                                 {
-                                                                  virtual allegrex_instruction_s *instruction(int opcode)
+                                                                  virtual allegrex_instruction_s *instruction(u32 opcode)
                                                                   {
                                                                     if ((opcode & 0x01000000) == 0x00000000)
                                                                     {
@@ -1791,7 +1791,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x02010000) == 0x00000000)
                                             {
@@ -1800,7 +1800,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x00020000) == 0x00000000)
                                                         {
@@ -1824,7 +1824,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x02020000) == 0x00000000)
                                                         {
@@ -1838,7 +1838,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                               {
                                                                 static struct stub_s : allegrex_instruction_unknown_s
                                                                 {
-                                                                  virtual allegrex_instruction_s *instruction(int opcode)
+                                                                  virtual allegrex_instruction_s *instruction(u32 opcode)
                                                                   {
                                                                     if ((opcode & 0x02000000) == 0x00000000)
                                                                     {
@@ -1852,7 +1852,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                                           {
                                                                             static struct stub_s : allegrex_instruction_unknown_s
                                                                             {
-                                                                              virtual allegrex_instruction_s *instruction(int opcode)
+                                                                              virtual allegrex_instruction_s *instruction(u32 opcode)
                                                                               {
                                                                                 if ((opcode & 0x01800000) == 0x00800000)
                                                                                 {
@@ -1866,7 +1866,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                                                       {
                                                                                         static struct stub_s : allegrex_instruction_unknown_s
                                                                                         {
-                                                                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                                                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                                                                           {
                                                                                             if ((opcode & 0x01000000) == 0x00000000)
                                                                                             {
@@ -1908,7 +1908,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x01800000) == 0x00800000)
                                             {
@@ -1922,7 +1922,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x01000000) == 0x00000000)
                                                         {
@@ -1949,7 +1949,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x01800000) == 0x00800000)
                                             {
@@ -1963,7 +1963,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x01000000) == 0x00000000)
                                                         {
@@ -1990,7 +1990,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x01800000) == 0x00800000)
                                             {
@@ -2004,7 +2004,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x01000000) == 0x00000000)
                                                         {
@@ -2031,7 +2031,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x02010000) == 0x00000000)
                                             {
@@ -2045,7 +2045,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x02000000) == 0x00000000)
                                                         {
@@ -2059,7 +2059,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                               {
                                                                 static struct stub_s : allegrex_instruction_unknown_s
                                                                 {
-                                                                  virtual allegrex_instruction_s *instruction(int opcode)
+                                                                  virtual allegrex_instruction_s *instruction(u32 opcode)
                                                                   {
                                                                     if ((opcode & 0x01000000) == 0x00000000)
                                                                     {
@@ -2091,7 +2091,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x02010000) == 0x00000000)
                                             {
@@ -2105,7 +2105,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x02000000) == 0x00000000)
                                                         {
@@ -2119,7 +2119,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                               {
                                                                 static struct stub_s : allegrex_instruction_unknown_s
                                                                 {
-                                                                  virtual allegrex_instruction_s *instruction(int opcode)
+                                                                  virtual allegrex_instruction_s *instruction(u32 opcode)
                                                                   {
                                                                     if ((opcode & 0x01000000) == 0x00000000)
                                                                     {
@@ -2151,7 +2151,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x02010000) == 0x00000000)
                                             {
@@ -2160,7 +2160,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x00020000) == 0x00000000)
                                                         {
@@ -2184,7 +2184,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x02020000) == 0x00000000)
                                                         {
@@ -2198,7 +2198,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                               {
                                                                 static struct stub_s : allegrex_instruction_unknown_s
                                                                 {
-                                                                  virtual allegrex_instruction_s *instruction(int opcode)
+                                                                  virtual allegrex_instruction_s *instruction(u32 opcode)
                                                                   {
                                                                     if ((opcode & 0x02000000) == 0x00000000)
                                                                     {
@@ -2212,7 +2212,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                                           {
                                                                             static struct stub_s : allegrex_instruction_unknown_s
                                                                             {
-                                                                              virtual allegrex_instruction_s *instruction(int opcode)
+                                                                              virtual allegrex_instruction_s *instruction(u32 opcode)
                                                                               {
                                                                                 if ((opcode & 0x01000000) == 0x00000000)
                                                                                 {
@@ -2249,7 +2249,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x02010000) == 0x00000000)
                                             {
@@ -2258,7 +2258,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x00020000) == 0x00000000)
                                                         {
@@ -2282,7 +2282,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x02020000) == 0x00000000)
                                                         {
@@ -2296,7 +2296,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                               {
                                                                 static struct stub_s : allegrex_instruction_unknown_s
                                                                 {
-                                                                  virtual allegrex_instruction_s *instruction(int opcode)
+                                                                  virtual allegrex_instruction_s *instruction(u32 opcode)
                                                                   {
                                                                     if ((opcode & 0x02000000) == 0x00000000)
                                                                     {
@@ -2310,7 +2310,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                                           {
                                                                             static struct stub_s : allegrex_instruction_unknown_s
                                                                             {
-                                                                              virtual allegrex_instruction_s *instruction(int opcode)
+                                                                              virtual allegrex_instruction_s *instruction(u32 opcode)
                                                                               {
                                                                                 if ((opcode & 0x01000000) == 0x00000000)
                                                                                 {
@@ -2347,7 +2347,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x02010000) == 0x00000000)
                                             {
@@ -2356,7 +2356,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x00020000) == 0x00000000)
                                                         {
@@ -2380,7 +2380,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x02020000) == 0x00000000)
                                                         {
@@ -2394,7 +2394,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                               {
                                                                 static struct stub_s : allegrex_instruction_unknown_s
                                                                 {
-                                                                  virtual allegrex_instruction_s *instruction(int opcode)
+                                                                  virtual allegrex_instruction_s *instruction(u32 opcode)
                                                                   {
                                                                     if ((opcode & 0x02000000) == 0x00000000)
                                                                     {
@@ -2408,7 +2408,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                                           {
                                                                             static struct stub_s : allegrex_instruction_unknown_s
                                                                             {
-                                                                              virtual allegrex_instruction_s *instruction(int opcode)
+                                                                              virtual allegrex_instruction_s *instruction(u32 opcode)
                                                                               {
                                                                                 if ((opcode & 0x01000000) == 0x00000000)
                                                                                 {
@@ -2445,7 +2445,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x02010000) == 0x00000000)
                                             {
@@ -2454,7 +2454,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x00020000) == 0x00000000)
                                                         {
@@ -2478,7 +2478,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x02020000) == 0x00000000)
                                                         {
@@ -2492,7 +2492,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                               {
                                                                 static struct stub_s : allegrex_instruction_unknown_s
                                                                 {
-                                                                  virtual allegrex_instruction_s *instruction(int opcode)
+                                                                  virtual allegrex_instruction_s *instruction(u32 opcode)
                                                                   {
                                                                     if ((opcode & 0x02000000) == 0x00000000)
                                                                     {
@@ -2506,7 +2506,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                                           {
                                                                             static struct stub_s : allegrex_instruction_unknown_s
                                                                             {
-                                                                              virtual allegrex_instruction_s *instruction(int opcode)
+                                                                              virtual allegrex_instruction_s *instruction(u32 opcode)
                                                                               {
                                                                                 if ((opcode & 0x01000000) == 0x00000000)
                                                                                 {
@@ -2543,7 +2543,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x02010000) == 0x00000000)
                                             {
@@ -2557,7 +2557,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x02000000) == 0x00000000)
                                                         {
@@ -2571,7 +2571,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                               {
                                                                 static struct stub_s : allegrex_instruction_unknown_s
                                                                 {
-                                                                  virtual allegrex_instruction_s *instruction(int opcode)
+                                                                  virtual allegrex_instruction_s *instruction(u32 opcode)
                                                                   {
                                                                     if ((opcode & 0x01000000) == 0x00000000)
                                                                     {
@@ -2603,7 +2603,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x01000000) == 0x00000000)
                                             {
@@ -2625,7 +2625,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x02000080) == 0x00000000)
                                             {
@@ -2639,7 +2639,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x02000000) == 0x00000000)
                                                         {
@@ -2653,7 +2653,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                               {
                                                                 static struct stub_s : allegrex_instruction_unknown_s
                                                                 {
-                                                                  virtual allegrex_instruction_s *instruction(int opcode)
+                                                                  virtual allegrex_instruction_s *instruction(u32 opcode)
                                                                   {
                                                                     if ((opcode & 0x01000000) == 0x00000000)
                                                                     {
@@ -2685,7 +2685,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x01000000) == 0x00000000)
                                             {
@@ -2707,7 +2707,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x02010000) == 0x00010000)
                                             {
@@ -2716,7 +2716,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x00020000) == 0x00000000)
                                                         {
@@ -2740,7 +2740,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x02000000) == 0x00000000)
                                                         {
@@ -2754,7 +2754,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                               {
                                                                 static struct stub_s : allegrex_instruction_unknown_s
                                                                 {
-                                                                  virtual allegrex_instruction_s *instruction(int opcode)
+                                                                  virtual allegrex_instruction_s *instruction(u32 opcode)
                                                                   {
                                                                     if ((opcode & 0x01000000) == 0x00000000)
                                                                     {
@@ -2786,7 +2786,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x01000000) == 0x00000000)
                                             {
@@ -2808,7 +2808,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x02000000) == 0x00000000)
                                             {
@@ -2822,7 +2822,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x01000000) == 0x00000000)
                                                         {
@@ -2849,7 +2849,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x02000000) == 0x00000000)
                                             {
@@ -2863,7 +2863,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x01000000) == 0x00000000)
                                                         {
@@ -2890,7 +2890,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x02000000) == 0x00000000)
                                             {
@@ -2904,7 +2904,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x01000000) == 0x00000000)
                                                         {
@@ -2931,7 +2931,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x02000000) == 0x00000000)
                                             {
@@ -2945,7 +2945,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x01000000) == 0x00000000)
                                                         {
@@ -2972,7 +2972,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x02000000) == 0x00000000)
                                             {
@@ -2986,7 +2986,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x01000000) == 0x00000000)
                                                         {
@@ -3013,7 +3013,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x02000000) == 0x00000000)
                                             {
@@ -3027,7 +3027,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x01000000) == 0x00000000)
                                                         {
@@ -3054,7 +3054,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x02000000) == 0x00000000)
                                             {
@@ -3068,7 +3068,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x01000000) == 0x00000000)
                                                         {
@@ -3095,7 +3095,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x02000000) == 0x00000000)
                                             {
@@ -3109,7 +3109,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x01000000) == 0x00000000)
                                                         {
@@ -3143,7 +3143,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                           {
                             static struct stub_s : allegrex_instruction_unknown_s
                             {
-                              virtual allegrex_instruction_s *instruction(int opcode)
+                              virtual allegrex_instruction_s *instruction(u32 opcode)
                               {
                                 if ((opcode & 0x00000002) == 0x00000000)
                                 {
@@ -3167,7 +3167,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                           {
                             static struct stub_s : allegrex_instruction_unknown_s
                             {
-                              virtual allegrex_instruction_s *instruction(int opcode)
+                              virtual allegrex_instruction_s *instruction(u32 opcode)
                               {
                                 static allegrex_instruction_s *table[4] =
                                 {
@@ -3182,7 +3182,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x00800000) == 0x00000000)
                                             {
@@ -3219,7 +3219,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                           {
                             static struct stub_s : allegrex_instruction_unknown_s
                             {
-                              virtual allegrex_instruction_s *instruction(int opcode)
+                              virtual allegrex_instruction_s *instruction(u32 opcode)
                               {
                                 static allegrex_instruction_s *table[8] =
                                 {
@@ -3230,7 +3230,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x00000080) == 0x00000000)
                                             {
@@ -3252,7 +3252,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x00000080) == 0x00000000)
                                             {
@@ -3274,7 +3274,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x00000080) == 0x00000000)
                                             {
@@ -3302,7 +3302,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x00210000) == 0x00000000)
                                             {
@@ -3311,7 +3311,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x00020000) == 0x00000000)
                                                         {
@@ -3335,7 +3335,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                   {
                                                     static struct stub_s : allegrex_instruction_unknown_s
                                                     {
-                                                      virtual allegrex_instruction_s *instruction(int opcode)
+                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
                                                       {
                                                         if ((opcode & 0x00200000) == 0x00000000)
                                                         {
@@ -3344,7 +3344,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                                               {
                                                                 static struct stub_s : allegrex_instruction_unknown_s
                                                                 {
-                                                                  virtual allegrex_instruction_s *instruction(int opcode)
+                                                                  virtual allegrex_instruction_s *instruction(u32 opcode)
                                                                   {
                                                                     if ((opcode & 0x00040000) == 0x00000000)
                                                                     {
@@ -3388,7 +3388,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                           {
                             static struct stub_s : allegrex_instruction_unknown_s
                             {
-                              virtual allegrex_instruction_s *instruction(int opcode)
+                              virtual allegrex_instruction_s *instruction(u32 opcode)
                               {
                                 if ((opcode & 0x00000002) == 0x00000000)
                                 {
@@ -3410,7 +3410,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                           {
                             static struct stub_s : allegrex_instruction_unknown_s
                             {
-                              virtual allegrex_instruction_s *instruction(int opcode)
+                              virtual allegrex_instruction_s *instruction(u32 opcode)
                               {
                                 if ((opcode & 0x00000002) == 0x00000000)
                                 {
@@ -3432,7 +3432,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                           {
                             static struct stub_s : allegrex_instruction_unknown_s
                             {
-                              virtual allegrex_instruction_s *instruction(int opcode)
+                              virtual allegrex_instruction_s *instruction(u32 opcode)
                               {
                                 if ((opcode & 0x00000001) == 0x00000000)
                                 {
@@ -3441,7 +3441,7 @@ allegrex_instruction_s *allegrex::decode_instruction(int opcode)
                                       {
                                         static struct stub_s : allegrex_instruction_unknown_s
                                         {
-                                          virtual allegrex_instruction_s *instruction(int opcode)
+                                          virtual allegrex_instruction_s *instruction(u32 opcode)
                                           {
                                             if ((opcode & 0x00000020) == 0x00000000)
                                             {
