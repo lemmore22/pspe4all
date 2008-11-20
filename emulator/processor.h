@@ -5,10 +5,8 @@
  *      Author: hli
  */
 
-#ifndef PROCESSOR_H_
-#define PROCESSOR_H_
-
-#include "emulator.h"
+#ifndef EMULATOR_PROCESSOR_H_
+#define EMULATOR_PROCESSOR_H_
 
 struct processor_s
 {
@@ -23,11 +21,16 @@ struct processor_s
 
   u64 hilo;
 
-  u32 pc;
+  u32 pc, npc;
 
   emulator_s &emulator;
+
+#include "processor/cpu.h"
+#include "processor/mdu.h"
+#include "processor/lsu.h"
+#include "processor/bcu.h"
 
   processor_s(emulator_s &emulator);
 };
 
-#endif /* PROCESSOR_H_ */
+#endif /* EMULATOR_PROCESSOR_H_ */

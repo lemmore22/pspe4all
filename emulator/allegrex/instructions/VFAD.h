@@ -11,7 +11,7 @@ template< > struct allegrex_instruction_template_s< 0xd0460000, 0xffff0000 > : a
       return &allegrex_instruction_template_s::self();
     }
 
-    virtual allegrex_instruction_s *instruction(int opcode)
+    virtual allegrex_instruction_s *instruction(u32 opcode)
     {
       return this;
     }
@@ -21,7 +21,9 @@ template< > struct allegrex_instruction_template_s< 0xd0460000, 0xffff0000 > : a
       return "VFAD";
     }
 
-    virtual int disassemble(unsigned int address, unsigned int insn, char *opcode_name, char *operands, char *comment)
+    virtual void interpret(processor_s &processor, u32 opcode);
+
+    virtual int disassemble(u32 address, u32 opcode, char *opcode_name, char *operands, char *comment)
     {
       ::strcpy(opcode_name, this->opcode_name());
       ::strcpy(operands, "");
