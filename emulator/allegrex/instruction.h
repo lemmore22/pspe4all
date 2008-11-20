@@ -94,11 +94,13 @@ struct allegrex_instruction_s : allegrex_instruction_base_s
     return false;
   }
 
+  u32 get_rs() { return (((this->opcode) >> 21)&31); }
+
   u32 get_rt() { return (((this->opcode) >> 16)&31); }
 
-  u32 get_rs() { return (((this->opcode) >> 11)&31); }
+  u32 get_rd() { return (((this->opcode) >> 11)&31); }
 
-  u32 get_rd() { return (((this->opcode) >> 6)&31); }
+  u32 get_sa() { return (((this->opcode) >> 6)&31); }
 
   s32 get_simm16() { return (s32)(s16)this->opcode; }
 
@@ -106,11 +108,13 @@ struct allegrex_instruction_s : allegrex_instruction_base_s
 
   u32 get_uimm26() { return this->opcode & 0x03FFFFFF; }
 
+  static inline u32 rs(u32 opcode) { return (int)((((unsigned int)opcode) >> 21)&31); }
+
   static inline u32 rt(u32 opcode) { return (int)((((unsigned int)opcode) >> 16)&31); }
 
-  static inline u32 rs(u32 opcode) { return (int)((((unsigned int)opcode) >> 11)&31); }
+  static inline u32 rd(u32 opcode) { return (int)((((unsigned int)opcode) >> 11)&31); }
 
-  static inline u32 rd(u32 opcode) { return (int)((((unsigned int)opcode) >> 6)&31); }
+  static inline u32 sa(u32 opcode) { return (int)((((unsigned int)opcode) >> 6)&31); }
 
   static inline s32 simm16(u32 opcode) { return (s32)(s16)opcode; }
 
