@@ -31,6 +31,7 @@ int main(int argc, char *argv[])
 #if 0
   allegrex::create_instructions_directory();
   allegrex::create_interpreter_directory();
+  allegrex::create_disassembler_directory();
 
   QPspe4all w;
 

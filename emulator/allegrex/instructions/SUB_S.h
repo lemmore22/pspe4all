@@ -23,14 +23,7 @@ template< > struct allegrex_instruction_template_s< 0x46000001, 0xffe0003f > : a
 
     virtual void interpret(processor_s &processor, u32 opcode);
 
-    virtual int disassemble(u32 address, u32 opcode, char *opcode_name, char *operands, char *comment)
-    {
-      ::strcpy(opcode_name, this->opcode_name());
-      ::strcpy(operands, "");
-      ::strcpy(comment, "");
-      return 0;
-    }
-
+    virtual void disassemble(u32 address, u32 opcode, char *opcode_name, char *operands, char *comment);
   protected:
     allegrex_instruction_template_s() {}
 };

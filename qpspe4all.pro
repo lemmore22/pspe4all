@@ -518,7 +518,8 @@ HEADERS += emulator/processor/cpu.h \
     emulator/linux/linux_memory.h \
     emulator/memory.h \
     qpspe4all.h
-SOURCES += qmemoryspinbox.cpp \
+SOURCES += emulator/allegrex/disassembler.cpp \
+    qmemoryspinbox.cpp \
     qmemorytreemodel.cpp \
     qmemorytreeview.cpp \
     qmemoryviewer.cpp \

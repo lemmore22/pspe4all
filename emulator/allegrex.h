@@ -15,6 +15,7 @@ namespace allegrex
   extern allegrex_instruction_s *decode_instruction(u32 opcode);
   extern void create_instructions_directory();
   extern void create_interpreter_directory();
+  extern void create_disassembler_directory();
 };
 
 #ifdef BUILD_ALLEGREX
@@ -66,13 +67,7 @@ static void create_instruction_file(
           "\n"
           "    virtual void interpret(processor_s &processor, u32 opcode);\n"
           "\n"
-          "    virtual int disassemble(u32 address, u32 opcode, char *opcode_name, char *operands, char *comment)\n"
-          "    {\n"
-          "      ::strcpy(opcode_name, this->opcode_name());\n"
-          "      ::strcpy(operands, \"\");\n"
-          "      ::strcpy(comment, \"\");\n"
-          "      return 0;\n"
-          "    }\n"
+          "    virtual void disassemble(u32 address, u32 opcode, char *opcode_name, char *operands, char *comment);"
           "\n"
           "  protected:\n"
           "    allegrex_instruction_template_s() {}\n"
@@ -136,6 +131,41 @@ static void create_interpreter_file(
   }
 }
 
+static void create_disassembler_file(char const *filepathname, const char *name)
+{
+  FILE *out = ::fopen(filepathname, "a");
+  if (out)
+  {
+    ::fprintf(out, "#include \"disassembler/%s.h\"\n", name);
+    ::fclose(out);
+  }
+}
+
+static void create_disassembler_file(
+    char const *filepathname,
+    const char *name,
+    int signature,
+    int mask)
+{
+  FILE *out = ::fopen(filepathname, "w");
+  if (out)
+  {
+    ::fprintf(
+        out,
+          "/* %s */\n"
+          "void allegrex_instruction_template_s< 0x%08x, 0x%08x >::disassemble(u32 address, u32 opcode, char *opcode_name, char *operands, char *comment)\n"
+          "{\n"
+          "  ::strcpy(opcode_name, this->opcode_name());\n"
+          "  ::strcpy(operands, \"\");\n"
+          "  ::strcpy(comment, \"\");\n"
+          "}\n",
+        name,
+        signature,
+        mask);
+    ::fclose(out);
+  }
+}
+
 #if 0
 #define IDEF(n, m, s, x) typedef allegrex_instruction_template_s< s, m > allegrex_instruction_##n##_s;
 #include "emulator/allegrex/allegrex.def"
@@ -172,6 +202,21 @@ namespace allegrex
 #include "emulator/allegrex/allegrex.def"
 #undef IDEF
 #define IDEF(n, m, s, x) create_interpreter_file("emulator/allegrex/interpreter/" #n ".h", #n, s, m);
+#include "emulator/allegrex/allegrex.def"
+#undef IDEF
+    }
+  }
+
+  void create_disassembler_directory()
+  {
+    FILE *out = ::fopen("emulator/allegrex/disassembler.h", "w");
+    if (out)
+    {
+      ::fclose(out);
+#define IDEF(n, m, s, x) create_disassembler_file("emulator/allegrex/disassembler.h", #n);
+#include "emulator/allegrex/allegrex.def"
+#undef IDEF
+#define IDEF(n, m, s, x) create_disassembler_file("emulator/allegrex/disassembler/" #n ".h", #n, s, m);
 #include "emulator/allegrex/allegrex.def"
 #undef IDEF
     }
