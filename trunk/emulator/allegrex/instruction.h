@@ -10,6 +10,7 @@
 
 #include <new>
 #include <cstring>
+#include <cstdio>
 
 #include "emulator/types.h"
 
@@ -60,7 +61,7 @@ struct allegrex_instruction_s : allegrex_instruction_base_s
 
   virtual void interpret(processor_s &processor, u32 opcode) = 0;
 
-  virtual int disassemble(u32 address, u32 opcode, char *opcode_name, char *operands, char *comment) = 0;
+  virtual void disassemble(u32 address, u32 opcode, char *opcode_name, char *operands, char *comment) = 0;
 
   virtual bool is_branch()
   {
@@ -257,12 +258,11 @@ struct allegrex_instruction_unknown_s : allegrex_instruction_s
   {
   }
 
-  virtual int disassemble(u32 address, u32 insn, char *opcode_name, char *operands, char *comment)
+  virtual void disassemble(u32 address, u32 opcode, char *opcode_name, char *operands, char *comment)
   {
     ::strcpy(opcode_name, this->opcode_name());
     ::strcpy(operands, "");
-    ::strcpy(comment, "unknown or reserved instruction");
-    return 0;
+    ::sprintf(comment, "unknown or reserved instruction 0x%08X", opcode);
   }
 
 #ifdef USE_DYNAREC
@@ -305,17 +305,9 @@ template< int signature, int mask > struct allegrex_instruction_template_s : all
 
   virtual char const *opcode_name();
 
-  virtual void interpret(processor_s &processor, int opcode)
-  {
-  }
+  virtual void interpret(processor_s &processor, int opcode);
 
-  virtual int disassemble(u32 address, u32 insn, char *opcode_name, char *operands, char *comment)
-  {
-    ::strcpy(opcode_name, this->opcode_name());
-    ::strcpy(operands, "");
-    ::strcpy(comment, "!!!");
-    return 0;
-  }
+  virtual void disassemble(u32 address, u32 opcode, char *opcode_name, char *operands, char *comment);
 
 #ifdef USE_DYNAREC
   virtual allegrex_instruction_s *clone()
@@ -339,6 +331,28 @@ template< int signature, int mask > struct allegrex_instruction_template_s : all
 namespace allegrex
 {
   extern allegrex_instruction_unknown_s &reserved_instruction;
+
+  extern char const * gpr_name[32];
+
+  extern char const * fpr_name[32];
+
+  extern char const * vpr_name[4][128];
+
+  extern char const * mpr_name[4][128];
+
+  extern char const * vfpu_constant[32];
+
+  extern char const * fcr_name[32];
+
+  extern char const * cop0_name[32];
+
+  extern char const * vsuffix[4];
+
+  extern char const * vpfx_name[4];
+
+  extern char const * cconds_name[16];
+
+  extern char const * vcond_name[16];
 }
 
 #include "instructions.h"
