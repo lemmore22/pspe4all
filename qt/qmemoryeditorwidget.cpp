@@ -13,6 +13,8 @@
 #include <QMouseEvent>
 #include <QAction>
 #include <QMenu>
+#include <QStyle>
+#include <QStyleOption>
 
 #include "qtranslate.h"
 #include "qmemorycursor.h"
@@ -41,7 +43,7 @@ QMemoryEditorWidget::QMemoryEditorWidget(QWidget *parent)
   font.setFixedPitch(1);
   setFont(font);
   //setBackgroundRole(QPalette::Base);
-  setBackgroundRole(QPalette::Background);
+  //setBackgroundRole(QPalette::Background);
   changeAddressRange(0);
 }
 
@@ -143,10 +145,13 @@ void QMemoryEditorWidget::changeLine(int line)
 
 void QMemoryEditorWidget::changeAddress(int address)
 {
-  if (moveTopLeft(address - m_start))
-  {
-    emit lineChanged(m_topLeft / bytesPerLine());
-  }
+  setOffset(address - m_start);
+  seeCursor();
+
+  //if (moveTopLeft(address - m_start))
+  //{
+  //  emit lineChanged(m_topLeft / bytesPerLine());
+  //}
 }
 
 void QMemoryEditorWidget::setTopLeft(int offset)
@@ -278,7 +283,7 @@ int QMemoryEditorWidget::localByteOffsetAtXY(int x, int y)
   line = qMin(y / lineSpacing(), linesPerPage() - 1);
   ColumnIndex = line * columnsPerLine() + x / columnLength;
 
-  int byteOffsetInColumn = (x % columnLength) * bytesPerColumn() / columnLength;
+  int byteOffsetInColumn = ((x % columnLength) * bytesPerColumn()) / columnLength;
   return qMin(bytesPerPage() - 1, ColumnIndex * bytesPerColumn() + byteOffsetInColumn);
 
 }
@@ -295,6 +300,7 @@ void QMemoryEditorWidget::setCursorFromXY(int x, int y)
   }
   updateColumn(localColumnOffset());
   emit offsetChanged(m_cursor.byteOffset());
+  emit addressChanged(m_start + m_cursor.byteOffset());
 }
 
 void QMemoryEditorWidget::mousePressEvent(QMouseEvent *e)
@@ -433,7 +439,7 @@ void QMemoryEditorWidget::keyPressEvent(QKeyEvent *e)
         QTranslate::CharToByte(newData, chars);
         m_data[m_cursor.byteOffset() - m_topLeft] = newData[0];
         cursorRight();
-        setSelection(SelectionStart, u32(-1));
+        setSelection(SelectionStart, -1);
         return;
       }
       break;
@@ -456,7 +462,7 @@ void QMemoryEditorWidget::keyPressEvent(QKeyEvent *e)
 
         m_data[m_cursor.byteOffset() - m_topLeft] = newData[0];
         cursorRight();
-        setSelection(SelectionStart, u32(-1));
+        setSelection(SelectionStart, -1);
         return;
       }
       break;
@@ -493,7 +499,7 @@ void QMemoryEditorWidget::keyPressEvent(QKeyEvent *e)
 
         m_data[m_cursor.byteOffset() - m_topLeft] = newData[0];
         cursorRight();
-        setSelection(SelectionStart, u32(-1));
+        setSelection(SelectionStart, -1);
         return;
       }
       break;
@@ -569,14 +575,16 @@ void QMemoryEditorWidget::resizeEvent(QResizeEvent *e)
   emit rangeChanged(0, (m_end - m_start) / bytesPerLine());
 }
 
-void QMemoryEditorWidget::focusInEvent(QFocusEvent *)
+void QMemoryEditorWidget::focusInEvent(QFocusEvent *e)
 {
-  updateColumn(localColumnOffset());
+  //updateColumn(localColumnOffset());
+  QWidget::focusInEvent(e);
 }
 
-void QMemoryEditorWidget::focusOutEvent(QFocusEvent *)
+void QMemoryEditorWidget::focusOutEvent(QFocusEvent *e)
 {
-  updateColumn(localColumnOffset());
+  //updateColumn(localColumnOffset());
+  QWidget::focusOutEvent(e);
 }
 
 void QMemoryEditorWidget::updateColumn(int columnIndex)
@@ -602,11 +610,17 @@ void QMemoryEditorWidget::paintLabels(QPainter *p)
 
 void QMemoryEditorWidget::paintEvent(QPaintEvent *e)
 {
+  QStyleOption option;
+  option.initFrom(this);
+  option.state = hasFocus() ? QStyle::State_HasFocus : QStyle::State_Enabled;
+
   QPainter p(this);
 
-  const QPalette &pal = qApp->palette();
+  const QPalette &pal = parentWidget()->palette();
   p.setFont(font());
   p.setBrush(pal.background());
+
+  style()->drawPrimitive(QStyle::PE_FrameLineEdit, &option, &p, this);
 
   if (m_labelBBox.intersects(e->rect()))
   {
@@ -685,7 +699,6 @@ void QMemoryEditorWidget::seeCursor()
   if (m_cursor.byteOffset() >= m_topLeft && m_cursor.byteOffset() <= m_topLeft + bytesPerPage() - 1)
   {
     updateColumn(localColumnOffset());
-    return;
   }
   else
   {
