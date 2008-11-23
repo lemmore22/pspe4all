@@ -8,6 +8,8 @@
 #ifndef EMULATOR_PROCESSOR_H_
 #define EMULATOR_PROCESSOR_H_
 
+#include "host.h"
+
 struct processor_s
 {
   /* GPR */

@@ -10,13 +10,13 @@ class QPspe4all : public QMainWindow
 {
     Q_OBJECT
 
-public:
+  public:
     QPspe4all(QWidget *parent = 0);
     ~QPspe4all();
 
     QSystemTrayIcon *trayIcon;
     QMenu *trayIconMenu;
-private:
+  private:
     Ui::QPspe4allClass ui;
 
 };

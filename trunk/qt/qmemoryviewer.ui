@@ -1,0 +1,232 @@
+<ui version="4.0" >
+ <class>QMemoryViewerClass</class>
+ <widget class="QWidget" name="QMemoryViewerClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>158</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>QMemoryViewer</string>
+  </property>
+  <property name="styleSheet" >
+   <string notr="true" />
+  </property>
+  <layout class="QGridLayout" name="gridLayout" >
+   <item row="1" column="2" >
+    <widget class="QMemoryScrollBar" name="memoryeditor_scrollbar" >
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="2" >
+    <widget class="QMemoryEditorWidget" native="1" name="qmemoryeditor_widget" >
+     <property name="mouseTracking" >
+      <bool>true</bool>
+     </property>
+     <property name="focusPolicy" >
+      <enum>Qt::StrongFocus</enum>
+     </property>
+     <property name="contextMenuPolicy" >
+      <enum>Qt::DefaultContextMenu</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0" colspan="3" >
+    <widget class="QComboBox" name="memoryview_addressrange_combobox" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize" >
+      <size>
+       <width>140</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="font" >
+      <font>
+       <family>Courier</family>
+      </font>
+     </property>
+     <item>
+      <property name="text" >
+       <string>08800000-0BFFFFFF : user main memory</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>08000000-087FFFFF : kernel main ram</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>04000000-047FFFFF : video ram</string>
+      </property>
+     </item>
+     <item>
+      <property name="text" >
+       <string>00010000-00013FFF : scratch pad</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="2" column="0" >
+    <widget class="QMemorySpinBox" name="memoryview_address_spinbox" >
+     <property name="minimumSize" >
+      <size>
+       <width>80</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="font" >
+      <font>
+       <family>Courier</family>
+      </font>
+     </property>
+     <property name="toolTip" >
+      <string>type an hexadecimal address or drag a register holding an address to view </string>
+     </property>
+     <property name="buttonSymbols" >
+      <enum>QAbstractSpinBox::PlusMinus</enum>
+     </property>
+     <property name="accelerated" >
+      <bool>true</bool>
+     </property>
+     <property name="minimum" >
+      <number>-2147483647</number>
+     </property>
+     <property name="maximum" >
+      <number>2147483647</number>
+     </property>
+     <property name="value" >
+      <number>0</number>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <customwidgets>
+  <customwidget>
+   <class>QMemorySpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>qt/qmemoryspinbox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>QMemoryEditorWidget</class>
+   <extends>QWidget</extends>
+   <header>qt/qmemoryeditorwidget.h</header>
+   <container>1</container>
+   <slots>
+    <slot>changeAddressRange(int)</slot>
+    <slot>changeAddress(int)</slot>
+    <slot>changeLine(int)</slot>
+    <signal>rangeChanged(int,int)</signal>
+    <signal>addressChanged(int)</signal>
+    <signal>lineChanged(int)</signal>
+   </slots>
+  </customwidget>
+  <customwidget>
+   <class>QMemoryScrollBar</class>
+   <extends>QScrollBar</extends>
+   <header>qt/qmemoryscrollbar.h</header>
+   <slots>
+    <slot>changeRange(int,int)</slot>
+   </slots>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>memoryview_address_spinbox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>qmemoryeditor_widget</receiver>
+   <slot>changeAddress(int)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>89</x>
+     <y>280</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>89</x>
+     <y>57</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>qmemoryeditor_widget</sender>
+   <signal>addressChanged(int)</signal>
+   <receiver>memoryview_address_spinbox</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>117</x>
+     <y>106</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>110</x>
+     <y>286</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>memoryview_addressrange_combobox</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>qmemoryeditor_widget</receiver>
+   <slot>changeAddressRange(int)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>133</x>
+     <y>26</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>125</x>
+     <y>67</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>memoryeditor_scrollbar</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>qmemoryeditor_widget</receiver>
+   <slot>changeLine(int)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>136</x>
+     <y>120</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>117</x>
+     <y>123</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>qmemoryeditor_widget</sender>
+   <signal>rangeChanged(int,int)</signal>
+   <receiver>memoryeditor_scrollbar</receiver>
+   <slot>changeRange(int,int)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>113</x>
+     <y>143</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>140</x>
+     <y>144</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>changeAddressRange(int,int)</slot>
+  <slot>changeAddressRange(int)</slot>
+ </slots>
+</ui>
