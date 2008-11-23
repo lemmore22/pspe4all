@@ -1,4 +1,4 @@
-#include "qpspe4all.h"
+#include "qt/qpspe4all.h"
 
 #include <QtGui>
 #include <QApplication>
@@ -12,6 +12,8 @@
 int main(int argc, char *argv[])
 {
   QApplication a(argc, argv);
+
+  a.setStyle("cleanlooks");
 
 #if 0
   if (!QSystemTrayIcon::isSystemTrayAvailable())

@@ -2,7 +2,17 @@ TEMPLATE = app
 TARGET = qpspe4all
 QT += core \
     gui
-HEADERS += emulator/processor/cpu.h \
+HEADERS += qt/qmemoryscrollbar.h \
+    qt/qtranslate.h \
+    qt/qmemorycursor.h \
+    qt/qmemoryeditorwidget.h \
+    qt/qmemoryspinbox.h \
+    qt/qmemoryviewer.h \
+    qt/qpspe4all.h \
+    emulator/host/x86/x86_cpu.h \
+    emulator/host/any/any_cpu.h \
+    emulator/host.h \
+    emulator/processor/cpu.h \
     emulator/processor/bcu.h \
     emulator/allegrex/interpreter/ABS_S.h \
     emulator/allegrex/interpreter/ADD.h \
@@ -254,10 +264,6 @@ HEADERS += emulator/processor/cpu.h \
     emulator/allegrex/interpreter/XOR.h \
     emulator/allegrex/interpreter/XORI.h \
     emulator/allegrex/interpreter.h \
-    qmemoryspinbox.h \
-    qmemorytreemodel.h \
-    qmemorytreeview.h \
-    qmemoryviewer.h \
     emulator/processor/lsu.h \
     emulator/processor/mdu.h \
     emulator/types.h \
@@ -516,20 +522,21 @@ HEADERS += emulator/processor/cpu.h \
     emulator/allegrex.h \
     emulator/emulator.h \
     emulator/linux/linux_memory.h \
-    emulator/memory.h \
-    qpspe4all.h
-SOURCES += emulator/allegrex/disassembler.cpp \
-    qmemoryspinbox.cpp \
-    qmemorytreemodel.cpp \
-    qmemorytreeview.cpp \
-    qmemoryviewer.cpp \
+    emulator/memory.h
+SOURCES += qt/qmemoryscrollbar.cpp \
+    qt/qtranslate.cpp \
+    qt/qmemorycursor.cpp \
+    qt/qmemoryeditorwidget.cpp \
+    qt/qmemoryspinbox.cpp \
+    qt/qmemoryviewer.cpp \
+    qt/qpspe4all.cpp \
+    emulator/allegrex/disassembler.cpp \
     emulator/processor.cpp \
     emulator/win32/win32_memory.cpp \
     emulator/allegrex.cpp \
     emulator/emulator.cpp \
     emulator/memory.cpp \
-    main.cpp \
-    qpspe4all.cpp
-FORMS += qmemoryviewer.ui \
-    qpspe4all.ui
+    main.cpp
+FORMS += qt/qmemoryviewer.ui \
+    qt/qpspe4all.ui
 RESOURCES += 
