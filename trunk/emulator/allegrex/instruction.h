@@ -95,33 +95,27 @@ struct allegrex_instruction_s : allegrex_instruction_base_s
     return false;
   }
 
-  u32 get_rs() { return (((this->opcode) >> 21)&31); }
+  static inline u32 rs(u32 opcode) { return ((((u32)opcode) >> 21)&31); }
 
-  u32 get_rt() { return (((this->opcode) >> 16)&31); }
+  static inline u32 rt(u32 opcode) { return ((((u32)opcode) >> 16)&31); }
 
-  u32 get_rd() { return (((this->opcode) >> 11)&31); }
+  static inline u32 rd(u32 opcode) { return ((((u32)opcode) >> 11)&31); }
 
-  u32 get_sa() { return (((this->opcode) >> 6)&31); }
-
-  s32 get_simm16() { return (s32)(s16)this->opcode; }
-
-  u32 get_uimm16() { return (u32)(u16)this->opcode; }
-
-  u32 get_uimm26() { return this->opcode & 0x03FFFFFF; }
-
-  static inline u32 rs(u32 opcode) { return (int)((((unsigned int)opcode) >> 21)&31); }
-
-  static inline u32 rt(u32 opcode) { return (int)((((unsigned int)opcode) >> 16)&31); }
-
-  static inline u32 rd(u32 opcode) { return (int)((((unsigned int)opcode) >> 11)&31); }
-
-  static inline u32 sa(u32 opcode) { return (int)((((unsigned int)opcode) >> 6)&31); }
+  static inline u32 sa(u32 opcode) { return ((((u32)opcode) >> 6)&31); }
 
   static inline s32 simm16(u32 opcode) { return (s32)(s16)opcode; }
 
   static inline u32 uimm16(u32 opcode) { return (u32)(u16)opcode; }
 
+  static inline u32 uimm20(u32 opcode) { return (opcode >> 6) & 0x000FFFFF; }
+
   static inline u32 uimm26(u32 opcode) { return opcode & 0x03FFFFFF; }
+
+  static inline u32 fd(u32 opcode) { return ((((u32)opcode) >> 6)&31); }
+
+  static inline u32 fs(u32 opcode) { return ((((u32)opcode) >> 11)&31); }
+
+  static inline u32 ft(u32 opcode) { return ((((u32)opcode) >> 16)&31); }
 
 #ifdef USE_DYNAREC
   virtual allegrex_instruction_s *clone() = 0;

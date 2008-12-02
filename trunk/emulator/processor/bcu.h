@@ -10,7 +10,7 @@
 #ifndef BCU_H_
 #define BCU_H_
 
-    inline static bool branch_target(u32 npc, s32 simm16)
+    inline static u32 branch_target(u32 npc, s32 simm16)
     {
       return npc + (simm16 << 2);
     }
@@ -66,19 +66,19 @@
 
     bool doBLTZ(u32 rs, s32 simm16)
     {
-      npc = (gpr[rs] < 0) ? branch_target(pc, simm16) : (pc + 4);
+      npc = (s32(gpr[rs]) < 0) ? branch_target(pc, simm16) : (pc + 4);
       return true;
     }
 
     inline bool doBGEZ(u32 rs, s32 simm16)
     {
-      npc = (gpr[rs] >= 0) ? branch_target(pc, simm16) : (pc + 4);
+      npc = (s32(gpr[rs]) >= 0) ? branch_target(pc, simm16) : (pc + 4);
       return true;
     }
 
     inline bool doBLTZL(u32 rs, s32 simm16)
     {
-      if (gpr[rs] < 0)
+      if (s32(gpr[rs]) < 0)
       {
         npc = branch_target(pc, simm16);
         return true;
@@ -92,7 +92,7 @@
 
     inline bool doBGEZL(u32 rs, s32 simm16)
     {
-      if (gpr[rs] >= 0)
+      if (s32(gpr[rs]) >= 0)
       {
         npc = branch_target(pc, simm16);
         return true;
@@ -107,7 +107,7 @@
     inline bool doBLTZAL(u32 rs, u32 simm16)
     {
       u32 target = pc + 4;
-      bool t = (gpr[rs] < 0);
+      bool t = (s32(gpr[rs]) < 0);
       gpr[31] = target;
       npc = t ? branch_target(pc, simm16) : target;
       return true;
@@ -116,7 +116,7 @@
     inline bool doBGEZAL(u32 rs, u32 simm16)
     {
       u32 target = pc + 4;
-      bool t = (gpr[rs] >= 0);
+      bool t = (s32(gpr[rs]) >= 0);
       gpr[31] = target;
       npc = t ? branch_target(pc, simm16) : target;
       return true;
@@ -124,7 +124,7 @@
 
     inline bool doBLTZALL(u32 rs, s32 simm16)
     {
-      bool t = (gpr[rs] < 0);
+      bool t = (s32(gpr[rs]) < 0);
       gpr[31] = pc + 4;
       if (t)
       {
@@ -139,7 +139,7 @@
 
     inline bool doBGEZALL(u32 rs, s32 simm16)
     {
-      bool t = (gpr[rs] >= 0);
+      bool t = (s32(gpr[rs]) >= 0);
       gpr[31] = pc + 4;
       if (t)
       {
@@ -189,13 +189,13 @@
 
     inline bool doBLEZ(u32 rs, u32 simm16)
     {
-      npc = (gpr[rs] <= 0) ? branch_target(pc, simm16) : (pc + 4);
+      npc = (s32(gpr[rs]) <= 0) ? branch_target(pc, simm16) : (pc + 4);
       return true;
     }
 
     inline bool doBGTZ(u32 rs, u32 simm16)
     {
-      npc = (gpr[rs] > 0) ? branch_target(pc, simm16) : (pc + 4);
+      npc = (s32(gpr[rs]) > 0) ? branch_target(pc, simm16) : (pc + 4);
       return true;
     }
 
@@ -229,7 +229,7 @@
 
     inline bool doBLEZL(u32 rs, s32 simm16)
     {
-      if (gpr[rs] <= 0)
+      if (s32(gpr[rs]) <= 0)
       {
         npc = branch_target(pc, simm16);
         return true;
@@ -243,7 +243,7 @@
 
     inline bool doBGTZL(u32 rs, s32 simm16)
     {
-      if (gpr[rs] > 0)
+      if (s32(gpr[rs]) > 0)
       {
         npc = branch_target(pc, simm16);
         return true;

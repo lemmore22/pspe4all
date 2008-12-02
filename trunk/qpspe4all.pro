@@ -2,7 +2,8 @@ TEMPLATE = app
 TARGET = qpspe4all
 QT += core \
     gui
-HEADERS += qt/qmemoryscrollbar.h \
+HEADERS += qt/qdisassemblyviewwidget.h \
+    qt/qmemoryscrollbar.h \
     qt/qtranslate.h \
     qt/qmemorycursor.h \
     qt/qmemoryeditorwidget.h \
@@ -523,7 +524,8 @@ HEADERS += qt/qmemoryscrollbar.h \
     emulator/emulator.h \
     emulator/linux/linux_memory.h \
     emulator/memory.h
-SOURCES += qt/qmemoryscrollbar.cpp \
+SOURCES += qt/qdisassemblyviewwidget.cpp \
+    qt/qmemoryscrollbar.cpp \
     qt/qtranslate.cpp \
     qt/qmemorycursor.cpp \
     qt/qmemoryeditorwidget.cpp \
