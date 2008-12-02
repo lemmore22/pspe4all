@@ -42,8 +42,6 @@ QMemoryEditorWidget::QMemoryEditorWidget(QWidget *parent)
   QFont font("Courier");
   font.setFixedPitch(1);
   setFont(font);
-  //setBackgroundRole(QPalette::Base);
-  //setBackgroundRole(QPalette::Background);
   changeAddressRange(0);
 }
 
@@ -577,13 +575,11 @@ void QMemoryEditorWidget::resizeEvent(QResizeEvent *e)
 
 void QMemoryEditorWidget::focusInEvent(QFocusEvent *e)
 {
-  //updateColumn(localColumnOffset());
   QWidget::focusInEvent(e);
 }
 
 void QMemoryEditorWidget::focusOutEvent(QFocusEvent *e)
 {
-  //updateColumn(localColumnOffset());
   QWidget::focusOutEvent(e);
 }
 
@@ -616,9 +612,8 @@ void QMemoryEditorWidget::paintEvent(QPaintEvent *e)
 
   QPainter p(this);
 
-  const QPalette &pal = parentWidget()->palette();
   p.setFont(font());
-  p.setBrush(pal.background());
+  p.setBrush(qApp->palette().base());
 
   style()->drawPrimitive(QStyle::PE_FrameLineEdit, &option, &p, this);
 
@@ -866,7 +861,7 @@ void QMemoryEditorWidget::drawTextRegion(
     int col_start,
     int col_stop)
 {
-  paint.setPen(qApp->palette().foreground().color());
+  paint.setPen(qApp->palette().windowText().color());
   for (int r = row_start; r <= row_stop; r++)
   {
     for (int c = col_start; c <= col_stop; c++)
@@ -909,7 +904,7 @@ void QMemoryEditorWidget::drawCursor(QPainter &paint)
     else
     {
       paint.setPen(Qt::NoPen);
-      paint.setBrush(qApp->palette().light());
+      paint.setBrush(qApp->palette().midlight());
     }
     QRect box = charBBox(localCharOffset());
     paint.drawRect(box);

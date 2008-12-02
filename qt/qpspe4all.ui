@@ -92,6 +92,18 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="font" >
+        <font>
+         <family>Courier</family>
+        </font>
+       </property>
+       <property name="html" >
+        <string>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
+&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+p, li { white-space: pre-wrap; }
+&lt;/style>&lt;/head>&lt;body style=" font-family:'Courier'; font-size:8.25pt; font-weight:400; font-style:normal;">
+&lt;p style=" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Courrier'; font-size:8pt;">&lt;span style=" font-family:'Courier New,courier'; font-weight:600; text-decoration: underline;">Section .init - Address 08900018 Size 00000024 Flags 0006&lt;/span>&lt;span style=" font-family:'Courier New,courier';">&lt;br />08900018: 27BDFFE0 '...'' - addiu      $sp, $sp, FFE0&lt;br />0890001C: AFBF0014 '....' - sw         $ra, 14($sp)&lt;br />08900020: 0E2400B0 '..$.' - jal        &lt;/span>&lt;a href="#sub_089002C0">&lt;span style=" font-family:'Courier New,courier'; text-decoration: underline; color:#0000ff;">sub_089002C0&lt;/span>&lt;/a>&lt;span style=" font-family:'Courier New,courier';">&lt;br />08900024: 00000000 '....' - sll        $zr, $zr, 0&lt;br />08900028: 0E2418DF '..$.' - jal        &lt;/span>&lt;a href="#sub_0890637C">&lt;span style=" font-family:'Courier New,courier'; text-decoration: underline; color:#0000ff;">sub_0890637C&lt;/span>&lt;/a>&lt;span style=" font-family:'Courier New,courier';">&lt;br />0890002C: 00000000 '....' - sll        $zr, $zr, 0&lt;br />08900030: 8FBF0014 '....' - lw         $ra, 14($sp)&lt;br />08900034: 03E00008 '....' - jr         $ra&lt;br />08900038: 27BD0020 ' ..'' - addiu      $sp, $sp, 20&lt;br />&lt;/span>&lt;span style=" font-family:'Courier New,courier'; font-weight:600; text-decoration: underline;">Section .text - Address 0890003C Size 000063A8 Flags 0006&lt;/span>&lt;span style=" font-family:'Courier New,courier';">&lt;br />0890003C: 27BDFF90 '...'' - addiu      $sp, $sp, 0xFF90&lt;br />08900040: AFB50064 'd...' - sw         $s5, 64($sp)&lt;br />08900044: AFB40060 '`...' - sw         $s4, 60($sp)&lt;br />08900048: AFB3005C '\...' - sw         $s3, 5C($sp)&lt;br />0890004C: AFB20058 'X...' - sw         $s2, 58($sp)&lt;br />08900050: AFB10054 'T...' - sw         $s1, 54($sp)&lt;br />08900054: AFB00050 'P...' - sw         $s0, 50($sp)&lt;br />08900058: 0080A021 '!...' - addu       $s4, $a0, $zr&lt;br />0890005C: 00A09821 '!...' - addu       $s3, $a1, $zr&lt;br />08900060: 00009021 '!...' - addu       $s2, $zr, $zr&lt;br />08900064: 00008021 '!...' - addu       $s0, $zr, $zr&lt;br />08900068: 03A08821 '!...' - addu       $s1, $sp, $zr&lt;br />0890006C: 24150013 '...$' - addiu      $s5, $zr, 13&lt;br />08900070: 0A240025 '%.$.' - j          &lt;/span>&lt;a href="#loc_08900094">&lt;span style=" font-family:'Courier New,courier'; text-decoration: underline; color:#0000ff;">loc_08900094&lt;/span>&lt;/a>&lt;span style=" font-family:'Courier New,courier';">&lt;br />08900074: AFBF0068 'h...' - sw         $ra, 68($sp)&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
+       </property>
       </widget>
      </item>
      <item row="0" column="1" >
