@@ -19,3 +19,27 @@ processor_s::processor_s(emulator_s &emulator)
   ::memset(vpr, 0, sizeof(vpr));
 }
 
+void processor_s::interpret()
+{
+  u32 opcode = fetch_opcode();
+#if 0
+  allegrex_instruction_s *insn =
+    allegrex_instruction_s *allegrex::decode_instruction(opcode);
+
+  insn->interpret(this, opcode);
+#endif
+}
+
+void processor_s::interpret_delayslot()
+{
+  u32 opcode = fetch_delayslot_opcode();
+
+#if 0
+  allegrex_instruction_s *insn =
+    allegrex_instruction_s *allegrex::decode_instruction(opcode);
+
+  insn->interpret(this, opcode);
+#endif
+
+  next_pc();
+}

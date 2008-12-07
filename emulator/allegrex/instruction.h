@@ -117,6 +117,8 @@ struct allegrex_instruction_s : allegrex_instruction_base_s
 
   static inline u32 ft(u32 opcode) { return ((((u32)opcode) >> 16)&31); }
 
+  static inline u32 cconds(u32 opcode) { return ((((u32)opcode) >> 0)&15); }
+
 #ifdef USE_DYNAREC
   virtual allegrex_instruction_s *clone() = 0;
 

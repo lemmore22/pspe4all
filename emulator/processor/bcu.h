@@ -64,7 +64,7 @@
       return true;
     }
 
-    bool doBLTZ(u32 rs, s32 simm16)
+    inline bool doBLTZ(u32 rs, s32 simm16)
     {
       npc = (s32(gpr[rs]) < 0) ? branch_target(pc, simm16) : (pc + 4);
       return true;
