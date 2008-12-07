@@ -33,6 +33,10 @@ struct processor_s
 #include "processor/bcu.h"
 
   processor_s(emulator_s &emulator);
+
+  void interpret();
+
+  void interpret_delayslot();
 };
 
 #endif /* EMULATOR_PROCESSOR_H_ */

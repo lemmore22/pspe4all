@@ -1,7 +1,9 @@
 /* SLLV */
 void allegrex_instruction_template_s< 0x00000004, 0xfc0007ff >::disassemble(u32 address, u32 opcode, char *opcode_name, char *operands, char *comment)
 {
-  ::strcpy(opcode_name, this->opcode_name());
-  ::strcpy(operands, "");
+  using namespace allegrex;
+
+  ::strcpy(opcode_name, "sllv");
+  ::sprintf(operands, "%s, %s, %s", gpr_name[rd(opcode)], gpr_name[rt(opcode)], gpr_name[rs(opcode)]);
   ::strcpy(comment, "");
 }
