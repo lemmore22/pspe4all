@@ -17,6 +17,10 @@ struct emulator_s
     emulator_s();
 
     ~emulator_s();
+
+    void initialize();
+
+    void finalize();
 };
 
 extern emulator_s &emulator;

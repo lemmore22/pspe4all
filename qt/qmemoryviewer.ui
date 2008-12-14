@@ -1,6 +1,6 @@
 <ui version="4.0" >
- <class>QMemoryViewerClass</class>
- <widget class="QWidget" name="QMemoryViewerClass" >
+ <class>QMemoryEditor</class>
+ <widget class="QWidget" name="QMemoryEditor" >
   <property name="geometry" >
    <rect>
     <x>0</x>

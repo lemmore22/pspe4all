@@ -8,6 +8,9 @@
 #include "types.h"
 #include "memory.h"
 #include "emulator.h"
+#include "ini.h"
+#include "error.h"
+#include "log.h"
 
 emulator_s &emulator_s::self()
 {
@@ -25,4 +28,16 @@ emulator_s::emulator_s()
 emulator_s::~emulator_s()
 {
   psp::release_memory();
+}
+
+void emulator_s::initialize()
+{
+  log::reset();
+
+  if (!ini::load()) error::show();
+}
+
+void emulator_s::finalize()
+{
+  if (!ini::save()) error::show();
 }

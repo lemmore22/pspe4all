@@ -18,4 +18,7 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 typedef float f32;
 
+#define DO_PRAGMA(x) _Pragma (#x)
+#define TODO(x) DO_PRAGMA(message ("TODO - " #x))
+
 #endif /* TYPES_H_ */
