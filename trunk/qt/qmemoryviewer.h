@@ -18,7 +18,7 @@ class QMemoryViewer : public QWidget
     void setScrollBarRange(int low, int high);
 
   private:
-    Ui::QMemoryViewerClass ui;
+    Ui::QMemoryEditor ui;
 };
 
 #endif // QMEMORYVIEWER_H

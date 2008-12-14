@@ -16,9 +16,13 @@ class QPspe4all : public QMainWindow
 
     QSystemTrayIcon *trayIcon;
     QMenu *trayIconMenu;
-  private:
-    Ui::QPspe4allClass ui;
 
+    void log(QString const &s);
+
+    static QPspe4all *that;
+
+  private:
+    Ui::QPspe4all ui;
 };
 
 #endif // QPSSPE4ALL_H
