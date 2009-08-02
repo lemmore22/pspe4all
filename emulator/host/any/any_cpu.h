@@ -54,4 +54,36 @@
     ((x & 0x80808080) >> 7); \
   })
 
+#undef __host_ext
+#define __host_ext($rs, pos, len) \
+  ({ ($rs >> pos) & ~(~0 << len); })
+
+#undef __host_ins
+#define __host_ins($rt, $rs, pos, len) \
+  ({ u32 x = ~(~0 << len) << pos;  ($rt & ~x) | (($rs << pos) & x); })
+
+#undef __host_mult
+#define __host_mult(x, y) \
+  ({ s64 hilo = ((s32) x) * ((s32) y); hilo; })
+
+#undef __host_multu
+#define __host_multu(x, y) \
+  ({ s64 hilo = ((s32) x) * ((s32) y); hilo; })
+
+#undef __host_madd
+#define __host_madd(x, y, hilo) \
+  ({ ((s64) hilo) + ((s64) x) * ((s32) y); })
+
+#undef __host_maddu
+#define __host_maddu(x, y, hilo) \
+  ({ ((u64) hilo) + ((u64) x) * ((u32) y); })
+
+#undef __host_msub
+#define __host_msub(x, y, hilo) \
+  ({ ((s64) hilo) - ((s64) x) * ((s32) y); })
+
+#undef __host_msubu
+#define __host_msubu(x, y) \
+  ({ ((u64) hilo) - ((u64) x) * ((u32) y); })
+
 #endif /* ANY_CPU_H_ */

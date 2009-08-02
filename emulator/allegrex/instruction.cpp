@@ -7,5 +7,5 @@
 
 #include "instruction.h"
 
-allegrex_instruction_unknown_s &allegrex::reserved_instruction =
-  allegrex_instruction_unknown_s::self();
+AllegrexInstructionUnknown &Allegrex::reserved_instruction =
+  AllegrexInstructionUnknown::self();

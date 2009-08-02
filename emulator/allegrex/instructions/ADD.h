@@ -1,17 +1,17 @@
-template< > struct allegrex_instruction_template_s< 0x00000020, 0xfc0007ff > : allegrex_instruction_unknown_s
+template< > struct AllegrexInstructionTemplate< 0x00000020, 0xfc0007ff > : AllegrexInstructionUnknown
 {
-    static allegrex_instruction_template_s &self()
+    static AllegrexInstructionTemplate &self()
     {
-      static allegrex_instruction_template_s insn;
+      static AllegrexInstructionTemplate insn;
       return insn;
     }
 
-    static allegrex_instruction_s *get_instance()
+    static AllegrexInstruction *get_instance()
     {
-      return &allegrex_instruction_template_s::self();
+      return &AllegrexInstructionTemplate::self();
     }
 
-    virtual allegrex_instruction_s *instruction(u32 opcode)
+    virtual AllegrexInstruction *instruction(u32 opcode)
     {
       return this;
     }
@@ -21,21 +21,21 @@ template< > struct allegrex_instruction_template_s< 0x00000020, 0xfc0007ff > : a
       return "ADD";
     }
 
-    virtual void interpret(processor_s &processor, u32 opcode);
+    virtual void interpret(Processor &processor, u32 opcode);
 
     virtual void disassemble(u32 address, u32 opcode, char *opcode_name, char *operands, char *comment);
   protected:
-    allegrex_instruction_template_s() {}
+    AllegrexInstructionTemplate() {}
 };
 
-typedef allegrex_instruction_template_s< 0x00000020, 0xfc0007ff >
-  allegrex_instruction_ADD_s;
+typedef AllegrexInstructionTemplate< 0x00000020, 0xfc0007ff >
+  AllegrexInstruction_ADD;
 
-namespace allegrex
+namespace Allegrex
 {
-  extern allegrex_instruction_ADD_s &ADD;
+  extern AllegrexInstruction_ADD &ADD;
 }
 #ifdef IMPLEMENT_INSTRUCTION
-allegrex_instruction_ADD_s &allegrex::ADD =
-  allegrex_instruction_ADD_s::self();
+AllegrexInstruction_ADD &Allegrex::ADD =
+  AllegrexInstruction_ADD::self();
 #endif

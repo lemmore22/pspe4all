@@ -31,9 +31,9 @@ int main(int argc, char *argv[])
 #endif
 
 #if 0
-  allegrex::create_instructions_directory();
-  allegrex::create_interpreter_directory();
-  allegrex::create_disassembler_directory();
+  Allegrex::create_instructions_directory();
+  Allegrex::create_interpreter_directory();
+  Allegrex::create_disassembler_directory();
 
   QPspe4all w;
 
@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
 
     QStringList list;
 
-#define IDEF(n, m, s, x) list.append(QString("%1/%2 : %3").arg(uint(s), 8, 16, QChar('0')).arg(uint(m), 8, 16, QChar('0')).arg(allegrex::decode_instruction(s)->opcode_name()));
+#define IDEF(n, m, s, x) list.append(QString("%1/%2 : %3").arg(uint(s), 8, 16, QChar('0')).arg(uint(m), 8, 16, QChar('0')).arg(Allegrex::decode_instruction(s)->opcode_name()));
 #include "emulator/allegrex/allegrex.def"
 #undef IDEF
 

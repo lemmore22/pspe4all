@@ -1,4 +1,4 @@
 /* SRA */
-void allegrex_instruction_template_s< 0x00000003, 0xffe0003f >::interpret(processor_s &processor, u32 opcode)
+void AllegrexInstructionTemplate< 0x00000003, 0xffe0003f >::interpret(Processor &processor, u32 opcode)
 {
 }

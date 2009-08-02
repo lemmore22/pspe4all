@@ -1,7 +1,7 @@
 /* EXT */
-void allegrex_instruction_template_s< 0x7c000000, 0xfc00003f >::disassemble(u32 address, u32 opcode, char *opcode_name, char *operands, char *comment)
+void AllegrexInstructionTemplate< 0x7c000000, 0xfc00003f >::disassemble(u32 address, u32 opcode, char *opcode_name, char *operands, char *comment)
 {
-  using namespace allegrex;
+  using namespace Allegrex;
 
   u32 pos = sa(opcode);
   u32 len = rd(opcode) + 1;

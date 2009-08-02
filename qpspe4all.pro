@@ -2,10 +2,15 @@ TEMPLATE = app
 TARGET = qpspe4all
 QT += core \
     gui
-HEADERS += emulator/language.h \
-    emulator/error.h \
-    emulator/ini.h \
+HEADERS += qt/qdisassemblyviewer.h \
+    emulator/decoder-old.h \
+    emulator/processor/fpu.h \
+    emulator/lang.h \
     emulator/log.h \
+    emulator/ini.h \
+    emulator/modules/fw150/SysMemForKernel/heap.h \
+    emulator/modules/fw150/SysMemForKernel/uid.h \
+    emulator/error.h \
     qt/qmemoryscrollbar.h \
     qt/qtranslate.h \
     qt/qmemorycursor.h \
@@ -527,10 +532,13 @@ HEADERS += emulator/language.h \
     emulator/emulator.h \
     emulator/linux/linux_memory.h \
     emulator/memory.h
-SOURCES += qt/implementation.cpp \
-    emulator/error.cpp \
+SOURCES += qt/qdisassemblyviewer.cpp \
     emulator/log.cpp \
     emulator/ini.cpp \
+    emulator/modules/fw150/SysMemForKernel/heap.cpp \
+    emulator/modules/fw150/SysMemForKernel/uid.cpp \
+    qt/implementation.cpp \
+    emulator/error.cpp \
     qt/qmemoryscrollbar.cpp \
     qt/qtranslate.cpp \
     qt/qmemorycursor.cpp \
@@ -545,6 +553,7 @@ SOURCES += qt/implementation.cpp \
     emulator/emulator.cpp \
     emulator/memory.cpp \
     main.cpp
-FORMS += qt/qmemoryviewer.ui \
+FORMS += qt/qdisassemblyviewer.ui \
+    qt/qmemoryviewer.ui \
     qt/qpspe4all.ui
 RESOURCES += 

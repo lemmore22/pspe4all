@@ -1,4 +1,5 @@
 /* DIV */
-void allegrex_instruction_template_s< 0x0000001a, 0xfc00ffff >::interpret(processor_s &processor, u32 opcode)
+void AllegrexInstructionTemplate< 0x0000001a, 0xfc00ffff >::interpret(Processor &processor, u32 opcode)
 {
+  processor.doDIV(rs(opcode), rt(opcode));
 }

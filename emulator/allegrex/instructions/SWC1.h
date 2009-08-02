@@ -1,17 +1,17 @@
-template< > struct allegrex_instruction_template_s< 0xe4000000, 0xfc000000 > : allegrex_instruction_unknown_s
+template< > struct AllegrexInstructionTemplate< 0xe4000000, 0xfc000000 > : AllegrexInstructionUnknown
 {
-    static allegrex_instruction_template_s &self()
+    static AllegrexInstructionTemplate &self()
     {
-      static allegrex_instruction_template_s insn;
+      static AllegrexInstructionTemplate insn;
       return insn;
     }
 
-    static allegrex_instruction_s *get_instance()
+    static AllegrexInstruction *get_instance()
     {
-      return &allegrex_instruction_template_s::self();
+      return &AllegrexInstructionTemplate::self();
     }
 
-    virtual allegrex_instruction_s *instruction(u32 opcode)
+    virtual AllegrexInstruction *instruction(u32 opcode)
     {
       return this;
     }
@@ -21,21 +21,21 @@ template< > struct allegrex_instruction_template_s< 0xe4000000, 0xfc000000 > : a
       return "SWC1";
     }
 
-    virtual void interpret(processor_s &processor, u32 opcode);
+    virtual void interpret(Processor &processor, u32 opcode);
 
     virtual void disassemble(u32 address, u32 opcode, char *opcode_name, char *operands, char *comment);
   protected:
-    allegrex_instruction_template_s() {}
+    AllegrexInstructionTemplate() {}
 };
 
-typedef allegrex_instruction_template_s< 0xe4000000, 0xfc000000 >
-  allegrex_instruction_SWC1_s;
+typedef AllegrexInstructionTemplate< 0xe4000000, 0xfc000000 >
+  AllegrexInstruction_SWC1;
 
-namespace allegrex
+namespace Allegrex
 {
-  extern allegrex_instruction_SWC1_s &SWC1;
+  extern AllegrexInstruction_SWC1 &SWC1;
 }
 #ifdef IMPLEMENT_INSTRUCTION
-allegrex_instruction_SWC1_s &allegrex::SWC1 =
-  allegrex_instruction_SWC1_s::self();
+AllegrexInstruction_SWC1 &Allegrex::SWC1 =
+  AllegrexInstruction_SWC1::self();
 #endif

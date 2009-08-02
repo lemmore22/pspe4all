@@ -10,7 +10,7 @@
 
 #include <cstdarg>
 
-namespace error
+namespace Error
 {
   void set(char const *fmt, ...);
 
@@ -22,7 +22,7 @@ namespace error
 
   void clear();
 
-  bool is_set();
+  bool isSet();
 };
 
 #endif /* ERROR_H_ */

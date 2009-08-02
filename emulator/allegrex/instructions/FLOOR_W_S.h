@@ -1,17 +1,17 @@
-template< > struct allegrex_instruction_template_s< 0x4600000f, 0xffff003f > : allegrex_instruction_unknown_s
+template< > struct AllegrexInstructionTemplate< 0x4600000f, 0xffff003f > : AllegrexInstructionUnknown
 {
-    static allegrex_instruction_template_s &self()
+    static AllegrexInstructionTemplate &self()
     {
-      static allegrex_instruction_template_s insn;
+      static AllegrexInstructionTemplate insn;
       return insn;
     }
 
-    static allegrex_instruction_s *get_instance()
+    static AllegrexInstruction *get_instance()
     {
-      return &allegrex_instruction_template_s::self();
+      return &AllegrexInstructionTemplate::self();
     }
 
-    virtual allegrex_instruction_s *instruction(u32 opcode)
+    virtual AllegrexInstruction *instruction(u32 opcode)
     {
       return this;
     }
@@ -21,21 +21,21 @@ template< > struct allegrex_instruction_template_s< 0x4600000f, 0xffff003f > : a
       return "FLOOR_W_S";
     }
 
-    virtual void interpret(processor_s &processor, u32 opcode);
+    virtual void interpret(Processor &processor, u32 opcode);
 
     virtual void disassemble(u32 address, u32 opcode, char *opcode_name, char *operands, char *comment);
   protected:
-    allegrex_instruction_template_s() {}
+    AllegrexInstructionTemplate() {}
 };
 
-typedef allegrex_instruction_template_s< 0x4600000f, 0xffff003f >
-  allegrex_instruction_FLOOR_W_S_s;
+typedef AllegrexInstructionTemplate< 0x4600000f, 0xffff003f >
+  AllegrexInstruction_FLOOR_W_S;
 
-namespace allegrex
+namespace Allegrex
 {
-  extern allegrex_instruction_FLOOR_W_S_s &FLOOR_W_S;
+  extern AllegrexInstruction_FLOOR_W_S &FLOOR_W_S;
 }
 #ifdef IMPLEMENT_INSTRUCTION
-allegrex_instruction_FLOOR_W_S_s &allegrex::FLOOR_W_S =
-  allegrex_instruction_FLOOR_W_S_s::self();
+AllegrexInstruction_FLOOR_W_S &Allegrex::FLOOR_W_S =
+  AllegrexInstruction_FLOOR_W_S::self();
 #endif

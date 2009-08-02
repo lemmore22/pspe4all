@@ -1,4 +1,5 @@
 /* FLOOR_W_S */
-void allegrex_instruction_template_s< 0x4600000f, 0xffff003f >::interpret(processor_s &processor, u32 opcode)
+void AllegrexInstructionTemplate< 0x4600000f, 0xffff003f >::interpret(Processor &processor, u32 opcode)
 {
+  processor.doFLOOR_W_S(fd(opcode), fs(opcode));
 }

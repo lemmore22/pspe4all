@@ -12,7 +12,7 @@
 
 #include "types.h"
 
-namespace ini
+namespace Ini
 {
   bool load();
   bool save();

@@ -32,12 +32,10 @@ emulator_s::~emulator_s()
 
 void emulator_s::initialize()
 {
-  log::reset();
-
-  if (!ini::load()) error::show();
+  if (!Ini::load()) Error::show();
 }
 
 void emulator_s::finalize()
 {
-  if (!ini::save()) error::show();
+  if (!Ini::save()) Error::show();
 }

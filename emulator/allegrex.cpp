@@ -17,10 +17,10 @@
 #include "allegrex/disassembler.h"
 #include "decoder.h"
 
-allegrex_instruction_unknown_s &allegrex::reserved_instruction =
-  allegrex_instruction_unknown_s::self();
+AllegrexInstructionUnknown &Allegrex::reserved_instruction =
+  AllegrexInstructionUnknown::self();
 
-namespace allegrex
+namespace Allegrex
 {
   char const * gpr_name[32] =
     {
