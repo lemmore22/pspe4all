@@ -9,8 +9,11 @@
 #define EMULATOR_PROCESSOR_H_
 
 #include "host.h"
+#include "log.h"
 
-struct processor_s
+#include <math.h>
+
+struct Processor
 {
   /* GPR */
   u32 gpr[32];
@@ -23,16 +26,19 @@ struct processor_s
 
   u64 hilo;
 
+  u32 fcr0, fcr31;
+
   u32 pc, npc;
 
   emulator_s &emulator;
 
 #include "processor/cpu.h"
 #include "processor/mdu.h"
+#include "processor/fpu.h"
 #include "processor/lsu.h"
 #include "processor/bcu.h"
 
-  processor_s(emulator_s &emulator);
+  Processor(emulator_s &emulator);
 
   void interpret();
 

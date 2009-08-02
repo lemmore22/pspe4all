@@ -1,7 +1,7 @@
 /* NEG_S */
-void allegrex_instruction_template_s< 0x46000007, 0xffff003f >::disassemble(u32 address, u32 opcode, char *opcode_name, char *operands, char *comment)
+void AllegrexInstructionTemplate< 0x46000007, 0xffff003f >::disassemble(u32 address, u32 opcode, char *opcode_name, char *operands, char *comment)
 {
-  using namespace allegrex;
+  using namespace Allegrex;
 
   ::strcpy(opcode_name, "neg.s");
   ::sprintf(operands, "%s, %s", fpr_name[fd(opcode)], fpr_name[fs(opcode)]);

@@ -8,7 +8,7 @@
 #ifndef EMULATOR_MEMORY_H_
 #define EMULATOR_MEMORY_H_
 
-//	0×00010000	0×00004000 (16 KiB)	Scratchpad
+//	0×00010000	0×00004000 (16 KiB)	Scratch pad
 //	0×04000000	0×00200000 (2 MiB)	Lower video ram
 //	0×04200000	0×00200000 (2 MiB)	Upper video ram (SLIM only)
 //	0×08000000	0×02000000 (32 MiB)	Lower main ram
@@ -84,6 +84,11 @@ namespace psp
   template< typename T > static inline T *addr(int address)
   {
     return reinterpret_cast< T * > (reinterpret_cast< unsigned int > (psp::memory)
+        + (address & (VMEM_SIZE - 1)));
+  }
+  template< typename T > static inline T ptr(T address)
+  {
+    return reinterpret_cast< T > (reinterpret_cast< unsigned int > (psp::memory)
         + (address & (VMEM_SIZE - 1)));
   }
   inline static char *addrb(int address)

@@ -1,7 +1,7 @@
 /* LUI */
-void allegrex_instruction_template_s< 0x3c000000, 0xffe00000 >::disassemble(u32 address, u32 opcode, char *opcode_name, char *operands, char *comment)
+void AllegrexInstructionTemplate< 0x3c000000, 0xffe00000 >::disassemble(u32 address, u32 opcode, char *opcode_name, char *operands, char *comment)
 {
-  using namespace allegrex;
+  using namespace Allegrex;
 
   u32 imm = uimm16(opcode);
   ::strcpy(opcode_name, "lui");

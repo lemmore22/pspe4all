@@ -12,91 +12,116 @@
 
 #include <cstdarg>
 
-struct log_s
+class LogFile
 {
   public:
-    enum level_e
+    enum LevelEnum
     {
-      OFF,
-      FATAL,
-      ERROR,
-      WARN,
-      INFO,
-      DEBUG,
-      TRACE
+      E_OFF, E_FATAL, E_ERROR, E_WARN, E_INFO, E_DEBUG, E_TRACE
     };
 
-#ifndef NO_LOGGING
-    log_s();
-    log_s(std::string const &name);
-    log_s(log_s const &);
-    ~log_s();
+    LogFile(std::string const &name);
+    ~LogFile();
 
-    void operator = (log_s const &);
+    void reset();
 
-    static void use_console(bool use);
+    void flush();
 
-    level_e get_level() const;
-    void    set_level(level_e level);
-    bool    check_level(level_e level) const;
+    static void useConsole(bool use);
 
-    void log(level_e level, const char *fmt, ...) { va_list args; va_start(args, fmt); printf(level, fmt, args); va_end(args); }
+    LevelEnum getLevel() const;
+    void setLevel(LevelEnum level);
+    bool checkLevel(LevelEnum level) const;
 
-    void fatal(const char *fmt, ...) { va_list args; va_start(args, fmt); printf(FATAL, fmt, args); va_end(args); }
-    void error(const char *fmt, ...) { va_list args; va_start(args, fmt); printf(ERROR, fmt, args); va_end(args); }
-    void warn (const char *fmt, ...) { va_list args; va_start(args, fmt); printf(WARN, fmt, args); va_end(args); }
-    void info (const char *fmt, ...) { va_list args; va_start(args, fmt); printf(INFO , fmt, args); va_end(args); }
-    void debug(const char *fmt, ...) { va_list args; va_start(args, fmt); printf(DEBUG, fmt, args); va_end(args); }
-    void trace(const char *fmt, ...) { va_list args; va_start(args, fmt); printf(TRACE, fmt, args); va_end(args); }
+    void log(LevelEnum level, const char *fmt, ...)
+    {
+      va_list args;
+      va_start(args, fmt);
+      printf(level, fmt, args);
+      va_end(args);
+    }
+
+    void fatal(const char *fmt, ...)
+    {
+      va_list args;
+      va_start(args, fmt);
+      printf(E_FATAL, fmt, args);
+      va_end(args);
+    }
+    void error(const char *fmt, ...)
+    {
+      va_list args;
+      va_start(args, fmt);
+      printf(E_ERROR, fmt, args);
+      va_end(args);
+    }
+    void warn(const char *fmt, ...)
+    {
+      va_list args;
+      va_start(args, fmt);
+      printf(E_WARN, fmt, args);
+      va_end(args);
+    }
+    void info(const char *fmt, ...)
+    {
+      va_list args;
+      va_start(args, fmt);
+      printf(E_INFO, fmt, args);
+      va_end(args);
+    }
+    void debug(const char *fmt, ...)
+    {
+      va_list args;
+      va_start(args, fmt);
+      printf(E_DEBUG, fmt, args);
+      va_end(args);
+    }
+    void trace(const char *fmt, ...)
+    {
+      va_list args;
+      va_start(args, fmt);
+      printf(E_TRACE, fmt, args);
+      va_end(args);
+    }
 
   private:
-    void printf(level_e level, const char *fmt, va_list args);
+    void printf(LevelEnum level, const char *fmt, va_list args);
 
-    level_e     level;
-    FILE       *file;
+    LogFile(LogFile const &);
+    void operator =(LogFile const &);
+
+    LevelEnum level;
+    FILE *file;
     std::string name;
-#else
-    log_s() {}
-    log_s(std::string const &name) {}
-    log_s(log_s const &) {}
-    ~log_s() {}
-
-    void operator = (log_s const &) {}
-
-    static void use_console(bool use) {}
-
-    level_e get_level() const { return off; }
-    void    set_level(level_e level);
-    bool    check_level(level_e level) const { return false; }
-
-#endif
 };
 
 #ifdef NO_LOGGING
-#define logf(name, level, fmt, ...)
+#define lprintf(name, level, fmt, ...)
 #define fatalf(name, fmt, ...)
 #define errorf(name, fmt, ...)
-#define warnf (name, fmt, ...)
-#define infof (name, fmt, ...)
+#define warnf(name, fmt, ...)
+#define infof(name, fmt, ...)
 #define debugf(name, fmt, ...)
 #define tracef(name, fmt, ...)
 #else
-#define logf(name, level, fmt, ...) log::name.log(level, fmt, ## __VA_ARGS__)
-#define fatalf(name, fmt, ...) log::name.fatal(fmt, ## __VA_ARGS__)
-#define errorf(name, fmt, ...) log::name.error(fmt, ## __VA_ARGS__)
-#define warnf (name, fmt, ...) log::name.warn(fmt, ## __VA_ARGS__)
-#define infof (name, fmt, ...) log::name.info(fmt, ## __VA_ARGS__)
-#define debugf(name, fmt, ...) log::name.debug(fmt, ## __VA_ARGS__)
-#define tracef(name, fmt, ...) log::name.trace(fmt, ## __VA_ARGS__)
+#define lprintf(name, level, fmt, ...) Log::name.log(level, fmt, ## __VA_ARGS__)
+#define fatalf(name, fmt, ...) Log::name.fatal(fmt, ## __VA_ARGS__)
+#define errorf(name, fmt, ...) Log::name.error(fmt, ## __VA_ARGS__)
+#define warnf(name, fmt, ...) Log::name.warn(fmt, ## __VA_ARGS__)
+#define infof(name, fmt, ...) Log::name.info(fmt, ## __VA_ARGS__)
+#define debugf(name, fmt, ...) Log::name.debug(fmt, ## __VA_ARGS__)
+#define tracef(name, fmt, ...) Log::name.trace(fmt, ## __VA_ARGS__)
 #endif
 
-namespace log
+namespace Log
 {
   void show(const char *s);
 
   void reset();
 
-  extern log_s misc;
+  extern LogFile misc;
+  extern LogFile memory;
+  extern LogFile interpreter;
 }
 
 #endif /* LOG_H_ */

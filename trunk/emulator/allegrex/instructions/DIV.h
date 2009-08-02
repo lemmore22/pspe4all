@@ -1,17 +1,17 @@
-template< > struct allegrex_instruction_template_s< 0x0000001a, 0xfc00ffff > : allegrex_instruction_unknown_s
+template< > struct AllegrexInstructionTemplate< 0x0000001a, 0xfc00ffff > : AllegrexInstructionUnknown
 {
-    static allegrex_instruction_template_s &self()
+    static AllegrexInstructionTemplate &self()
     {
-      static allegrex_instruction_template_s insn;
+      static AllegrexInstructionTemplate insn;
       return insn;
     }
 
-    static allegrex_instruction_s *get_instance()
+    static AllegrexInstruction *get_instance()
     {
-      return &allegrex_instruction_template_s::self();
+      return &AllegrexInstructionTemplate::self();
     }
 
-    virtual allegrex_instruction_s *instruction(u32 opcode)
+    virtual AllegrexInstruction *instruction(u32 opcode)
     {
       return this;
     }
@@ -21,21 +21,21 @@ template< > struct allegrex_instruction_template_s< 0x0000001a, 0xfc00ffff > : a
       return "DIV";
     }
 
-    virtual void interpret(processor_s &processor, u32 opcode);
+    virtual void interpret(Processor &processor, u32 opcode);
 
     virtual void disassemble(u32 address, u32 opcode, char *opcode_name, char *operands, char *comment);
   protected:
-    allegrex_instruction_template_s() {}
+    AllegrexInstructionTemplate() {}
 };
 
-typedef allegrex_instruction_template_s< 0x0000001a, 0xfc00ffff >
-  allegrex_instruction_DIV_s;
+typedef AllegrexInstructionTemplate< 0x0000001a, 0xfc00ffff >
+  AllegrexInstruction_DIV;
 
-namespace allegrex
+namespace Allegrex
 {
-  extern allegrex_instruction_DIV_s &DIV;
+  extern AllegrexInstruction_DIV &DIV;
 }
 #ifdef IMPLEMENT_INSTRUCTION
-allegrex_instruction_DIV_s &allegrex::DIV =
-  allegrex_instruction_DIV_s::self();
+AllegrexInstruction_DIV &Allegrex::DIV =
+  AllegrexInstruction_DIV::self();
 #endif

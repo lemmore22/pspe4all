@@ -1,3479 +1,1221 @@
-allegrex_instruction_s *allegrex::decode_instruction(u32 opcode)
+#define AllegrexInsnPtr(x) ((AllegrexInstruction *)&Allegrex::x)
+
+AllegrexInstruction *Allegrex::decode_instruction(u32 opcode)
 {
-  static allegrex_instruction_s
-      *root =
-          (
+  switch ((opcode >> 26) & 0x0000003f)
+  {
+    case 0: /* SPECIAL */
+      switch ((opcode >> 0) & 0x0000003f)
+      {
+        case 0:
+          return AllegrexInsnPtr(SLL);
+
+        case 1:
+          break;
+
+        case 2:
+          return ((opcode & 0x00200000) == 0x00000000) ? AllegrexInsnPtr(SRL) : AllegrexInsnPtr(ROTR);
+        case 3:
+          return AllegrexInsnPtr(SRA);
+        case 4:
+          return AllegrexInsnPtr(SLLV);
+
+        case 5:
+          break;
+
+        case 6:
+          return ((opcode & 0x00000040) == 0x00000000) ? AllegrexInsnPtr(SRLV) : AllegrexInsnPtr(ROTRV);
+        case 7:
+          return AllegrexInsnPtr(SRAV);
+        case 8:
+          return AllegrexInsnPtr(JR);
+        case 9:
+          return AllegrexInsnPtr(JALR);
+        case 10:
+          return AllegrexInsnPtr(MOVZ);
+        case 11:
+          return AllegrexInsnPtr(MOVN);
+        case 12:
+          return AllegrexInsnPtr(SYSCALL);
+        case 13:
+          return AllegrexInsnPtr(BREAK);
+
+        case 14:
+          break;
+
+        case 15:
+          return AllegrexInsnPtr(SYNC);
+        case 16:
+          return AllegrexInsnPtr(MFHI);
+        case 17:
+          return AllegrexInsnPtr(MTHI);
+        case 18:
+          return AllegrexInsnPtr(MFLO);
+        case 19:
+          return AllegrexInsnPtr(MTLO);
+
+        case 20:
+        case 21:
+          break;
+
+        case 22:
+          return AllegrexInsnPtr(CLZ);
+        case 23:
+          return AllegrexInsnPtr(CLO);
+        case 24:
+          return AllegrexInsnPtr(MULT);
+        case 25:
+          return AllegrexInsnPtr(MULTU);
+        case 26:
+          return AllegrexInsnPtr(DIV);
+        case 27:
+          return AllegrexInsnPtr(DIVU);
+        case 28:
+          return AllegrexInsnPtr(MADD);
+        case 29:
+          return AllegrexInsnPtr(MADDU);
+
+        case 30:
+        case 31:
+          break;
+
+        case 32:
+          return AllegrexInsnPtr(ADD);
+        case 33:
+          return AllegrexInsnPtr(ADDU);
+        case 34:
+          return AllegrexInsnPtr(SUB);
+        case 35:
+          return AllegrexInsnPtr(SUBU);
+        case 36:
+          return AllegrexInsnPtr(AND);
+        case 37:
+          return AllegrexInsnPtr(OR);
+        case 38:
+          return AllegrexInsnPtr(XOR);
+        case 39:
+          return AllegrexInsnPtr(NOR);
+
+        case 40:
+        case 41:
+          break;
+
+        case 42:
+          return AllegrexInsnPtr(SLT);
+        case 43:
+          return AllegrexInsnPtr(SLTU);
+        case 44:
+          return AllegrexInsnPtr(MAX);
+        case 45:
+          return AllegrexInsnPtr(MIN);
+        case 46:
+          return AllegrexInsnPtr(MSUB);
+        case 47:
+          return AllegrexInsnPtr(MSUBU);
+
+        case 48:
+        case 49:
+        case 50:
+        case 51:
+        case 52:
+        case 53:
+        case 54:
+        case 55:
+        case 56:
+        case 57:
+        case 58:
+        case 59:
+        case 60:
+        case 61:
+        case 62:
+        case 63:
+          break;
+      }
+
+      break;
+
+    case 1: /* REGIMM */
+      switch ((opcode >> 16) & 0x00000003)
+      {
+        case 0:
+          return ((opcode & 0x00100000) == 0x00000000) ? AllegrexInsnPtr(BLTZ) : AllegrexInsnPtr(BLTZAL);
+        case 1:
+          return ((opcode & 0x00100000) == 0x00000000) ? AllegrexInsnPtr(BGEZ) : AllegrexInsnPtr(BGEZAL);
+        case 2:
+          return ((opcode & 0x00100000) == 0x00000000) ? AllegrexInsnPtr(BLTZL) : AllegrexInsnPtr(BLTZALL);
+        case 3:
+          return ((opcode & 0x00100000) == 0x00000000) ? AllegrexInsnPtr(BGEZL) : AllegrexInsnPtr(BGEZALL);
+      }
+
+      break;
+
+    case 2:
+      return AllegrexInsnPtr(J);
+    case 3:
+      return AllegrexInsnPtr(JAL);
+    case 4:
+      return AllegrexInsnPtr(BEQ);
+    case 5:
+      return AllegrexInsnPtr(BNE);
+    case 6:
+      return AllegrexInsnPtr(BLEZ);
+    case 7:
+      return AllegrexInsnPtr(BGTZ);
+    case 8:
+      return AllegrexInsnPtr(ADDI);
+    case 9:
+      return AllegrexInsnPtr(ADDIU);
+    case 10:
+      return AllegrexInsnPtr(SLTI);
+    case 11:
+      return AllegrexInsnPtr(SLTIU);
+    case 12:
+      return AllegrexInsnPtr(ANDI);
+    case 13:
+      return AllegrexInsnPtr(ORI);
+    case 14:
+      return AllegrexInsnPtr(XORI);
+    case 15:
+      return AllegrexInsnPtr(LUI);
+
+    case 16: /* COP0 */
+      switch ((opcode >> 22) & 0x00000003)
+      {
+        case 0:
+          return ((opcode & 0x00000008) == 0x00000000) ? AllegrexInsnPtr(MFC0) : AllegrexInsnPtr(ERET);
+        case 1:
+          return AllegrexInsnPtr(CFC0);
+        case 2:
+          return AllegrexInsnPtr(MTC0);
+        case 3:
+          return AllegrexInsnPtr(CTC0);
+      }
+
+      break;
+
+    case 17: /* COP1 */
+      switch ((opcode >> 23) & 0x00000007)
+      {
+        case 0:
+          return ((opcode & 0x00400000) == 0x00000000) ? AllegrexInsnPtr(MFC1) : AllegrexInsnPtr(CFC1);
+        case 1:
+          return ((opcode & 0x00400000) == 0x00000000) ? AllegrexInsnPtr(MTC1) : AllegrexInsnPtr(CTC1);
+
+        case 2:
+          switch ((opcode >> 16) & 0x00000003)
+          {
+            case 0:
+              return AllegrexInsnPtr(BC1F);
+            case 1:
+              return AllegrexInsnPtr(BC1T);
+            case 2:
+              return AllegrexInsnPtr(BC1FL);
+            case 3:
+              return AllegrexInsnPtr(BC1TL);
+          }
+          ;
+
+          break;
+
+        case 3:
+          break;
+
+        case 4:
+          switch ((opcode >> 0) & 0x0000001f)
+          {
+            case 0:
+              return AllegrexInsnPtr(ADD_S);
+            case 1:
+              return AllegrexInsnPtr(SUB_S);
+            case 2:
+              return AllegrexInsnPtr(MUL_S);
+            case 3:
+              return AllegrexInsnPtr(DIV_S);
+            case 4:
+              return ((opcode & 0x00000020) == 0x00000000) ? AllegrexInsnPtr(SQRT_S) : AllegrexInsnPtr(CVT_W_S);
+            case 5:
+              return AllegrexInsnPtr(ABS_S);
+            case 6:
+              return AllegrexInsnPtr(MOV_S);
+            case 7:
+              return AllegrexInsnPtr(NEG_S);
+
+            case 8:
+            case 9:
+            case 10:
+            case 11:
+              break;
+
+            case 12:
+              return AllegrexInsnPtr(ROUND_W_S);
+            case 13:
+              return AllegrexInsnPtr(TRUNC_W_S);
+            case 14:
+              return AllegrexInsnPtr(CEIL_W_S);
+            case 15:
+              return AllegrexInsnPtr(FLOOR_W_S);
+
+            case 16:
+            case 17:
+            case 18:
+            case 19:
+            case 20:
+            case 21:
+            case 22:
+            case 23:
+            case 24:
+            case 25:
+            case 26:
+            case 27:
+            case 28:
+            case 29:
+            case 30:
+            case 31:
+              return AllegrexInsnPtr(C_COND_S);
+          }
+
+          break;
+
+        case 5:
+          return AllegrexInsnPtr(CVT_S_W);
+
+        case 6:
+        case 7:
+          break;
+      }
+
+      break;
+
+    case 18: /* VFPU2 */
+      if ((opcode & 0x00200000) == 0x00000000)
+      {
+        switch ((opcode >> 16) & 0x00000003)
+        {
+          case 0:
+            return AllegrexInsnPtr(BVF);
+          case 1:
+            return AllegrexInsnPtr(BVT);
+          case 2:
+            return AllegrexInsnPtr(BVFL);
+          case 3:
+            return AllegrexInsnPtr(BVTL);
+        }
+      }
+      else
+      {
+        if ((opcode & 0x00000080) == 0x00000000)
+        {
+          return ((opcode & 0x00800000) == 0x00000000) ? AllegrexInsnPtr(MFV) : AllegrexInsnPtr(MTV);
+        }
+        else
+        {
+          return ((opcode & 0x00800000) == 0x00000000) ? AllegrexInsnPtr(MFVC) : AllegrexInsnPtr(MTVC);
+        }
+      }
+
+      break;
+
+    case 19:
+      break;
+
+    case 20:
+      return AllegrexInsnPtr(BEQL);
+    case 21:
+      return AllegrexInsnPtr(BNEL);
+    case 22:
+      return AllegrexInsnPtr(BLEZL);
+    case 23:
+      return AllegrexInsnPtr(BGTZL);
+
+    case 24: /* VFPU0 */
+      switch ((opcode >> 23) & 0x00000003)
+      {
+        case 0:
+          return AllegrexInsnPtr(VADD);
+        case 1:
+          return AllegrexInsnPtr(VSUB);
+        case 2:
+          return AllegrexInsnPtr(VSBN);
+        case 3:
+          return AllegrexInsnPtr(VDIV);
+      }
+
+      break;
+
+    case 25: /* VFPU1 */
+      switch ((opcode >> 23) & 0x00000007)
+      {
+        case 0:
+          return AllegrexInsnPtr(VMUL);
+        case 1:
+          return AllegrexInsnPtr(VDOT);
+        case 2:
+          return AllegrexInsnPtr(VSCL);
+
+        case 3:
+          break;
+
+        case 4:
+          return AllegrexInsnPtr(VHDP);
+        case 5:
+          return AllegrexInsnPtr(VDET);
+        case 6:
+          return AllegrexInsnPtr(VCRS);
+
+        case 7:
+          break;
+      }
+
+      break;
+
+    case 26:
+      break;
+
+    case 27: /* VFPU3 */
+      switch ((opcode >> 23) & 0x00000007)
+      {
+        case 0:
+          return AllegrexInsnPtr(VCMP);
+
+        case 1:
+          break;
+
+        case 2:
+          return AllegrexInsnPtr(VMIN);
+        case 3:
+          return AllegrexInsnPtr(VMAX);
+        case 4:
+          return AllegrexInsnPtr(VSLT);
+        case 5:
+          return AllegrexInsnPtr(VSCMP);
+        case 6:
+          return AllegrexInsnPtr(VSGE);
+
+        case 7:
+          break;
+      }
+
+      break;
+
+    case 28: /* SPECIAL2 */
+      if ((opcode & 0x00000002) == 0x00000000)
+      {
+        return ((opcode & 0x00000004) == 0x00000000) ? AllegrexInsnPtr(HALT) : AllegrexInsnPtr(MFIC);
+      }
+      else
+      {
+        return AllegrexInsnPtr(MTIC);
+      }
+
+      break;
+
+    case 29:
+    case 30:
+      break;
+
+    case 31: /* SPECIAL3 */
+      if ((opcode & 0x00000021) == 0x00000020)
+      {
+        if ((opcode & 0x00000080) == 0x00000000)
+        {
+          return ((opcode & 0x00000100) == 0x00000000) ? AllegrexInsnPtr(SEH) : AllegrexInsnPtr(BITREV);
+        }
+        else
+        {
+          return ((opcode & 0x00000040) == 0x00000000) ? AllegrexInsnPtr(WSBH) : AllegrexInsnPtr(WSBW);
+        }
+      }
+      else
+      {
+        if ((opcode & 0x00000001) == 0x00000000)
+        {
+          return ((opcode & 0x00000004) == 0x00000000) ? AllegrexInsnPtr(EXT) : AllegrexInsnPtr(INS);
+        }
+        else
+        {
+          return AllegrexInsnPtr(SEB);
+        }
+      }
+
+      break;
+
+    case 32:
+      return AllegrexInsnPtr(LB);
+    case 33:
+      return AllegrexInsnPtr(LH);
+    case 34:
+      return AllegrexInsnPtr(LWL);
+    case 35:
+      return AllegrexInsnPtr(LW);
+    case 36:
+      return AllegrexInsnPtr(LBU);
+    case 37:
+      return AllegrexInsnPtr(LHU);
+    case 38:
+      return AllegrexInsnPtr(LWR);
+
+    case 39:
+      break;
+
+    case 40:
+      return AllegrexInsnPtr(SB);
+    case 41:
+      return AllegrexInsnPtr(SH);
+    case 42:
+      return AllegrexInsnPtr(SWL);
+    case 43:
+      return AllegrexInsnPtr(SW);
+
+    case 44:
+    case 45:
+      break;
+
+    case 46:
+      return AllegrexInsnPtr(SWR);
+
+    case 47: /* CACHE */
+      switch ((opcode >> 17) & 0x0000000f)
+      {
+        case 0:
+        case 1:
+          break;
+
+        case 2:
+          return AllegrexInsnPtr(ICACHE_INDEX_INVALIDATE);
+        case 3:
+          return AllegrexInsnPtr(ICACHE_INDEX_UNLOCK);
+        case 4:
+          return AllegrexInsnPtr(ICACHE_HIT_INVALIDATE);
+
+        case 5:
+          return ((opcode & 0x00010000) == 0x00000000) ? AllegrexInsnPtr(ICACHE_FILL) : AllegrexInsnPtr(ICACHE_FILL_WITH_LOCK);
+
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+          break;
+
+        case 10:
+          return AllegrexInsnPtr(DCACHE_INDEX_WRITEBACK_INVALIDATE);
+        case 11:
+          return AllegrexInsnPtr(DCACHE_INDEX_UNLOCK);
+
+        case 12:
+          return ((opcode & 0x00010000) == 0x00000000) ? AllegrexInsnPtr(DCACHE_CREATE_DIRTY_EXCLUSIVE) : AllegrexInsnPtr(DCACHE_HIT_INVALIDATE);
+
+        case 13:
+          return ((opcode & 0x00010000) == 0x00000000) ? AllegrexInsnPtr(DCACHE_HIT_WRITEBACK) : AllegrexInsnPtr(DCACHE_HIT_WRITEBACK_INVALIDATE);
+
+        case 14:
+          return AllegrexInsnPtr(DCACHE_CREATE_DIRTY_EXCLUSIVE_WITH_LOCK);
+
+        case 15:
+          return ((opcode & 0x00010000) == 0x00000000) ? AllegrexInsnPtr(DCACHE_FILL) : AllegrexInsnPtr(DCACHE_FILL_WITH_LOCK);
+      }
+
+      break;
+
+    case 48:
+      return AllegrexInsnPtr(LL);
+    case 49:
+      return AllegrexInsnPtr(LWC1);
+    case 50:
+      return AllegrexInsnPtr(LVS);
+
+    case 51:
+      break;
+
+    case 52: /* VFPU4 */
+      switch ((opcode >> 18) & 0x0000001f)
+      {
+        case 0:
+          if ((opcode & 0x02010000) == 0x00000000)
+          {
+            return ((opcode & 0x00020000) == 0x00000000) ? AllegrexInsnPtr(VMOV) : AllegrexInsnPtr(VNEG);
+          }
+          else
+          {
+            if ((opcode & 0x02020000) == 0x00000000)
+            {
+              return AllegrexInsnPtr(VABS);
+            }
+            else
+            {
+              if ((opcode & 0x02000000) == 0x00000000)
               {
-                static struct stub_s : allegrex_instruction_unknown_s
-                {
-                  virtual allegrex_instruction_s *instruction(u32 opcode)
-                  {
-                    static allegrex_instruction_s *table[64] =
-                    {
-                      /* 0 */
-                      (
-                          {
-                            static struct stub_s : allegrex_instruction_unknown_s
-                            {
-                              virtual allegrex_instruction_s *instruction(u32 opcode)
-                              {
-                                static allegrex_instruction_s *table[64] =
-                                {
-                                  /* 0 */
-                                  (&allegrex::SLL),
-                                  /* 1 */
-                                  (&allegrex::reserved_instruction),
-                                  /* 2 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x00200000) == 0x00000000)
-                                            {
-                                              return
-                                              (&allegrex::SRL)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (&allegrex::ROTR)->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 3 */
-                                  (&allegrex::SRA),
-                                  /* 4 */
-                                  (&allegrex::SLLV),
-                                  /* 5 */
-                                  (&allegrex::reserved_instruction),
-                                  /* 6 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x00000040) == 0x00000000)
-                                            {
-                                              return
-                                              (&allegrex::SRLV)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (&allegrex::ROTRV)->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 7 */
-                                  (&allegrex::SRAV),
-                                  /* 8 */
-                                  (&allegrex::JR),
-                                  /* 9 */
-                                  (&allegrex::JALR),
-                                  /* 10 */
-                                  (&allegrex::MOVZ),
-                                  /* 11 */
-                                  (&allegrex::MOVN),
-                                  /* 12 */
-                                  (&allegrex::SYSCALL),
-                                  /* 13 */
-                                  (&allegrex::BREAK),
-                                  /* 14 */
-                                  (&allegrex::reserved_instruction),
-                                  /* 15 */
-                                  (&allegrex::SYNC),
-                                  /* 16 */
-                                  (&allegrex::MFHI),
-                                  /* 17 */
-                                  (&allegrex::MTHI),
-                                  /* 18 */
-                                  (&allegrex::MFLO),
-                                  /* 19 */
-                                  (&allegrex::MTLO),
-                                  /* 20 */
-                                  (&allegrex::reserved_instruction),
-                                  /* 21 */
-                                  (&allegrex::reserved_instruction),
-                                  /* 22 */
-                                  (&allegrex::CLZ),
-                                  /* 23 */
-                                  (&allegrex::CLO),
-                                  /* 24 */
-                                  (&allegrex::MULT),
-                                  /* 25 */
-                                  (&allegrex::MULTU),
-                                  /* 26 */
-                                  (&allegrex::DIV),
-                                  /* 27 */
-                                  (&allegrex::DIVU),
-                                  /* 28 */
-                                  (&allegrex::MADD),
-                                  /* 29 */
-                                  (&allegrex::MADDU),
-                                  /* 30 */
-                                  (&allegrex::reserved_instruction),
-                                  /* 31 */
-                                  (&allegrex::reserved_instruction),
-                                  /* 32 */
-                                  (&allegrex::ADD),
-                                  /* 33 */
-                                  (&allegrex::ADDU),
-                                  /* 34 */
-                                  (&allegrex::SUB),
-                                  /* 35 */
-                                  (&allegrex::SUBU),
-                                  /* 36 */
-                                  (&allegrex::AND),
-                                  /* 37 */
-                                  (&allegrex::OR),
-                                  /* 38 */
-                                  (&allegrex::XOR),
-                                  /* 39 */
-                                  (&allegrex::NOR),
-                                  /* 40 */
-                                  (&allegrex::reserved_instruction),
-                                  /* 41 */
-                                  (&allegrex::reserved_instruction),
-                                  /* 42 */
-                                  (&allegrex::SLT),
-                                  /* 43 */
-                                  (&allegrex::SLTU),
-                                  /* 44 */
-                                  (&allegrex::MAX),
-                                  /* 45 */
-                                  (&allegrex::MIN),
-                                  /* 46 */
-                                  (&allegrex::MSUB),
-                                  /* 47 */
-                                  (&allegrex::MSUBU),
-                                  /* 48 */
-                                  (&allegrex::reserved_instruction),
-                                  /* 49 */
-                                  (&allegrex::reserved_instruction),
-                                  /* 50 */
-                                  (&allegrex::reserved_instruction),
-                                  /* 51 */
-                                  (&allegrex::reserved_instruction),
-                                  /* 52 */
-                                  (&allegrex::reserved_instruction),
-                                  /* 53 */
-                                  (&allegrex::reserved_instruction),
-                                  /* 54 */
-                                  (&allegrex::reserved_instruction),
-                                  /* 55 */
-                                  (&allegrex::reserved_instruction),
-                                  /* 56 */
-                                  (&allegrex::reserved_instruction),
-                                  /* 57 */
-                                  (&allegrex::reserved_instruction),
-                                  /* 58 */
-                                  (&allegrex::reserved_instruction),
-                                  /* 59 */
-                                  (&allegrex::reserved_instruction),
-                                  /* 60 */
-                                  (&allegrex::reserved_instruction),
-                                  /* 61 */
-                                  (&allegrex::reserved_instruction),
-                                  /* 62 */
-                                  (&allegrex::reserved_instruction),
-                                  /* 63 */
-                                  (&allegrex::reserved_instruction)
-                                };
-                                return table[(opcode >> 0) & 0x0000003f]->instruction(opcode);
-                              };
-                            }stub;
-                            &stub;
-                          }
-                      ),
-                      /* 1 */
-                      (
-                          {
-                            static struct stub_s : allegrex_instruction_unknown_s
-                            {
-                              virtual allegrex_instruction_s *instruction(u32 opcode)
-                              {
-                                static allegrex_instruction_s *table[4] =
-                                {
-                                  /* 0 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x00100000) == 0x00000000)
-                                            {
-                                              return
-                                              (&allegrex::BLTZ)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (&allegrex::BLTZAL)->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 1 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x00100000) == 0x00000000)
-                                            {
-                                              return
-                                              (&allegrex::BGEZ)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (&allegrex::BGEZAL)->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 2 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x00100000) == 0x00000000)
-                                            {
-                                              return
-                                              (&allegrex::BLTZL)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (&allegrex::BLTZALL)->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 3 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x00100000) == 0x00000000)
-                                            {
-                                              return
-                                              (&allegrex::BGEZL)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (&allegrex::BGEZALL)->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  )
-                                };
-                                return table[(opcode >> 16) & 0x00000003]->instruction(opcode);
-                              };
-                            }stub;
-                            &stub;
-                          }
-                      ),
-                      /* 2 */
-                      (&allegrex::J),
-                      /* 3 */
-                      (&allegrex::JAL),
-                      /* 4 */
-                      (&allegrex::BEQ),
-                      /* 5 */
-                      (&allegrex::BNE),
-                      /* 6 */
-                      (&allegrex::BLEZ),
-                      /* 7 */
-                      (&allegrex::BGTZ),
-                      /* 8 */
-                      (&allegrex::ADDI),
-                      /* 9 */
-                      (&allegrex::ADDIU),
-                      /* 10 */
-                      (&allegrex::SLTI),
-                      /* 11 */
-                      (&allegrex::SLTIU),
-                      /* 12 */
-                      (&allegrex::ANDI),
-                      /* 13 */
-                      (&allegrex::ORI),
-                      /* 14 */
-                      (&allegrex::XORI),
-                      /* 15 */
-                      (&allegrex::LUI),
-                      /* 16 */
-                      (
-                          {
-                            static struct stub_s : allegrex_instruction_unknown_s
-                            {
-                              virtual allegrex_instruction_s *instruction(u32 opcode)
-                              {
-                                static allegrex_instruction_s *table[4] =
-                                {
-                                  /* 0 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x00000008) == 0x00000000)
-                                            {
-                                              return
-                                              (&allegrex::MFC0)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (&allegrex::ERET)->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 1 */
-                                  (&allegrex::CFC0),
-                                  /* 2 */
-                                  (&allegrex::MTC0),
-                                  /* 3 */
-                                  (&allegrex::CTC0)
-                                };
-                                return table[(opcode >> 22) & 0x00000003]->instruction(opcode);
-                              };
-                            }stub;
-                            &stub;
-                          }
-                      ),
-                      /* 17 */
-                      (
-                          {
-                            static struct stub_s : allegrex_instruction_unknown_s
-                            {
-                              virtual allegrex_instruction_s *instruction(u32 opcode)
-                              {
-                                static allegrex_instruction_s *table[8] =
-                                {
-                                  /* 0 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x00400000) == 0x00000000)
-                                            {
-                                              return
-                                              (&allegrex::MFC1)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (&allegrex::CFC1)->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 1 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x00400000) == 0x00000000)
-                                            {
-                                              return
-                                              (&allegrex::MTC1)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (&allegrex::CTC1)->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 2 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            static allegrex_instruction_s *table[4] =
-                                            {
-                                              /* 0 */
-                                              (&allegrex::BC1F),
-                                              /* 1 */
-                                              (&allegrex::BC1T),
-                                              /* 2 */
-                                              (&allegrex::BC1FL),
-                                              /* 3 */
-                                              (&allegrex::BC1TL)
-                                            };
-                                            return table[(opcode >> 16) & 0x00000003]->instruction(opcode);
-                                          };
-                                        }stub;
-                                        &stub;
-                                      }),
-                                  /* 3 */
-                                  (&allegrex::reserved_instruction),
-                                  /* 4 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            static allegrex_instruction_s *table[32] =
-                                            {
-                                              /* 0 */
-                                              (&allegrex::ADD_S),
-                                              /* 1 */
-                                              (&allegrex::SUB_S),
-                                              /* 2 */
-                                              (&allegrex::MUL_S),
-                                              /* 3 */
-                                              (&allegrex::DIV_S),
-                                              /* 4 */
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x00000020) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::SQRT_S)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (&allegrex::CVT_W_S)->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  }
-                                              ),
-                                              /* 5 */
-                                              (&allegrex::ABS_S),
-                                              /* 6 */
-                                              (&allegrex::MOV_S),
-                                              /* 7 */
-                                              (&allegrex::NEG_S),
-                                              /* 8 */
-                                              (&allegrex::reserved_instruction),
-                                              /* 9 */
-                                              (&allegrex::reserved_instruction),
-                                              /* 10 */
-                                              (&allegrex::reserved_instruction),
-                                              /* 11 */
-                                              (&allegrex::reserved_instruction),
-                                              /* 12 */
-                                              (&allegrex::ROUND_W_S),
-                                              /* 13 */
-                                              (&allegrex::TRUNC_W_S),
-                                              /* 14 */
-                                              (&allegrex::CEIL_W_S),
-                                              /* 15 */
-                                              (&allegrex::FLOOR_W_S),
-                                              /* 16 */
-                                              (&allegrex::C_COND_S),
-                                              /* 17 */
-                                              (&allegrex::C_COND_S),
-                                              /* 18 */
-                                              (&allegrex::C_COND_S),
-                                              /* 19 */
-                                              (&allegrex::C_COND_S),
-                                              /* 20 */
-                                              (&allegrex::C_COND_S),
-                                              /* 21 */
-                                              (&allegrex::C_COND_S),
-                                              /* 22 */
-                                              (&allegrex::C_COND_S),
-                                              /* 23 */
-                                              (&allegrex::C_COND_S),
-                                              /* 24 */
-                                              (&allegrex::C_COND_S),
-                                              /* 25 */
-                                              (&allegrex::C_COND_S),
-                                              /* 26 */
-                                              (&allegrex::C_COND_S),
-                                              /* 27 */
-                                              (&allegrex::C_COND_S),
-                                              /* 28 */
-                                              (&allegrex::C_COND_S),
-                                              /* 29 */
-                                              (&allegrex::C_COND_S),
-                                              /* 30 */
-                                              (&allegrex::C_COND_S),
-                                              /* 31 */
-                                              (&allegrex::C_COND_S)
-                                            };
-                                            return table[(opcode >> 0) & 0x0000001f]->instruction(opcode);
-                                          };
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 5 */
-                                  (&allegrex::CVT_S_W),
-                                  /* 6 */
-                                  (&allegrex::reserved_instruction),
-                                  /* 7 */
-                                  (&allegrex::reserved_instruction)
-                                };
-                                return table[(opcode >> 23) & 0x00000007]->instruction(opcode);
-                              };
-                            }stub;
-                            &stub;
-                          }
-                      ),
-                      /* 18 */
-                      (
-                          {
-                            static struct stub_s : allegrex_instruction_unknown_s
-                            {
-                              virtual allegrex_instruction_s *instruction(u32 opcode)
-                              {
-                                if ((opcode & 0x00200000) == 0x00000000)
-                                {
-                                  return
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            static allegrex_instruction_s *table[4] =
-                                            {
-                                              /* 0 */
-                                              (&allegrex::BVF),
-                                              /* 1 */
-                                              (&allegrex::BVT),
-                                              /* 2 */
-                                              (&allegrex::BVFL),
-                                              /* 3 */
-                                              (&allegrex::BVTL)
-                                            };
-                                            return table[(opcode >> 16) & 0x00000003]->instruction(opcode);
-                                          };
-                                        }stub;
-                                        &stub;
-                                      })->instruction(opcode);
-                                }
-                                else
-                                {
-                                  return
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x00000080) == 0x00000000)
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x00800000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::MFV)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (&allegrex::MTV)->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x00800000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::MFVC)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (&allegrex::MTVC)->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      })->instruction(opcode);
-                                }
-                              }
-                            }stub;
-                            &stub;
-                          }
-                      ),
-                      /* 19 */
-                      (&allegrex::reserved_instruction),
-                      /* 20 */
-                      (&allegrex::BEQL),
-                      /* 21 */
-                      (&allegrex::BNEL),
-                      /* 22 */
-                      (&allegrex::BLEZL),
-                      /* 23 */
-                      (&allegrex::BGTZL),
-                      /* 24 */
-                      (
-                          {
-                            static struct stub_s : allegrex_instruction_unknown_s
-                            {
-                              virtual allegrex_instruction_s *instruction(u32 opcode)
-                              {
-                                static allegrex_instruction_s *table[4] =
-                                {
-                                  /* 0 */
-                                  (&allegrex::VADD),
-                                  /* 1 */
-                                  (&allegrex::VSUB),
-                                  /* 2 */
-                                  (&allegrex::VSBN),
-                                  /* 3 */
-                                  (&allegrex::VDIV)
-                                };
-                                return table[(opcode >> 23) & 0x00000003]->instruction(opcode);
-                              };
-                            }stub;
-                            &stub;
-                          }
-                      ),
-                      /* 25 */
-                      (
-                          {
-                            static struct stub_s : allegrex_instruction_unknown_s
-                            {
-                              virtual allegrex_instruction_s *instruction(u32 opcode)
-                              {
-                                static allegrex_instruction_s *table[8] =
-                                {
-                                  /* 0 */
-                                  (&allegrex::VMUL),
-                                  /* 1 */
-                                  (&allegrex::VDOT),
-                                  /* 2 */
-                                  (&allegrex::VSCL),
-                                  /* 3 */
-                                  (&allegrex::reserved_instruction),
-                                  /* 4 */
-                                  (&allegrex::VHDP),
-                                  /* 5 */
-                                  (&allegrex::VDET),
-                                  /* 6 */
-                                  (&allegrex::VCRS),
-                                  /* 7 */
-                                  (&allegrex::reserved_instruction)
-                                };
-                                return table[(opcode >> 23) & 0x00000007]->instruction(opcode);
-                              };
-                            }stub;
-                            &stub;
-                          }
-                      ),
-                      /* 26 */
-                      (&allegrex::reserved_instruction),
-                      /* 27 */
-                      (
-                          {
-                            static struct stub_s : allegrex_instruction_unknown_s
-                            {
-                              virtual allegrex_instruction_s *instruction(u32 opcode)
-                              {
-                                static allegrex_instruction_s *table[8] =
-                                {
-                                  /* 0 */
-                                  (&allegrex::VCMP),
-                                  /* 1 */
-                                  (&allegrex::reserved_instruction),
-                                  /* 2 */
-                                  (&allegrex::VMIN),
-                                  /* 3 */
-                                  (&allegrex::VMAX),
-                                  /* 4 */
-                                  (&allegrex::VSLT),
-                                  /* 5 */
-                                  (&allegrex::VSCMP),
-                                  /* 6 */
-                                  (&allegrex::VSGE),
-                                  /* 7 */
-                                  (&allegrex::reserved_instruction)
-                                };
-                                return table[(opcode >> 23) & 0x00000007]->instruction(opcode);
-                              };
-                            }stub;
-                            &stub;
-                          }
-                      ),
-                      /* 28 */
-                      (
-                          {
-                            static struct stub_s : allegrex_instruction_unknown_s
-                            {
-                              virtual allegrex_instruction_s *instruction(u32 opcode)
-                              {
-                                if ((opcode & 0x00000002) == 0x00000000)
-                                {
-                                  return
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x00000004) == 0x00000000)
-                                            {
-                                              return
-                                              (&allegrex::HALT)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (&allegrex::MFIC)->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      })->instruction(opcode);
-                                }
-                                else
-                                {
-                                  return
-                                  (&allegrex::MTIC)->instruction(opcode);
-                                }
-                              }
-                            }stub;
-                            &stub;
-                          }
-                      ),
-                      /* 29 */
-                      (&allegrex::reserved_instruction),
-                      /* 30 */
-                      (&allegrex::reserved_instruction),
-                      /* 31 */
-                      (
-                          {
-                            static struct stub_s : allegrex_instruction_unknown_s
-                            {
-                              virtual allegrex_instruction_s *instruction(u32 opcode)
-                              {
-                                if ((opcode & 0x00000021) == 0x00000020)
-                                {
-                                  return
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x00000080) == 0x00000000)
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x00000100) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::SEH)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (&allegrex::BITREV)->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x00000040) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::WSBH)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (&allegrex::WSBW)->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      })->instruction(opcode);
-                                }
-                                else
-                                {
-                                  return
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x00000001) == 0x00000000)
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x00000004) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::EXT)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (&allegrex::INS)->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (&allegrex::SEB)->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      })->instruction(opcode);
-                                }
-                              }
-                            }stub;
-                            &stub;
-                          }
-                      ),
-                      /* 32 */
-                      (&allegrex::LB),
-                      /* 33 */
-                      (&allegrex::LH),
-                      /* 34 */
-                      (&allegrex::LWL),
-                      /* 35 */
-                      (&allegrex::LW),
-                      /* 36 */
-                      (&allegrex::LBU),
-                      /* 37 */
-                      (&allegrex::LHU),
-                      /* 38 */
-                      (&allegrex::LWR),
-                      /* 39 */
-                      (&allegrex::reserved_instruction),
-                      /* 40 */
-                      (&allegrex::SB),
-                      /* 41 */
-                      (&allegrex::SH),
-                      /* 42 */
-                      (&allegrex::SWL),
-                      /* 43 */
-                      (&allegrex::SW),
-                      /* 44 */
-                      (&allegrex::reserved_instruction),
-                      /* 45 */
-                      (&allegrex::reserved_instruction),
-                      /* 46 */
-                      (&allegrex::SWR),
-                      /* 47 */
-                      (
-                          {
-                            static struct stub_s : allegrex_instruction_unknown_s
-                            {
-                              virtual allegrex_instruction_s *instruction(u32 opcode)
-                              {
-                                static allegrex_instruction_s *table[16] =
-                                {
-                                  /* 0 */
-                                  (&allegrex::reserved_instruction),
-                                  /* 1 */
-                                  (&allegrex::reserved_instruction),
-                                  /* 2 */
-                                  (&allegrex::ICACHE_INDEX_INVALIDATE),
-                                  /* 3 */
-                                  (&allegrex::ICACHE_INDEX_UNLOCK),
-                                  /* 4 */
-                                  (&allegrex::ICACHE_HIT_INVALIDATE),
-                                  /* 5 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x00010000) == 0x00000000)
-                                            {
-                                              return
-                                              (&allegrex::ICACHE_FILL)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (&allegrex::ICACHE_FILL_WITH_LOCK)->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 6 */
-                                  (&allegrex::reserved_instruction),
-                                  /* 7 */
-                                  (&allegrex::reserved_instruction),
-                                  /* 8 */
-                                  (&allegrex::reserved_instruction),
-                                  /* 9 */
-                                  (&allegrex::reserved_instruction),
-                                  /* 10 */
-                                  (&allegrex::DCACHE_INDEX_WRITEBACK_INVALIDATE),
-                                  /* 11 */
-                                  (&allegrex::DCACHE_INDEX_UNLOCK),
-                                  /* 12 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x00010000) == 0x00000000)
-                                            {
-                                              return
-                                              (&allegrex::DCACHE_CREATE_DIRTY_EXCLUSIVE)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (&allegrex::DCACHE_HIT_INVALIDATE)->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 13 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x00010000) == 0x00000000)
-                                            {
-                                              return
-                                              (&allegrex::DCACHE_HIT_WRITEBACK)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (&allegrex::DCACHE_HIT_WRITEBACK_INVALIDATE)->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 14 */
-                                  (&allegrex::DCACHE_CREATE_DIRTY_EXCLUSIVE_WITH_LOCK),
-                                  /* 15 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x00010000) == 0x00000000)
-                                            {
-                                              return
-                                              (&allegrex::DCACHE_FILL)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (&allegrex::DCACHE_FILL_WITH_LOCK)->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  )
-                                };
-                                return table[(opcode >> 17) & 0x0000000f]->instruction(opcode);
-                              };
-                            }stub;
-                            &stub;
-                          }),
-                      /* 48 */
-                      (&allegrex::LL),
-                      /* 49 */
-                      (&allegrex::LWC1),
-                      /* 50 */
-                      (&allegrex::LVS),
-                      /* 51 */
-                      (&allegrex::reserved_instruction),
-                      /* 52 */
-                      (
-                          {
-                            static struct stub_s : allegrex_instruction_unknown_s
-                            {
-                              virtual allegrex_instruction_s *instruction(u32 opcode)
-                              {
-                                static allegrex_instruction_s *table[32] =
-                                {
-                                  /* 0 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x02010000) == 0x00000000)
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x00020000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VMOV)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (&allegrex::VNEG)->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x02020000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VABS)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (
-                                                              {
-                                                                static struct stub_s : allegrex_instruction_unknown_s
-                                                                {
-                                                                  virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                                  {
-                                                                    if ((opcode & 0x02000000) == 0x00000000)
-                                                                    {
-                                                                      return
-                                                                      (&allegrex::VIDT)->instruction(opcode);
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                      return
-                                                                      (
-                                                                          {
-                                                                            static struct stub_s : allegrex_instruction_unknown_s
-                                                                            {
-                                                                              virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                                              {
-                                                                                if ((opcode & 0x01800000) == 0x00000000)
-                                                                                {
-                                                                                  return
-                                                                                  (&allegrex::VF2IN)->instruction(opcode);
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                  return
-                                                                                  (
-                                                                                      {
-                                                                                        static struct stub_s : allegrex_instruction_unknown_s
-                                                                                        {
-                                                                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                                                          {
-                                                                                            if ((opcode & 0x01000000) == 0x00000000)
-                                                                                            {
-                                                                                              return
-                                                                                              (&allegrex::VI2F)->instruction(opcode);
-                                                                                            }
-                                                                                            else
-                                                                                            {
-                                                                                              return
-                                                                                              (&allegrex::VWBN)->instruction(opcode);
-                                                                                            }
-                                                                                          }
-                                                                                        }stub;
-                                                                                        &stub;
-                                                                                      })->instruction(opcode);
-                                                                                }
-                                                                              }
-                                                                            }stub;
-                                                                            &stub;
-                                                                          })->instruction(opcode);
-                                                                    }
-                                                                  }
-                                                                }stub;
-                                                                &stub;
-                                                              })->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 1 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x02010000) == 0x00000000)
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x00020000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VSAT0)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (&allegrex::VZERO)->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x02020000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VSAT1)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (
-                                                              {
-                                                                static struct stub_s : allegrex_instruction_unknown_s
-                                                                {
-                                                                  virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                                  {
-                                                                    if ((opcode & 0x02000000) == 0x00000000)
-                                                                    {
-                                                                      return
-                                                                      (&allegrex::VONE)->instruction(opcode);
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                      return
-                                                                      (
-                                                                          {
-                                                                            static struct stub_s : allegrex_instruction_unknown_s
-                                                                            {
-                                                                              virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                                              {
-                                                                                if ((opcode & 0x01800000) == 0x00000000)
-                                                                                {
-                                                                                  return
-                                                                                  (&allegrex::VF2IN)->instruction(opcode);
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                  return
-                                                                                  (
-                                                                                      {
-                                                                                        static struct stub_s : allegrex_instruction_unknown_s
-                                                                                        {
-                                                                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                                                          {
-                                                                                            if ((opcode & 0x01000000) == 0x00000000)
-                                                                                            {
-                                                                                              return
-                                                                                              (&allegrex::VI2F)->instruction(opcode);
-                                                                                            }
-                                                                                            else
-                                                                                            {
-                                                                                              return
-                                                                                              (&allegrex::VWBN)->instruction(opcode);
-                                                                                            }
-                                                                                          }
-                                                                                        }stub;
-                                                                                        &stub;
-                                                                                      })->instruction(opcode);
-                                                                                }
-                                                                              }
-                                                                            }stub;
-                                                                            &stub;
-                                                                          })->instruction(opcode);
-                                                                    }
-                                                                  }
-                                                                }stub;
-                                                                &stub;
-                                                              })->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 2 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x01800000) == 0x00000000)
-                                            {
-                                              return
-                                              (&allegrex::VF2IN)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x01000000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VI2F)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (&allegrex::VWBN)->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 3 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x01800000) == 0x00000000)
-                                            {
-                                              return
-                                              (&allegrex::VF2IN)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x01000000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VI2F)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (&allegrex::VWBN)->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 4 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x02010000) == 0x00000000)
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x00020000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VRCP)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (&allegrex::VSIN)->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x02020000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VRSQ)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (
-                                                              {
-                                                                static struct stub_s : allegrex_instruction_unknown_s
-                                                                {
-                                                                  virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                                  {
-                                                                    if ((opcode & 0x02000000) == 0x00000000)
-                                                                    {
-                                                                      return
-                                                                      (&allegrex::VCOS)->instruction(opcode);
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                      return
-                                                                      (
-                                                                          {
-                                                                            static struct stub_s : allegrex_instruction_unknown_s
-                                                                            {
-                                                                              virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                                              {
-                                                                                if ((opcode & 0x01800000) == 0x00000000)
-                                                                                {
-                                                                                  return
-                                                                                  (&allegrex::VF2IN)->instruction(opcode);
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                  return
-                                                                                  (
-                                                                                      {
-                                                                                        static struct stub_s : allegrex_instruction_unknown_s
-                                                                                        {
-                                                                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                                                          {
-                                                                                            if ((opcode & 0x01000000) == 0x00000000)
-                                                                                            {
-                                                                                              return
-                                                                                              (&allegrex::VI2F)->instruction(opcode);
-                                                                                            }
-                                                                                            else
-                                                                                            {
-                                                                                              return
-                                                                                              (&allegrex::VWBN)->instruction(opcode);
-                                                                                            }
-                                                                                          }
-                                                                                        }stub;
-                                                                                        &stub;
-                                                                                      })->instruction(opcode);
-                                                                                }
-                                                                              }
-                                                                            }stub;
-                                                                            &stub;
-                                                                          })->instruction(opcode);
-                                                                    }
-                                                                  }
-                                                                }stub;
-                                                                &stub;
-                                                              })->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 5 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x02010000) == 0x00000000)
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x00020000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VEXP2)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (&allegrex::VSQRT)->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x02020000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VLOG2)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (
-                                                              {
-                                                                static struct stub_s : allegrex_instruction_unknown_s
-                                                                {
-                                                                  virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                                  {
-                                                                    if ((opcode & 0x02000000) == 0x00000000)
-                                                                    {
-                                                                      return
-                                                                      (&allegrex::VASIN)->instruction(opcode);
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                      return
-                                                                      (
-                                                                          {
-                                                                            static struct stub_s : allegrex_instruction_unknown_s
-                                                                            {
-                                                                              virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                                              {
-                                                                                if ((opcode & 0x01800000) == 0x00000000)
-                                                                                {
-                                                                                  return
-                                                                                  (&allegrex::VF2IN)->instruction(opcode);
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                  return
-                                                                                  (
-                                                                                      {
-                                                                                        static struct stub_s : allegrex_instruction_unknown_s
-                                                                                        {
-                                                                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                                                          {
-                                                                                            if ((opcode & 0x01000000) == 0x00000000)
-                                                                                            {
-                                                                                              return
-                                                                                              (&allegrex::VI2F)->instruction(opcode);
-                                                                                            }
-                                                                                            else
-                                                                                            {
-                                                                                              return
-                                                                                              (&allegrex::VWBN)->instruction(opcode);
-                                                                                            }
-                                                                                          }
-                                                                                        }stub;
-                                                                                        &stub;
-                                                                                      })->instruction(opcode);
-                                                                                }
-                                                                              }
-                                                                            }stub;
-                                                                            &stub;
-                                                                          })->instruction(opcode);
-                                                                    }
-                                                                  }
-                                                                }stub;
-                                                                &stub;
-                                                              })->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 6 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x02020000) == 0x00000000)
-                                            {
-                                              return
-                                              (&allegrex::VNRCP)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x02000000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VNSIN)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (
-                                                              {
-                                                                static struct stub_s : allegrex_instruction_unknown_s
-                                                                {
-                                                                  virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                                  {
-                                                                    if ((opcode & 0x01800000) == 0x00000000)
-                                                                    {
-                                                                      return
-                                                                      (&allegrex::VF2IN)->instruction(opcode);
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                      return
-                                                                      (
-                                                                          {
-                                                                            static struct stub_s : allegrex_instruction_unknown_s
-                                                                            {
-                                                                              virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                                              {
-                                                                                if ((opcode & 0x01000000) == 0x00000000)
-                                                                                {
-                                                                                  return
-                                                                                  (&allegrex::VI2F)->instruction(opcode);
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                  return
-                                                                                  (&allegrex::VWBN)->instruction(opcode);
-                                                                                }
-                                                                              }
-                                                                            }stub;
-                                                                            &stub;
-                                                                          })->instruction(opcode);
-                                                                    }
-                                                                  }
-                                                                }stub;
-                                                                &stub;
-                                                              })->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 7 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x02000000) == 0x00000000)
-                                            {
-                                              return
-                                              (&allegrex::VREXP2)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x01800000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VF2IN)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (
-                                                              {
-                                                                static struct stub_s : allegrex_instruction_unknown_s
-                                                                {
-                                                                  virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                                  {
-                                                                    if ((opcode & 0x01000000) == 0x00000000)
-                                                                    {
-                                                                      return
-                                                                      (&allegrex::VI2F)->instruction(opcode);
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                      return
-                                                                      (&allegrex::VWBN)->instruction(opcode);
-                                                                    }
-                                                                  }
-                                                                }stub;
-                                                                &stub;
-                                                              })->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 8 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x02010000) == 0x00000000)
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x00020000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VRNDS)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (&allegrex::VRNDF1)->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x02020000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VRNDI)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (
-                                                              {
-                                                                static struct stub_s : allegrex_instruction_unknown_s
-                                                                {
-                                                                  virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                                  {
-                                                                    if ((opcode & 0x02000000) == 0x00000000)
-                                                                    {
-                                                                      return
-                                                                      (&allegrex::VRNDF2)->instruction(opcode);
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                      return
-                                                                      (
-                                                                          {
-                                                                            static struct stub_s : allegrex_instruction_unknown_s
-                                                                            {
-                                                                              virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                                              {
-                                                                                if ((opcode & 0x01800000) == 0x00800000)
-                                                                                {
-                                                                                  return
-                                                                                  (&allegrex::VCMOVT)->instruction(opcode);
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                  return
-                                                                                  (
-                                                                                      {
-                                                                                        static struct stub_s : allegrex_instruction_unknown_s
-                                                                                        {
-                                                                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                                                          {
-                                                                                            if ((opcode & 0x01000000) == 0x00000000)
-                                                                                            {
-                                                                                              return
-                                                                                              (&allegrex::VF2IZ)->instruction(opcode);
-                                                                                            }
-                                                                                            else
-                                                                                            {
-                                                                                              return
-                                                                                              (&allegrex::VWBN)->instruction(opcode);
-                                                                                            }
-                                                                                          }
-                                                                                        }stub;
-                                                                                        &stub;
-                                                                                      })->instruction(opcode);
-                                                                                }
-                                                                              }
-                                                                            }stub;
-                                                                            &stub;
-                                                                          })->instruction(opcode);
-                                                                    }
-                                                                  }
-                                                                }stub;
-                                                                &stub;
-                                                              })->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 9 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x01800000) == 0x00800000)
-                                            {
-                                              return
-                                              (&allegrex::VCMOVT)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x01000000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VF2IZ)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (&allegrex::VWBN)->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 10 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x01800000) == 0x00800000)
-                                            {
-                                              return
-                                              (&allegrex::VCMOVF)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x01000000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VF2IZ)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (&allegrex::VWBN)->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 11 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x01800000) == 0x00800000)
-                                            {
-                                              return
-                                              (&allegrex::VCMOVF)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x01000000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VF2IZ)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (&allegrex::VWBN)->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 12 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x02010000) == 0x00000000)
-                                            {
-                                              return
-                                              (&allegrex::VF2H)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x02000000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VH2F)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (
-                                                              {
-                                                                static struct stub_s : allegrex_instruction_unknown_s
-                                                                {
-                                                                  virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                                  {
-                                                                    if ((opcode & 0x01000000) == 0x00000000)
-                                                                    {
-                                                                      return
-                                                                      (&allegrex::VF2IZ)->instruction(opcode);
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                      return
-                                                                      (&allegrex::VWBN)->instruction(opcode);
-                                                                    }
-                                                                  }
-                                                                }stub;
-                                                                &stub;
-                                                              })->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 13 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x02010000) == 0x00000000)
-                                            {
-                                              return
-                                              (&allegrex::VSBZ)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x02000000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VLGB)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (
-                                                              {
-                                                                static struct stub_s : allegrex_instruction_unknown_s
-                                                                {
-                                                                  virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                                  {
-                                                                    if ((opcode & 0x01000000) == 0x00000000)
-                                                                    {
-                                                                      return
-                                                                      (&allegrex::VF2IZ)->instruction(opcode);
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                      return
-                                                                      (&allegrex::VWBN)->instruction(opcode);
-                                                                    }
-                                                                  }
-                                                                }stub;
-                                                                &stub;
-                                                              })->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 14 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x02010000) == 0x00000000)
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x00020000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VUC2I)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (&allegrex::VUS2I)->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x02020000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VC2I)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (
-                                                              {
-                                                                static struct stub_s : allegrex_instruction_unknown_s
-                                                                {
-                                                                  virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                                  {
-                                                                    if ((opcode & 0x02000000) == 0x00000000)
-                                                                    {
-                                                                      return
-                                                                      (&allegrex::VS2I)->instruction(opcode);
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                      return
-                                                                      (
-                                                                          {
-                                                                            static struct stub_s : allegrex_instruction_unknown_s
-                                                                            {
-                                                                              virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                                              {
-                                                                                if ((opcode & 0x01000000) == 0x00000000)
-                                                                                {
-                                                                                  return
-                                                                                  (&allegrex::VF2IZ)->instruction(opcode);
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                  return
-                                                                                  (&allegrex::VWBN)->instruction(opcode);
-                                                                                }
-                                                                              }
-                                                                            }stub;
-                                                                            &stub;
-                                                                          })->instruction(opcode);
-                                                                    }
-                                                                  }
-                                                                }stub;
-                                                                &stub;
-                                                              })->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 15 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x02010000) == 0x00000000)
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x00020000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VI2UC)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (&allegrex::VI2US)->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x02020000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VI2C)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (
-                                                              {
-                                                                static struct stub_s : allegrex_instruction_unknown_s
-                                                                {
-                                                                  virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                                  {
-                                                                    if ((opcode & 0x02000000) == 0x00000000)
-                                                                    {
-                                                                      return
-                                                                      (&allegrex::VI2S)->instruction(opcode);
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                      return
-                                                                      (
-                                                                          {
-                                                                            static struct stub_s : allegrex_instruction_unknown_s
-                                                                            {
-                                                                              virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                                              {
-                                                                                if ((opcode & 0x01000000) == 0x00000000)
-                                                                                {
-                                                                                  return
-                                                                                  (&allegrex::VF2IZ)->instruction(opcode);
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                  return
-                                                                                  (&allegrex::VWBN)->instruction(opcode);
-                                                                                }
-                                                                              }
-                                                                            }stub;
-                                                                            &stub;
-                                                                          })->instruction(opcode);
-                                                                    }
-                                                                  }
-                                                                }stub;
-                                                                &stub;
-                                                              })->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 16 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x02010000) == 0x00000000)
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x00020000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VSRT1)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (&allegrex::VBFY1)->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x02020000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VSRT2)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (
-                                                              {
-                                                                static struct stub_s : allegrex_instruction_unknown_s
-                                                                {
-                                                                  virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                                  {
-                                                                    if ((opcode & 0x02000000) == 0x00000000)
-                                                                    {
-                                                                      return
-                                                                      (&allegrex::VBFY2)->instruction(opcode);
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                      return
-                                                                      (
-                                                                          {
-                                                                            static struct stub_s : allegrex_instruction_unknown_s
-                                                                            {
-                                                                              virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                                              {
-                                                                                if ((opcode & 0x01000000) == 0x00000000)
-                                                                                {
-                                                                                  return
-                                                                                  (&allegrex::VF2IU)->instruction(opcode);
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                  return
-                                                                                  (&allegrex::VWBN)->instruction(opcode);
-                                                                                }
-                                                                              }
-                                                                            }stub;
-                                                                            &stub;
-                                                                          })->instruction(opcode);
-                                                                    }
-                                                                  }
-                                                                }stub;
-                                                                &stub;
-                                                              })->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 17 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x02010000) == 0x00000000)
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x00020000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VOCP)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (&allegrex::VFAD)->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x02020000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VSOCP)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (
-                                                              {
-                                                                static struct stub_s : allegrex_instruction_unknown_s
-                                                                {
-                                                                  virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                                  {
-                                                                    if ((opcode & 0x02000000) == 0x00000000)
-                                                                    {
-                                                                      return
-                                                                      (&allegrex::VAVG)->instruction(opcode);
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                      return
-                                                                      (
-                                                                          {
-                                                                            static struct stub_s : allegrex_instruction_unknown_s
-                                                                            {
-                                                                              virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                                              {
-                                                                                if ((opcode & 0x01000000) == 0x00000000)
-                                                                                {
-                                                                                  return
-                                                                                  (&allegrex::VF2IU)->instruction(opcode);
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                  return
-                                                                                  (&allegrex::VWBN)->instruction(opcode);
-                                                                                }
-                                                                              }
-                                                                            }stub;
-                                                                            &stub;
-                                                                          })->instruction(opcode);
-                                                                    }
-                                                                  }
-                                                                }stub;
-                                                                &stub;
-                                                              })->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 18 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x02010000) == 0x00000000)
-                                            {
-                                              return
-                                              (&allegrex::VSRT3)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x02000000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VSRT4)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (
-                                                              {
-                                                                static struct stub_s : allegrex_instruction_unknown_s
-                                                                {
-                                                                  virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                                  {
-                                                                    if ((opcode & 0x01000000) == 0x00000000)
-                                                                    {
-                                                                      return
-                                                                      (&allegrex::VF2IU)->instruction(opcode);
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                      return
-                                                                      (&allegrex::VWBN)->instruction(opcode);
-                                                                    }
-                                                                  }
-                                                                }stub;
-                                                                &stub;
-                                                              })->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 19 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x01000000) == 0x00000000)
-                                            {
-                                              return
-                                              (&allegrex::VF2IU)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (&allegrex::VWBN)->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 20 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x02000080) == 0x00000000)
-                                            {
-                                              return
-                                              (&allegrex::VMFVC)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x02000000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VMTVC)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (
-                                                              {
-                                                                static struct stub_s : allegrex_instruction_unknown_s
-                                                                {
-                                                                  virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                                  {
-                                                                    if ((opcode & 0x01000000) == 0x00000000)
-                                                                    {
-                                                                      return
-                                                                      (&allegrex::VF2IU)->instruction(opcode);
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                      return
-                                                                      (&allegrex::VWBN)->instruction(opcode);
-                                                                    }
-                                                                  }
-                                                                }stub;
-                                                                &stub;
-                                                              })->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 21 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x01000000) == 0x00000000)
-                                            {
-                                              return
-                                              (&allegrex::VF2IU)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (&allegrex::VWBN)->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 22 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x02010000) == 0x00010000)
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x00020000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VT4444)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (&allegrex::VT5650)->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x02000000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VT5551)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (
-                                                              {
-                                                                static struct stub_s : allegrex_instruction_unknown_s
-                                                                {
-                                                                  virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                                  {
-                                                                    if ((opcode & 0x01000000) == 0x00000000)
-                                                                    {
-                                                                      return
-                                                                      (&allegrex::VF2IU)->instruction(opcode);
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                      return
-                                                                      (&allegrex::VWBN)->instruction(opcode);
-                                                                    }
-                                                                  }
-                                                                }stub;
-                                                                &stub;
-                                                              })->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 23 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x01000000) == 0x00000000)
-                                            {
-                                              return
-                                              (&allegrex::VF2IU)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (&allegrex::VWBN)->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 24 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x02000000) == 0x00000000)
-                                            {
-                                              return
-                                              (&allegrex::VCST)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x01000000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VF2ID)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (&allegrex::VWBN)->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 25 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x02000000) == 0x00000000)
-                                            {
-                                              return
-                                              (&allegrex::VCST)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x01000000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VF2ID)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (&allegrex::VWBN)->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 26 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x02000000) == 0x00000000)
-                                            {
-                                              return
-                                              (&allegrex::VCST)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x01000000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VF2ID)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (&allegrex::VWBN)->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 27 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x02000000) == 0x00000000)
-                                            {
-                                              return
-                                              (&allegrex::VCST)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x01000000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VF2ID)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (&allegrex::VWBN)->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 28 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x02000000) == 0x00000000)
-                                            {
-                                              return
-                                              (&allegrex::VCST)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x01000000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VF2ID)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (&allegrex::VWBN)->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 29 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x02000000) == 0x00000000)
-                                            {
-                                              return
-                                              (&allegrex::VCST)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x01000000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VF2ID)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (&allegrex::VWBN)->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 30 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x02000000) == 0x00000000)
-                                            {
-                                              return
-                                              (&allegrex::VCST)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x01000000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VF2ID)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (&allegrex::VWBN)->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 31 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x02000000) == 0x00000000)
-                                            {
-                                              return
-                                              (&allegrex::VCST)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x01000000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VF2ID)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (&allegrex::VWBN)->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  )
-                                };
-                                return table[(opcode >> 18) & 0x0000001f]->instruction(opcode);
-                              };
-                            }stub;
-                            &stub;
-                          }
-                      ),
-                      /* 53 */
-                      (
-                          {
-                            static struct stub_s : allegrex_instruction_unknown_s
-                            {
-                              virtual allegrex_instruction_s *instruction(u32 opcode)
-                              {
-                                if ((opcode & 0x00000002) == 0x00000000)
-                                {
-                                  return
-                                  (&allegrex::LVLQ)->instruction(opcode);
-                                }
-                                else
-                                {
-                                  return
-                                  (&allegrex::LVRQ)->instruction(opcode);
-                                }
-                              }
-                            }stub;
-                            &stub;
-                          }
-                      ),
-                      /* 54 */
-                      (&allegrex::LVQ),
-                      /* 55 */
-                      (
-                          {
-                            static struct stub_s : allegrex_instruction_unknown_s
-                            {
-                              virtual allegrex_instruction_s *instruction(u32 opcode)
-                              {
-                                static allegrex_instruction_s *table[4] =
-                                {
-                                  /* 0 */
-                                  (&allegrex::VPFXS),
-                                  /* 1 */
-                                  (&allegrex::VPFXT),
-                                  /* 2 */
-                                  (&allegrex::VPFXD),
-                                  /* 3 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x00800000) == 0x00000000)
-                                            {
-                                              return
-                                              (&allegrex::VIIM)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (&allegrex::VFIM)->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  )
-                                };
-                                return table[(opcode >> 24) & 0x00000003]->instruction(opcode);
-                              };
-                            }stub;
-                            &stub;
-                          }
-                      ),
-                      /* 56 */
-                      (&allegrex::SC),
-                      /* 57 */
-                      (&allegrex::SWC1),
-                      /* 58 */
-                      (&allegrex::SVS),
-                      /* 59 */
-                      (&allegrex::reserved_instruction),
-                      /* 60 */
-                      (
-                          {
-                            static struct stub_s : allegrex_instruction_unknown_s
-                            {
-                              virtual allegrex_instruction_s *instruction(u32 opcode)
-                              {
-                                static allegrex_instruction_s *table[8] =
-                                {
-                                  /* 0 */
-                                  (&allegrex::VMMUL),
-                                  /* 1 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x00000080) == 0x00000000)
-                                            {
-                                              return
-                                              (&allegrex::VHTFM2)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (&allegrex::VTFM2)->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 2 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x00000080) == 0x00000000)
-                                            {
-                                              return
-                                              (&allegrex::VTFM3)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (&allegrex::VHTFM3)->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 3 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x00000080) == 0x00000000)
-                                            {
-                                              return
-                                              (&allegrex::VHTFM4)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (&allegrex::VTFM4)->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  ),
-                                  /* 4 */
-                                  (&allegrex::VMSCL),
-                                  /* 5 */
-                                  (&allegrex::VQMUL),
-                                  /* 6 */
-                                  (&allegrex::reserved_instruction),
-                                  /* 7 */
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x00210000) == 0x00000000)
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x00020000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (&allegrex::VMMOV)->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (&allegrex::VMZERO)->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (
-                                                  {
-                                                    static struct stub_s : allegrex_instruction_unknown_s
-                                                    {
-                                                      virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                      {
-                                                        if ((opcode & 0x00200000) == 0x00000000)
-                                                        {
-                                                          return
-                                                          (
-                                                              {
-                                                                static struct stub_s : allegrex_instruction_unknown_s
-                                                                {
-                                                                  virtual allegrex_instruction_s *instruction(u32 opcode)
-                                                                  {
-                                                                    if ((opcode & 0x00040000) == 0x00000000)
-                                                                    {
-                                                                      return
-                                                                      (&allegrex::VMIDT)->instruction(opcode);
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                      return
-                                                                      (&allegrex::VMONE)->instruction(opcode);
-                                                                    }
-                                                                  }
-                                                                }stub;
-                                                                &stub;
-                                                              })->instruction(opcode);
-                                                        }
-                                                        else
-                                                        {
-                                                          return
-                                                          (&allegrex::VROT)->instruction(opcode);
-                                                        }
-                                                      }
-                                                    }stub;
-                                                    &stub;
-                                                  })->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      }
-                                  )
-                                };
-                                return table[(opcode >> 23) & 0x00000007]->instruction(opcode);
-                              };
-                            }stub;
-                            &stub;
-                          }
-                      ),
-                      /* 61 */
-                      (
-                          {
-                            static struct stub_s : allegrex_instruction_unknown_s
-                            {
-                              virtual allegrex_instruction_s *instruction(u32 opcode)
-                              {
-                                if ((opcode & 0x00000002) == 0x00000000)
-                                {
-                                  return
-                                  (&allegrex::SVLQ)->instruction(opcode);
-                                }
-                                else
-                                {
-                                  return
-                                  (&allegrex::SVRQ)->instruction(opcode);
-                                }
-                              }
-                            }stub;
-                            &stub;
-                          }
-                      ),
-                      /* 62 */
-                      (
-                          {
-                            static struct stub_s : allegrex_instruction_unknown_s
-                            {
-                              virtual allegrex_instruction_s *instruction(u32 opcode)
-                              {
-                                if ((opcode & 0x00000002) == 0x00000000)
-                                {
-                                  return
-                                  (&allegrex::SVQ)->instruction(opcode);
-                                }
-                                else
-                                {
-                                  return
-                                  (&allegrex::SWB)->instruction(opcode);
-                                }
-                              }
-                            }stub;
-                            &stub;
-                          }
-                      ),
-                      /* 63 */
-                      (
-                          {
-                            static struct stub_s : allegrex_instruction_unknown_s
-                            {
-                              virtual allegrex_instruction_s *instruction(u32 opcode)
-                              {
-                                if ((opcode & 0x00000001) == 0x00000000)
-                                {
-                                  return
-                                  (
-                                      {
-                                        static struct stub_s : allegrex_instruction_unknown_s
-                                        {
-                                          virtual allegrex_instruction_s *instruction(u32 opcode)
-                                          {
-                                            if ((opcode & 0x00000020) == 0x00000000)
-                                            {
-                                              return
-                                              (&allegrex::VNOP)->instruction(opcode);
-                                            }
-                                            else
-                                            {
-                                              return
-                                              (&allegrex::VSYNC)->instruction(opcode);
-                                            }
-                                          }
-                                        }stub;
-                                        &stub;
-                                      })->instruction(opcode);
-                                }
-                                else
-                                {
-                                  return
-                                  (&allegrex::VFLUSH)->instruction(opcode);
-                                }
-                              }
-                            }stub;
-                            &stub;
-                          }
-                      )
-                    };
-                    return table[(opcode >> 26) & 0x0000003f]->instruction(opcode);
-                  };
-                }stub;
-                &stub;
+                return AllegrexInsnPtr(VIDT);
               }
-          );
-  return root->instruction(opcode);
+              else
+              {
+                if ((opcode & 0x01800000) == 0x00000000)
+                {
+                  return AllegrexInsnPtr(VF2IN);
+                }
+                else
+                {
+                  return ((opcode & 0x01000000) == 0x00000000)
+                      ? AllegrexInsnPtr(VI2F)
+                      : AllegrexInsnPtr(VWBN);
+                }
+              }
+            }
+          }
+
+          break;
+
+        case 1:
+          if ((opcode & 0x02010000) == 0x00000000)
+          {
+            return ((opcode & 0x00020000) == 0x00000000) ? AllegrexInsnPtr(VSAT0) : AllegrexInsnPtr(VZERO);
+          }
+          else
+          {
+            if ((opcode & 0x02020000) == 0x00000000)
+            {
+              return AllegrexInsnPtr(VSAT1);
+            }
+            else
+            {
+              if ((opcode & 0x02000000) == 0x00000000)
+              {
+                return AllegrexInsnPtr(VONE);
+              }
+              else
+              {
+                if ((opcode & 0x01800000) == 0x00000000)
+                {
+                  return AllegrexInsnPtr(VF2IN);
+                }
+                else
+                {
+                  return ((opcode & 0x01000000) == 0x00000000)
+                      ? AllegrexInsnPtr(VI2F)
+                      : AllegrexInsnPtr(VWBN);
+                }
+              }
+            }
+          }
+
+          break;
+
+        case 2:
+          if ((opcode & 0x01800000) == 0x00000000)
+          {
+            return AllegrexInsnPtr(VF2IN);
+          }
+          else
+          {
+            if ((opcode & 0x01000000) == 0x00000000)
+            {
+              return AllegrexInsnPtr(VI2F);
+            }
+            else
+            {
+              return AllegrexInsnPtr(VWBN);
+            }
+          }
+
+          break;
+
+        case 3:
+          if ((opcode & 0x01800000) == 0x00000000)
+          {
+            return AllegrexInsnPtr(VF2IN);
+          }
+          else
+          {
+            return ((opcode & 0x01000000) == 0x00000000) ? AllegrexInsnPtr(VI2F) : AllegrexInsnPtr(VWBN);
+          }
+
+          break;
+
+        case 4:
+          if ((opcode & 0x02010000) == 0x00000000)
+          {
+            return ((opcode & 0x00020000) == 0x00000000) ? AllegrexInsnPtr(VRCP) : AllegrexInsnPtr(VSIN);
+          }
+          else
+          {
+            if ((opcode & 0x02020000) == 0x00000000)
+            {
+              return AllegrexInsnPtr(VRSQ);
+            }
+            else
+            {
+              if ((opcode & 0x02000000) == 0x00000000)
+              {
+                return AllegrexInsnPtr(VCOS);
+              }
+              else
+              {
+                if ((opcode & 0x01800000) == 0x00000000)
+                {
+                  return AllegrexInsnPtr(VF2IN);
+                }
+                else
+                {
+                  return ((opcode & 0x01000000) == 0x00000000)
+                      ? AllegrexInsnPtr(VI2F)
+                      : AllegrexInsnPtr(VWBN);
+                }
+              }
+            }
+          }
+
+          break;
+
+        case 5:
+          if ((opcode & 0x02010000) == 0x00000000)
+          {
+            return ((opcode & 0x00020000) == 0x00000000) ? AllegrexInsnPtr(VEXP2) : AllegrexInsnPtr(VSQRT);
+          }
+          else
+          {
+            if ((opcode & 0x02020000) == 0x00000000)
+            {
+              return AllegrexInsnPtr(VLOG2);
+            }
+            else
+            {
+              if ((opcode & 0x02000000) == 0x00000000)
+              {
+                return AllegrexInsnPtr(VASIN);
+              }
+              else
+              {
+                if ((opcode & 0x01800000) == 0x00000000)
+                {
+                  return AllegrexInsnPtr(VF2IN);
+                }
+                else
+                {
+                  return ((opcode & 0x01000000) == 0x00000000)
+                      ? AllegrexInsnPtr(VI2F)
+                      : AllegrexInsnPtr(VWBN);
+                }
+              }
+            }
+          }
+
+          break;
+
+        case 6:
+          if ((opcode & 0x02020000) == 0x00000000)
+          {
+            return AllegrexInsnPtr(VNRCP);
+          }
+          else
+          {
+            if ((opcode & 0x02000000) == 0x00000000)
+            {
+              return AllegrexInsnPtr(VNSIN);
+            }
+            else
+            {
+              if ((opcode & 0x01800000) == 0x00000000)
+              {
+                return AllegrexInsnPtr(VF2IN);
+              }
+              else
+              {
+                return ((opcode & 0x01000000) == 0x00000000) ? AllegrexInsnPtr(VI2F) : AllegrexInsnPtr(VWBN);
+              }
+            }
+          }
+
+          break;
+
+        case 7:
+          if ((opcode & 0x02000000) == 0x00000000)
+          {
+            return AllegrexInsnPtr(VREXP2);
+          }
+          else
+          {
+            if ((opcode & 0x01800000) == 0x00000000)
+            {
+              return AllegrexInsnPtr(VF2IN);
+            }
+            else
+            {
+              return ((opcode & 0x01000000) == 0x00000000) ? AllegrexInsnPtr(VI2F) : AllegrexInsnPtr(VWBN);
+            }
+          }
+
+          break;
+
+        case 8:
+          if ((opcode & 0x02010000) == 0x00000000)
+          {
+            return ((opcode & 0x00020000) == 0x00000000) ? AllegrexInsnPtr(VRNDS) : AllegrexInsnPtr(VRNDF1);
+          }
+          else
+          {
+            if ((opcode & 0x02020000) == 0x00000000)
+            {
+              return AllegrexInsnPtr(VRNDI);
+            }
+            else
+            {
+              if ((opcode & 0x02000000) == 0x00000000)
+              {
+                return AllegrexInsnPtr(VRNDF2);
+              }
+              else
+              {
+                if ((opcode & 0x01800000) == 0x00800000)
+                {
+                  return AllegrexInsnPtr(VCMOVT);
+                }
+                else
+                {
+                  return ((opcode & 0x01000000) == 0x00000000)
+                      ? AllegrexInsnPtr(VF2IZ)
+                      : AllegrexInsnPtr(VWBN);
+                }
+              }
+            }
+          }
+
+          break;
+
+        case 9:
+          if ((opcode & 0x01800000) == 0x00800000)
+          {
+            return AllegrexInsnPtr(VCMOVT);
+          }
+          else
+          {
+            return ((opcode & 0x01000000) == 0x00000000) ? AllegrexInsnPtr(VF2IZ) : AllegrexInsnPtr(VWBN);
+          }
+
+          break;
+
+        case 10:
+          if ((opcode & 0x01800000) == 0x00800000)
+          {
+            return AllegrexInsnPtr(VCMOVF);
+          }
+          else
+          {
+            return ((opcode & 0x01000000) == 0x00000000) ? AllegrexInsnPtr(VF2IZ) : AllegrexInsnPtr(VWBN);
+          }
+
+          break;
+
+        case 11:
+          if ((opcode & 0x01800000) == 0x00800000)
+          {
+            return AllegrexInsnPtr(VCMOVF);
+          }
+          else
+          {
+            return ((opcode & 0x01000000) == 0x00000000) ? AllegrexInsnPtr(VF2IZ) : AllegrexInsnPtr(VWBN);
+          }
+
+          break;
+
+        case 12:
+          if ((opcode & 0x02010000) == 0x00000000)
+          {
+            return AllegrexInsnPtr(VF2H);
+          }
+          else
+          {
+            if ((opcode & 0x02000000) == 0x00000000)
+            {
+              return AllegrexInsnPtr(VH2F);
+            }
+            else
+            {
+              return ((opcode & 0x01000000) == 0x00000000) ? AllegrexInsnPtr(VF2IZ) : AllegrexInsnPtr(VWBN);
+            }
+          }
+
+          break;
+
+        case 13:
+          if ((opcode & 0x02010000) == 0x00000000)
+          {
+            return AllegrexInsnPtr(VSBZ);
+          }
+          else
+          {
+            if ((opcode & 0x02000000) == 0x00000000)
+            {
+              return AllegrexInsnPtr(VLGB);
+            }
+            else
+            {
+              return ((opcode & 0x01000000) == 0x00000000) ? AllegrexInsnPtr(VF2IZ) : AllegrexInsnPtr(VWBN);
+            }
+          }
+
+          break;
+
+        case 14:
+          if ((opcode & 0x02010000) == 0x00000000)
+          {
+            if ((opcode & 0x00020000) == 0x00000000)
+            {
+              return AllegrexInsnPtr(VUC2I);
+            }
+            else
+            {
+              return AllegrexInsnPtr(VUS2I);
+            }
+          }
+          else
+          {
+            if ((opcode & 0x02020000) == 0x00000000)
+            {
+              return AllegrexInsnPtr(VC2I);
+            }
+            else
+            {
+              if ((opcode & 0x02000000) == 0x00000000)
+              {
+                return AllegrexInsnPtr(VS2I);
+              }
+              else
+              {
+                return ((opcode & 0x01000000) == 0x00000000) ? AllegrexInsnPtr(VF2IZ) : AllegrexInsnPtr(VWBN);
+              }
+            }
+          }
+
+          break;
+
+        case 15:
+          if ((opcode & 0x02010000) == 0x00000000)
+          {
+            return ((opcode & 0x00020000) == 0x00000000) ? AllegrexInsnPtr(VI2UC) : AllegrexInsnPtr(VI2US);
+          }
+          else
+          {
+            if ((opcode & 0x02020000) == 0x00000000)
+            {
+              return AllegrexInsnPtr(VI2C);
+            }
+            else
+            {
+              if ((opcode & 0x02000000) == 0x00000000)
+              {
+                return AllegrexInsnPtr(VI2S);
+              }
+              else
+              {
+                return ((opcode & 0x01000000) == 0x00000000) ? AllegrexInsnPtr(VF2IZ) : AllegrexInsnPtr(VWBN);
+              }
+            }
+          }
+
+          break;
+
+        case 16:
+          if ((opcode & 0x02010000) == 0x00000000)
+          {
+            return ((opcode & 0x00020000) == 0x00000000) ? AllegrexInsnPtr(VSRT1) : AllegrexInsnPtr(VBFY1);
+          }
+          else
+          {
+            if ((opcode & 0x02020000) == 0x00000000)
+            {
+              return AllegrexInsnPtr(VSRT2);
+            }
+            else
+            {
+              if ((opcode & 0x02000000) == 0x00000000)
+              {
+                return AllegrexInsnPtr(VBFY2);
+              }
+              else
+              {
+                return ((opcode & 0x01000000) == 0x00000000) ? AllegrexInsnPtr(VF2IU) : AllegrexInsnPtr(VWBN);
+              }
+            }
+          }
+
+          break;
+
+        case 17:
+          if ((opcode & 0x02010000) == 0x00000000)
+          {
+            return ((opcode & 0x00020000) == 0x00000000) ? AllegrexInsnPtr(VOCP) : AllegrexInsnPtr(VFAD);
+          }
+          else
+          {
+            if ((opcode & 0x02020000) == 0x00000000)
+            {
+              return AllegrexInsnPtr(VSOCP);
+            }
+            else
+            {
+              if ((opcode & 0x02000000) == 0x00000000)
+              {
+                return AllegrexInsnPtr(VAVG);
+              }
+              else
+              {
+                return ((opcode & 0x01000000) == 0x00000000) ? AllegrexInsnPtr(VF2IU) : AllegrexInsnPtr(VWBN);
+              }
+            }
+          }
+
+          break;
+
+        case 18:
+          if ((opcode & 0x02010000) == 0x00000000)
+          {
+            return AllegrexInsnPtr(VSRT3);
+          }
+          else
+          {
+            if ((opcode & 0x02000000) == 0x00000000)
+            {
+              return AllegrexInsnPtr(VSRT4);
+            }
+            else
+            {
+              return ((opcode & 0x01000000) == 0x00000000) ? AllegrexInsnPtr(VF2IU) : AllegrexInsnPtr(VWBN);
+            }
+          }
+
+          break;
+
+        case 19:
+          return ((opcode & 0x01000000) == 0x00000000) ? AllegrexInsnPtr(VF2IU) : AllegrexInsnPtr(VWBN);
+
+        case 20:
+          if ((opcode & 0x02000080) == 0x00000000)
+          {
+            return AllegrexInsnPtr(VMFVC);
+          }
+          else
+          {
+            if ((opcode & 0x02000000) == 0x00000000)
+            {
+              return AllegrexInsnPtr(VMTVC);
+            }
+            else
+            {
+              return ((opcode & 0x01000000) == 0x00000000) ? AllegrexInsnPtr(VF2IU) : AllegrexInsnPtr(VWBN);
+            }
+          }
+
+          break;
+
+        case 21:
+          return ((opcode & 0x01000000) == 0x00000000) ? AllegrexInsnPtr(VF2IU) : AllegrexInsnPtr(VWBN);
+
+        case 22:
+          if ((opcode & 0x02010000) == 0x00010000)
+          {
+            return ((opcode & 0x00020000) == 0x00000000) ? AllegrexInsnPtr(VT4444) : AllegrexInsnPtr(VT5650);
+          }
+          else
+          {
+            if ((opcode & 0x02000000) == 0x00000000)
+            {
+              return AllegrexInsnPtr(VT5551);
+            }
+            else
+            {
+              return ((opcode & 0x01000000) == 0x00000000) ? AllegrexInsnPtr(VF2IU) : AllegrexInsnPtr(VWBN);
+            }
+          }
+
+          break;
+
+        case 23:
+          return ((opcode & 0x01000000) == 0x00000000) ? AllegrexInsnPtr(VF2IU) : AllegrexInsnPtr(VWBN);
+
+        case 24:
+          if ((opcode & 0x02000000) == 0x00000000)
+          {
+            return AllegrexInsnPtr(VCST);
+          }
+          else
+          {
+            return ((opcode & 0x01000000) == 0x00000000) ? AllegrexInsnPtr(VF2ID) : AllegrexInsnPtr(VWBN);
+          }
+
+          break;
+
+        case 25:
+          if ((opcode & 0x02000000) == 0x00000000)
+          {
+            return AllegrexInsnPtr(VCST);
+          }
+          else
+          {
+            return ((opcode & 0x01000000) == 0x00000000) ? AllegrexInsnPtr(VF2ID) : AllegrexInsnPtr(VWBN);
+          }
+
+          break;
+
+        case 26:
+          if ((opcode & 0x02000000) == 0x00000000)
+          {
+            return AllegrexInsnPtr(VCST);
+          }
+          else
+          {
+            return ((opcode & 0x01000000) == 0x00000000) ? AllegrexInsnPtr(VF2ID) : AllegrexInsnPtr(VWBN);
+          }
+
+          break;
+
+        case 27:
+          if ((opcode & 0x02000000) == 0x00000000)
+          {
+            return AllegrexInsnPtr(VCST);
+          }
+          else
+          {
+            return ((opcode & 0x01000000) == 0x00000000) ? AllegrexInsnPtr(VF2ID) : AllegrexInsnPtr(VWBN);
+          }
+
+          break;
+
+        case 28:
+          if ((opcode & 0x02000000) == 0x00000000)
+          {
+            return AllegrexInsnPtr(VCST);
+          }
+          else
+          {
+            return ((opcode & 0x01000000) == 0x00000000) ? AllegrexInsnPtr(VF2ID) : AllegrexInsnPtr(VWBN);
+          }
+
+          break;
+
+        case 29:
+          if ((opcode & 0x02000000) == 0x00000000)
+          {
+            return AllegrexInsnPtr(VCST);
+          }
+          else
+          {
+            return ((opcode & 0x01000000) == 0x00000000) ? AllegrexInsnPtr(VF2ID) : AllegrexInsnPtr(VWBN);
+          }
+
+          break;
+
+        case 30:
+          if ((opcode & 0x02000000) == 0x00000000)
+          {
+            return AllegrexInsnPtr(VCST);
+          }
+          else
+          {
+            return ((opcode & 0x01000000) == 0x00000000) ? AllegrexInsnPtr(VF2ID) : AllegrexInsnPtr(VWBN);
+          }
+
+          break;
+
+        case 31:
+          if ((opcode & 0x02000000) == 0x00000000)
+          {
+            return AllegrexInsnPtr(VCST);
+          }
+          else
+          {
+            return ((opcode & 0x01000000) == 0x00000000) ? AllegrexInsnPtr(VF2ID) : AllegrexInsnPtr(VWBN);
+          }
+      }
+
+      break;
+
+    case 53:
+      return ((opcode & 0x00000002) == 0x00000000) ? AllegrexInsnPtr(LVLQ) : AllegrexInsnPtr(LVRQ);
+
+    case 54:
+      return AllegrexInsnPtr(LVQ);
+
+    case 55: /* VFPU5 */
+      switch ((opcode >> 24) & 0x00000003)
+      {
+        case 0:
+          return AllegrexInsnPtr(VPFXS);
+        case 1:
+          return AllegrexInsnPtr(VPFXT);
+        case 2:
+          return AllegrexInsnPtr(VPFXD);
+        case 3:
+          return ((opcode & 0x00800000) == 0x00000000) ? AllegrexInsnPtr(VIIM) : AllegrexInsnPtr(VFIM);
+      }
+
+      break;
+
+    case 56:
+      return AllegrexInsnPtr(SC);
+    case 57:
+      return AllegrexInsnPtr(SWC1);
+    case 58:
+      return AllegrexInsnPtr(SVS);
+
+    case 59:
+      break;
+
+    case 60: /* VFPU6 */
+      switch ((opcode >> 23) & 0x00000007)
+      {
+        case 0:
+          return AllegrexInsnPtr(VMMUL);
+        case 1:
+          return ((opcode & 0x00000080) == 0x00000000) ? AllegrexInsnPtr(VHTFM2) : AllegrexInsnPtr(VTFM2);
+        case 2:
+          return ((opcode & 0x00000080) == 0x00000000) ? AllegrexInsnPtr(VHTFM3) : AllegrexInsnPtr(VTFM3);
+        case 3:
+          return ((opcode & 0x00000080) == 0x00000000) ? AllegrexInsnPtr(VHTFM4) : AllegrexInsnPtr(VTFM4);
+        case 4:
+          return AllegrexInsnPtr(VMSCL);
+        case 5:
+          return AllegrexInsnPtr(VQMUL);
+
+        case 6:
+          break;
+
+        case 7:
+          if ((opcode & 0x00210000) == 0x00000000)
+          {
+            return ((opcode & 0x00020000) == 0x00000000) ? AllegrexInsnPtr(VMMOV) : AllegrexInsnPtr(VMZERO);
+          }
+          else
+          {
+            if ((opcode & 0x00200000) == 0x00000000)
+            {
+              return ((opcode & 0x00040000) == 0x00000000) ? AllegrexInsnPtr(VMIDT) : AllegrexInsnPtr(VMONE);
+            }
+            else
+            {
+              return AllegrexInsnPtr(VROT);
+            }
+          }
+      }
+
+      break;
+
+    case 61:
+      return ((opcode & 0x00000002) == 0x00000000) ? AllegrexInsnPtr(SVLQ) : AllegrexInsnPtr(SVRQ);
+
+    case 62:
+      return ((opcode & 0x00000002) == 0x00000000) ? AllegrexInsnPtr(SVQ) : AllegrexInsnPtr(SWB);
+
+    case 63: /* VFPU7 */
+      if ((opcode & 0x00000001) == 0x00000000)
+      {
+        return ((opcode & 0x00000020) == 0x00000000) ? AllegrexInsnPtr(VNOP) : AllegrexInsnPtr(VSYNC);
+      }
+      else
+      {
+        return AllegrexInsnPtr(VFLUSH);
+      }
+
+      break;
+  }
+
+  return AllegrexInsnPtr(reserved_instruction);
 }

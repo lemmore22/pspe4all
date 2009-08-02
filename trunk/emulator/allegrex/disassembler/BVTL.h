@@ -1,7 +1,7 @@
 /* BVTL */
-void allegrex_instruction_template_s< 0x49030000, 0xffe30000 >::disassemble(u32 address, u32 opcode, char *opcode_name, char *operands, char *comment)
+void AllegrexInstructionTemplate< 0x49030000, 0xffe30000 >::disassemble(u32 address, u32 opcode, char *opcode_name, char *operands, char *comment)
 {
-  using namespace allegrex;
+  using namespace Allegrex;
 
   s32 imm = simm16(opcode);
   ::strcpy(opcode_name, "bvtl");

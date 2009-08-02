@@ -14,29 +14,26 @@
 
 #include "emulator/types.h"
 
-struct allegrex_instruction_base_s;
-struct allegrex_instruction_s;
-template< int signature, int mask > struct allegrex_instruction_template_s;
+struct AllegrexInstructionBase;
+struct AllegrexInstruction;
+template< int signature, int mask > struct AllegrexInstructionTemplate;
 struct basic_block_s;
 struct super_block_s;
 
-typedef allegrex_instruction_base_s allegrex_instruction_base_t;
-typedef allegrex_instruction_s allegrex_instruction_t;
-
-struct allegrex_instruction_base_s
+struct AllegrexInstructionBase
 {
   typedef int index_t;
 
-  virtual ~allegrex_instruction_base_s() {}
+  virtual ~AllegrexInstructionBase() {}
 
 protected:
-  allegrex_instruction_base_s() {}
+  AllegrexInstructionBase() {}
 };
 
 struct emulator_s;
-struct processor_s;
+struct Processor;
 
-struct allegrex_instruction_s : allegrex_instruction_base_s
+struct AllegrexInstruction : AllegrexInstructionBase
 {
   typedef int index_t;
 
@@ -53,13 +50,13 @@ struct allegrex_instruction_s : allegrex_instruction_base_s
   u32 branch_target : 1;
 #endif
 
-  virtual ~allegrex_instruction_s() {}
+  virtual ~AllegrexInstruction() {}
 
-  virtual allegrex_instruction_s *instruction(u32 opcode) = 0;
+  virtual AllegrexInstruction *instruction(u32 opcode) = 0;
 
   virtual char const *opcode_name() = 0;
 
-  virtual void interpret(processor_s &processor, u32 opcode) = 0;
+  virtual void interpret(Processor &processor, u32 opcode) = 0;
 
   virtual void disassemble(u32 address, u32 opcode, char *opcode_name, char *operands, char *comment) = 0;
 
@@ -120,7 +117,7 @@ struct allegrex_instruction_s : allegrex_instruction_base_s
   static inline u32 cconds(u32 opcode) { return ((((u32)opcode) >> 0)&15); }
 
 #ifdef USE_DYNAREC
-  virtual allegrex_instruction_s *clone() = 0;
+  virtual AllegrexInstruction *clone() = 0;
 
   virtual bool pass1() = 0;
 
@@ -147,39 +144,39 @@ struct allegrex_instruction_s : allegrex_instruction_base_s
 
   typedef struct factory_s
   {
-    static allegrex_instruction_s *create(unsigned int address, unsigned int opcode);
+    static AllegrexInstruction *create(unsigned int address, unsigned int opcode);
 
-    static allegrex_instruction_s *create_nop(unsigned int address);
+    static AllegrexInstruction *create_nop(unsigned int address);
 
-    static allegrex_instruction_s *create_delay_slot_nop(unsigned int address);
+    static AllegrexInstruction *create_delay_slot_nop(unsigned int address);
 
-    static allegrex_instruction_s *create_tail_call_jump(unsigned int address, int extra);
+    static AllegrexInstruction *create_tail_call_jump(unsigned int address, int extra);
 
-    static allegrex_instruction_s __attribute__((aligned(32))) instructions[32768];
+    static AllegrexInstruction __attribute__((aligned(32))) instructions[32768];
 
-    static allegrex_instruction_s *free_instructions;
+    static AllegrexInstruction *free_instructions;
 
     factory_s()
     {
       ::memset(instructions, 0, sizeof(instructions));
 
-      allegrex_instruction_s *free_instruction = 0;
+      AllegrexInstruction *free_instruction = 0;
 
-      for (allegrex_instruction_s *i = instructions + 32767; i >= instructions; --i)
+      for (AllegrexInstruction *i = instructions + 32767; i >= instructions; --i)
       {
-        *((allegrex_instruction_s **)i) = free_instruction;
+        *((AllegrexInstruction **)i) = free_instruction;
         free_instruction = i;
       }
       free_instructions = free_instruction;
     }
   } factory_t;
 
-  void set_delayed(allegrex_instruction_s *delayed)
+  void set_delayed(AllegrexInstruction *delayed)
   {
     this->delayed = delayed - &(factory_t::instructions[0]);
   }
 
-  allegrex_instruction_s *get_delayed()
+  AllegrexInstruction *get_delayed()
   {
     return &factory_t::instructions[this->delayed];
   }
@@ -189,7 +186,7 @@ struct allegrex_instruction_s : allegrex_instruction_base_s
     return this->delayed != 0;
   }
 
-  void set_prefix(allegrex_instruction_s *prefix)
+  void set_prefix(AllegrexInstruction *prefix)
   {
     this->prefix = prefix - &(factory_t::instructions[0]);
   }
@@ -199,27 +196,27 @@ struct allegrex_instruction_s : allegrex_instruction_base_s
     return this->prefix != 0;
   }
 
-  allegrex_instruction_s *get_prefix()
+  AllegrexInstruction *get_prefix()
   {
     return &factory_t::instructions[this->prefix];
   }
 
-  allegrex_instruction_s *get_previous_register_write(int which)
+  AllegrexInstruction *get_previous_register_write(int which)
   {
     return &factory_t::instructions[this->register_writes[which]];
   }
 
-  allegrex_instruction_s *get_previous_register_read(int which)
+  AllegrexInstruction *get_previous_register_read(int which)
   {
     return &factory_t::instructions[this->register_reads[which]];
   }
 
-  void set_previous_register_read(allegrex_instruction_s *insn, int which)
+  void set_previous_register_read(AllegrexInstruction *insn, int which)
   {
     this->register_reads[which] = insn - &(factory_t::instructions[0]);
   }
 
-  void set_previous_register_write(allegrex_instruction_s *insn, int which)
+  void set_previous_register_write(AllegrexInstruction *insn, int which)
   {
     this->register_writes[which] = insn - &(factory_t::instructions[0]);
   }
@@ -227,20 +224,20 @@ struct allegrex_instruction_s : allegrex_instruction_base_s
 
 };
 
-struct allegrex_instruction_unknown_s : allegrex_instruction_s
+struct AllegrexInstructionUnknown : AllegrexInstruction
 {
-  static allegrex_instruction_unknown_s &self()
+  static AllegrexInstructionUnknown &self()
   {
-    static allegrex_instruction_unknown_s insn;
+    static AllegrexInstructionUnknown insn;
     return insn;
   }
 
-  static allegrex_instruction_s *get_instance()
+  static AllegrexInstruction *get_instance()
   {
-    return &allegrex_instruction_unknown_s::self();
+    return &AllegrexInstructionUnknown::self();
   }
 
-  virtual allegrex_instruction_s *instruction(u32 opcode)
+  virtual AllegrexInstruction *instruction(u32 opcode)
   {
     return this;
   }
@@ -250,7 +247,7 @@ struct allegrex_instruction_unknown_s : allegrex_instruction_s
     return "???";
   }
 
-  virtual void interpret(processor_s &processor, u32 opcode)
+  virtual void interpret(Processor &processor, u32 opcode)
   {
   }
 
@@ -262,10 +259,10 @@ struct allegrex_instruction_unknown_s : allegrex_instruction_s
   }
 
 #ifdef USE_DYNAREC
-  virtual allegrex_instruction_s *clone()
+  virtual AllegrexInstruction *clone()
   {
 //  return (instruction_s *)instruction_s::new(this) allegrex_n::intruction_template_s< opcode, mask >(opcode);
-    return (allegrex_instruction_s *)new allegrex::instruction_template_s(opcode);
+    return (AllegrexInstruction *)new Allegrex::instruction_template_s(opcode);
   }
 
   virtual bool pass1()
@@ -281,34 +278,34 @@ struct allegrex_instruction_unknown_s : allegrex_instruction_s
 #endif
 };
 
-template< int signature, int mask > struct allegrex_instruction_template_s : allegrex_instruction_unknown_s
+template< int signature, int mask > struct AllegrexInstructionTemplate : AllegrexInstructionUnknown
 {
-  static allegrex_instruction_template_s &self()
+  static AllegrexInstructionTemplate &self()
   {
-    static allegrex_instruction_template_s insn;
+    static AllegrexInstructionTemplate insn;
     return insn;
   }
 
-  static allegrex_instruction_s *get_instance()
+  static AllegrexInstruction *get_instance()
   {
-    return &allegrex_instruction_template_s::self();
+    return &AllegrexInstructionTemplate::self();
   }
 
-  virtual allegrex_instruction_s *instruction(u32 opcode)
+  virtual AllegrexInstruction *instruction(u32 opcode)
   {
     return this;
   }
 
   virtual char const *opcode_name();
 
-  virtual void interpret(processor_s &processor, int opcode);
+  virtual void interpret(Processor &processor, int opcode);
 
   virtual void disassemble(u32 address, u32 opcode, char *opcode_name, char *operands, char *comment);
 
 #ifdef USE_DYNAREC
-  virtual allegrex_instruction_s *clone()
+  virtual AllegrexInstruction *clone()
   {
-    return (allegrex_instruction_s *)new allegrex::instruction_template_s(opcode);
+    return (AllegrexInstruction *)new Allegrex::instruction_template_s(opcode);
   }
 
   virtual bool pass1()
@@ -324,9 +321,9 @@ template< int signature, int mask > struct allegrex_instruction_template_s : all
 #endif
 };
 
-namespace allegrex
+namespace Allegrex
 {
-  extern allegrex_instruction_unknown_s &reserved_instruction;
+  extern AllegrexInstructionUnknown &reserved_instruction;
 
   extern char const * gpr_name[32];
 

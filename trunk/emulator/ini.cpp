@@ -46,12 +46,12 @@ struct ini_exception_s : public std::exception
   virtual const char* what() const throw() { return "bad format"; }
 };
 
-char const *ini::filename()
+char const *Ini::filename()
 {
   return ini_filename;
 }
 
-bool ini::load()
+bool Ini::load()
 {
   tracef(misc, "Loading '%s'...", filename());
 
@@ -117,13 +117,13 @@ bool ini::load()
   {
     if (!f.eof())
     {
-      error::set("Failed to load '%s' file.", filename());
+      Error::set("Failed to load '%s' file.", filename());
       loaded = false;
     }
   }
   catch (std::exception &e)
   {
-    error::set("Failed to load '%s' file: %s.", filename(), e.what());
+    Error::set("Failed to load '%s' file: %s.", filename(), e.what());
     loaded = false;
   }
 
@@ -134,7 +134,7 @@ bool ini::load()
   return loaded;
 }
 
-bool ini::save()
+bool Ini::save()
 {
   tracef(misc, "Saving '%s'...", filename());
 
@@ -158,7 +158,7 @@ bool ini::save()
   }
   catch (std::ofstream::failure &e)
   {
-    error::set("Failed to save '%s' file.", filename());
+    Error::set("Failed to save '%s' file.", filename());
     saved = false;
   }
 
@@ -169,31 +169,31 @@ bool ini::save()
   return saved;
 }
 
-void ini::set(std::string const &section, std::string const &name, bool value)
+void Ini::set(std::string const &section, std::string const &name, bool value)
 {
   ini_data[section][name] = value ? "true" : "false";
 }
 
-void ini::set(std::string const &section, std::string const &name, s32 value)
+void Ini::set(std::string const &section, std::string const &name, s32 value)
 {
   char tmp[12];
   ::sprintf(tmp, "%d", value);
   ini_data[section][name] = tmp;
 }
 
-void ini::set(std::string const &section, std::string const &name, u32 value)
+void Ini::set(std::string const &section, std::string const &name, u32 value)
 {
   char tmp[11];
   ::sprintf(tmp, "%u", value);
   ini_data[section][name] = tmp;
 }
 
-void ini::set(std::string const &section, std::string const &name, std::string const &value)
+void Ini::set(std::string const &section, std::string const &name, std::string const &value)
 {
   ini_data[section][name] = value;
 }
 
-bool ini::get(std::string const &section, std::string const &name, bool &value, bool def)
+bool Ini::get(std::string const &section, std::string const &name, bool &value, bool def)
 {
   vmap_t &data = ini_data[section];
 
@@ -224,7 +224,7 @@ bool ini::get(std::string const &section, std::string const &name, bool &value, 
   }
 }
 
-bool ini::get(std::string const &section, std::string const &name, s32 &value, s32 def)
+bool Ini::get(std::string const &section, std::string const &name, s32 &value, s32 def)
 {
   vmap_t &data = ini_data[section];
   if (data.find(name) == data.end())
@@ -251,7 +251,7 @@ bool ini::get(std::string const &section, std::string const &name, s32 &value, s
   }
 }
 
-bool ini::get(std::string const &section, std::string const &name, u32 &value, u32 def)
+bool Ini::get(std::string const &section, std::string const &name, u32 &value, u32 def)
 {
   vmap_t &data = ini_data[section];
   if (data.find(name) == data.end())
@@ -278,7 +278,7 @@ bool ini::get(std::string const &section, std::string const &name, u32 &value, u
   }
 }
 
-bool ini::get(std::string const &section, std::string const &name, std::string &value, std::string const &def)
+bool Ini::get(std::string const &section, std::string const &name, std::string &value, std::string const &def)
 {
   vmap_t &data = ini_data[section];
   if (data.find(name) == data.end())

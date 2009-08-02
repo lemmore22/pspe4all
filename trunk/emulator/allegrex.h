@@ -10,9 +10,9 @@
 
 #include "allegrex/instruction.h"
 
-namespace allegrex
+namespace Allegrex
 {
-  extern allegrex_instruction_s *decode_instruction(u32 opcode);
+  extern AllegrexInstruction *decode_instruction(u32 opcode);
   extern void create_instructions_directory();
   extern void create_interpreter_directory();
   extern void create_disassembler_directory();
@@ -42,20 +42,20 @@ static void create_instruction_file(
   {
     ::fprintf(
         out,
-          "template< > struct allegrex_instruction_template_s< 0x%08x, 0x%08x > : allegrex_instruction_unknown_s\n"
+          "template< > struct AllegrexInstructionTemplate< 0x%08x, 0x%08x > : AllegrexInstructionUnknown\n"
           "{\n"
-          "    static allegrex_instruction_template_s &self()\n"
+          "    static AllegrexInstructionTemplate &self()\n"
           "    {\n"
-          "      static allegrex_instruction_template_s insn;\n"
+          "      static AllegrexInstructionTemplate insn;\n"
           "      return insn;\n"
           "    }\n"
           "\n"
-          "    static allegrex_instruction_s *get_instance()\n"
+          "    static AllegrexInstructionTemplate *get_instance()\n"
           "    {\n"
-          "      return &allegrex_instruction_template_s::self();\n"
+          "      return &AllegrexInstructionTemplate::self();\n"
           "    }\n"
           "\n"
-          "    virtual allegrex_instruction_s *instruction(u32 opcode)\n"
+          "    virtual AllegrexInstructionTemplate *instruction(u32 opcode)\n"
           "    {\n"
           "      return this;\n"
           "    }\n"
@@ -70,19 +70,19 @@ static void create_instruction_file(
           "    virtual void disassemble(u32 address, u32 opcode, char *opcode_name, char *operands, char *comment);"
           "\n"
           "  protected:\n"
-          "    allegrex_instruction_template_s() {}\n"
+          "    AllegrexInstructionTemplate() {}\n"
           "};\n"
           "\n"
-          "typedef allegrex_instruction_template_s< 0x%08x, 0x%08x >\n"
-          "  allegrex_instruction_%s_s;\n"
+          "typedef AllegrexInstructionTemplate< 0x%08x, 0x%08x >\n"
+          "  AllegrexInstruction_%s;\n"
           "\n"
-          "namespace allegrex\n"
+          "namespace Allegrex\n"
           "{\n"
-          "  extern allegrex_instruction_%s_s &%s;\n"
+          "  extern AllegrexInstruction_%s &%s;\n"
           "}\n"
           "#ifdef IMPLEMENT_INSTRUCTION\n"
-          "allegrex_instruction_%s_s &allegrex::%s =\n"
-          "  allegrex_instruction_%s_s::self();\n"
+          "AllegrexInstruction_%s &Allegrex::%s =\n"
+          "  AllegrexInstruction_%s::self();\n"
           "#endif\n",
         signature,
         mask,
@@ -121,7 +121,7 @@ static void create_interpreter_file(
     ::fprintf(
         out,
           "/* %s */\n"
-          "void allegrex_instruction_template_s< 0x%08x, 0x%08x >::interpret(processor_s &processor, u32 opcode)\n"
+          "void AllegrexInstructionTemplate< 0x%08x, 0x%08x >::interpret(processor_s &processor, u32 opcode)\n"
           "{\n"
           "}\n",
         name,
@@ -153,7 +153,7 @@ static void create_disassembler_file(
     ::fprintf(
         out,
           "/* %s */\n"
-          "void allegrex_instruction_template_s< 0x%08x, 0x%08x >::disassemble(u32 address, u32 opcode, char *opcode_name, char *operands, char *comment)\n"
+          "void AllegrexInstructionTemplate< 0x%08x, 0x%08x >::disassemble(u32 address, u32 opcode, char *opcode_name, char *operands, char *comment)\n"
           "{\n"
           "  ::strcpy(opcode_name, this->opcode_name());\n"
           "  ::strcpy(operands, \"\");\n"
@@ -167,15 +167,15 @@ static void create_disassembler_file(
 }
 
 #if 0
-#define IDEF(n, m, s, x) typedef allegrex_instruction_template_s< s, m > allegrex_instruction_##n##_s;
+#define IDEF(n, m, s, x) typedef AllegrexInstructionTemplate< s, m > AllegrexInstruction_##n;
 #include "emulator/allegrex/allegrex.def"
 #undef IDEF
-#define IDEF(n, m, s, x) char const *allegrex_instruction_template_s< s, m >::opcode_name() { return #n; }
+#define IDEF(n, m, s, x) char const *AllegrexInstructionTemplate< s, m >::opcode_name() { return #n; }
 #include "emulator/allegrex/allegrex.def"
 #undef IDEF
 #endif
 
-namespace allegrex
+namespace Allegrex
 {
   void create_instructions_directory()
   {
