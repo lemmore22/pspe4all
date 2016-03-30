@@ -1,0 +1,1 @@
+PSP emulator mainly intended for running PSP games.
